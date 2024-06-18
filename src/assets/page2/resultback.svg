@@ -1,0 +1,11 @@
+<svg width="888" height="321" viewBox="0 0 888 321" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g style="mix-blend-mode:overlay">
+<path d="M888 0H0V321H888V0Z" fill="#4AFFF6"/>
+</g>
+<g style="mix-blend-mode:soft-light">
+<path d="M1 56.7985L601.421 54.6575L640.767 85.1417C643.238 87.2826 646.63 88.5 650.118 88.5L887.13 90.641L888 0H1V56.7985Z" fill="#4AFFF6"/>
+</g>
+<path d="M19 29L621.5 29L662.587 65H866" stroke="#4AFFF6" stroke-width="0.5" stroke-miterlimit="10"/>
+<path d="M19 267.376V303.109H54.6849" stroke="#4AFFF6" stroke-width="0.5" stroke-miterlimit="10"/>
+<path d="M869.509 267.812V303.497H833.824" stroke="#4AFFF6" stroke-width="0.5" stroke-miterlimit="10"/>
+</svg>

@@ -9,7 +9,7 @@
         </div> -->
 
         <div id="titleDiv">
-            <div id="titleSpan">语音伪造检测</div>
+            <div id="titleSpan">图像检测</div>
 
             <div id="titleDiv1">
                 
@@ -29,7 +29,7 @@
         <div id="testDiv">
             <img id="testbackImg" src="../assets/page2/uploadback.svg">
             <div id = "uploadDiv" >
-                <span id="uploadSpan">上传2~10秒wav音频文件</span>
+                <span id="uploadSpan">上传5Mb以内的图像文件</span>
                 <!-- <img id="uploadiconImg" src="../assets/page2/upload_icon.svg"> -->
                 <el-upload
                     ref="my-upload"
@@ -243,15 +243,15 @@ export default{
             this.nick_name.name = file.name;
             console.log(file.name)
             console.log(this.nick_name)
-            const legalType = file.type === 'audio/wav';
-            const legalSize = file.size / 1024 / 1024 < 100;
+            const legalType = file.type === 'image/';
+            const legalSize = file.size / 1024 / 1024 < 5;
             if (!legalType) {
-                this.wavefileName = '请上传音频文件!';
-                console.log('请上传音频文件!');
+                this.wavefileName = '请上传图像文件!';
+                console.log('请上传图像文件!');
             }
             if (!legalSize) {
-                this.wavefileName = '文件须小于100MB!';
-                console.log('请确保上传文件小于100MB!');
+                this.wavefileName = '文件须小于5MB!';
+                console.log('请确保上传文件小于5MB!');
             }
             if (legalType && legalSize) {
                 this.wavefileName = '正在上传...';
@@ -261,7 +261,7 @@ export default{
 
         //上传超过limit文件数时提示信息
         handleExceed(files, fileList) {
-            this.wavefileName = '请上传一个音频文件！';
+            this.wavefileName = '请上传一个图像文件！';
             console.log('当前限制上传 1 个文件');
         },
 

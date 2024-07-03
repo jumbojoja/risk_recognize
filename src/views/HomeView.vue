@@ -14,7 +14,7 @@
             <div id="banner_div">
                 <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
-                    <span id="banner_title">语音合成检测平台</span>
+                    <span id="banner_title">多模态风险内容识别平台</span>
                 </div>
                 <div id="banner_right" v-show="login_flag==false">
                     <span class="login_button" @click="show_login_box(true)">登录</span>
@@ -176,17 +176,17 @@
                 </div>
             </div>
             <div id="intro_div">
-                <p id="intro_title">语音深度合成</p>
-                <span id="intro_content">深度合成(Deep synthesis) 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
-                    频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
+                <p id="intro_title">音频检测</p>
+                <span id="intro_content">功能相关介绍<br>
+                    <!-- 频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
                     频内容，让重要人物说从未说过的话。仅通过公开网络渠道人人可获取的音频素材，就能训练出<br>
-                    一个能够合成带有目标重要人物音色音频的深度伪造模型。
+                    一个能够合成带有目标重要人物音色音频的深度伪造模型。 -->
                 </span>
                 <button id="experience_button">立即体验</button>
             </div>
             <div id="navigation_div">
                 <div id="navigation_title_div">
-                    <span id="navigation_title">语音合成检测平台功能</span>
+                    <span id="navigation_title">音频风险内容检测平台功能</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
                 </div>
                 <div id="navigation_content_div">
@@ -196,7 +196,7 @@
                             <span class="navigation_item_span1">单条检测</span>
                             <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音深度合成检测。</span>
+                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音真伪、敏感检测。</span>
                     </div>
                     <div class="navigation_item_div" @click="toPage(2)">
                         <div class="navigation_item_div_div">
@@ -204,7 +204,7 @@
                             <span class="navigation_item_span1">检测历史</span>
                             <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <span class="navigation_item_span2">查看单个语音音频文件深度合成检测历史记录。</span>
+                        <span class="navigation_item_span2">查看单个语音音频文件检测历史记录。</span>
                     </div>
                     <div class="navigation_item_div" @click="toPage(3)">
                         <div class="navigation_item_div_div">
@@ -212,7 +212,7 @@
                             <span class="navigation_item_span1">批量检测</span>
                             <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <span class="navigation_item_span2">批量上传语音音频文件，进行语音深度合成检测，并输出检测报告。</span>
+                        <span class="navigation_item_span2">批量上传语音音频文件，进行语音真伪、敏感检测，并输出检测报告。</span>
                     </div>
                     <div class="navigation_item_div" @click="toPage(4)">
                         <div class="navigation_item_div_div">
@@ -220,7 +220,7 @@
                             <span class="navigation_item_span1">检测报告</span>
                             <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <span class="navigation_item_span2">查看深度合成语音批量检测的历史检测报告。</span>
+                        <span class="navigation_item_span2">查看真伪、敏感检测中语音批量检测的历史检测报告。</span>
                     </div>
                 </div>
             </div>
@@ -1095,7 +1095,7 @@
 
 #main{
     width: 100%;
-    min-width: 1920px;
+    min-width: 1920px;   /*1920*/
     background-color: #f3f7ff;
     display: flex;
     justify-content: center;
@@ -1136,7 +1136,8 @@
 }
 
 #banner_title{
-    width: 224px;
+    width: 325px;
+    /* width: 224px; */
     height: 64px;
     font-size: 28px;
     font-weight: bold;
@@ -1950,7 +1951,8 @@
 }
 
 #navigation_title{
-    width: 320px;
+    width: 420px;
+    /* width: 320px; */
     height: 45px;
     opacity: 1;
     display: flex;

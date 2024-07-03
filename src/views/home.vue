@@ -177,12 +177,14 @@
             </div>
             <div id="intro_div">
                 <p id="intro_title">语音深度合成</p>
-                <span id="intro_content">深度合成(Deep synthesis) 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
-                    频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
-                    频内容，让重要人物说从未说过的话。仅通过公开网络渠道人人可获取的音频素材，就能训练出<br>
-                    一个能够合成带有目标重要人物音色音频的深度伪造模型。
+                <span id="intro_content">
+随着通信技术和数字技术的快速发展与普及，诈骗、谣言等风险内容随之增加，<br>
+成为社会管理和网络空间治理的新挑战。多模态风险内容，如诈骗短信、电话，<br>
+以及伪造人脸、声音如诈骗短信、电话，以及伪造人脸、声音、 视频等，给国<br>
+家安全、经济发展和社会稳定带来了巨大的隐患。现有的内容识别技术在应对<br>
+日益复杂的风险内容时显得力不从心，亟需更为强大和灵敏的检测手段。在这<br>
+一背景下，充分发挥人工智能在多模态风险内容分析和识别方面的潜力显得尤为关键。<br>
                 </span>
-                <button id="experience_button">立即体验</button>
             </div>
             <div id="navigation_div">
                 <div id="navigation_title_div">
@@ -224,7 +226,7 @@
                     </div> -->
                 </div>
             </div>
-            <div id="content_div">
+        <!--    <div id="content_div">
                 <div id="single_detect_div">
                     <div id="single_detect_top_div">
                         <div id="single_detect_top_left_div">
@@ -365,9 +367,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>   
+            </div> -->
+        </div> 
+    </div>  
 </template>
    
 <script>
@@ -1906,7 +1908,7 @@
     text-align: left;
     vertical-align: top;
 }
-
+/*
 #experience_button{
     width: 160px;
     height: 46px;
@@ -1926,6 +1928,7 @@
     line-height: 28.96px;
     color: rgba(255, 255, 255, 1);
 }
+*/
 
 #navigation_div{
     width: 100%;

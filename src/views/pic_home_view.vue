@@ -177,7 +177,7 @@
             </div>
             <div id="intro_div">
                 <p id="intro_title">语音深度合成</p>
-                <span id="intro_content">深度合成(Deep synthesis) 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
+                <span id="intro_content"> 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
                     频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
                     频内容，让重要人物说从未说过的话。仅通过公开网络渠道人人可获取的音频素材，就能训练出<br>
                     一个能够合成带有目标重要人物音色音频的深度伪造模型。
@@ -277,7 +277,7 @@
                                 <button id="reselection_button" @click="reselection_file">重新选择</button>
                             </div>
                         </div>
-                        <span id="single_detect_bottom_span_2">支持wav、mp3等格式、长度大于2秒的音频文件</span>
+                        <span id="single_detect_bottom_span_2">支持小于5Mb的图像文件</span>
                     </div>
                     <div id="detailed_result_div" v-show="doneSign==true">
                         <div id="detailed_result_top_div">
@@ -701,26 +701,26 @@
             },
 
             judge_login(){
-                if(!this.login_flag){
+               /* if(!this.login_flag){
                     this.$message({
                         message: '请先登录！',
                         center: true
                     });
-                }
+                } */
             },
 
             handleBefore(file) {
                 this.upload_flag = false
                 this.nick_name.name = file.name;
-                const legalType = file.type === 'audio/wav';
-                const legalSize = file.size / 1024 / 1024 < 100;
+                const legalType = file.type === 'image/';
+                const legalSize = file.size / 1024 / 1024 < 5;
                 if (!legalType) {
-                    this.wavefileName = '请上传wav格式的音频文件!';
-                    console.log('请上传wav格式的音频文件!');
+                    this.wavefileName = '请上传图片文件!';
+                    console.log('请上传图片文件!');
                 }
                 if (!legalSize) {
-                    this.wavefileName = '文件须小于100MB!';
-                    console.log('请确保上传文件小于100MB!');
+                    this.wavefileName = '文件须小于5MB!';
+                    console.log('请确保上传文件小于5MB!');
                 }
                 if (legalType && legalSize) {
                     this.wavefileName = '正在上传...';
@@ -730,7 +730,7 @@
 
             //上传超过limit文件数时提示信息
             handleExceed(files, fileList) {
-                this.wavefileName = '请上传一个音频文件！';
+                this.wavefileName = '请上传一个图片文件！';
                 console.log('当前限制上传 1 个文件');
             },
 

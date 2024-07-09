@@ -199,7 +199,6 @@
                             <span class="navigation_item_span1">深度伪造检测</span>
                             <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音真伪、敏感检测。</span>
                         <span class="navigation_item_span2">上传一条语音音频文件，立即进行深度伪造检测。</span>
                     </div>
                     <div class="navigation_item_div" @click="toPage(2)">
@@ -210,7 +209,7 @@
                         </div>
                         <span class="navigation_item_span2">上传一条语音音频文件，立即进行敏感内容检测。</span>
                     </div>
-                    <div class="navigation_item_div" @click="toPage(3)">
+                    <!-- <div class="navigation_item_div" @click="toPage(3)">
                         <div class="navigation_item_div_div">
                             <img class="navigation_item_img1" src="../assets/home_page/icon3.png">
                             <span class="navigation_item_span1">批量检测</span>
@@ -225,12 +224,12 @@
                             <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
                         <span class="navigation_item_span2">查看深度合成语音批量检测的历史检测报告。</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div id="content_div">
                 <div id="single_detect_div">
-                    <div id="single_detect_top_div">
+                    <!-- <div id="single_detect_top_div">
                         <div id="single_detect_top_left_div">
                             <img id="single_detect_top_left_img" src="../assets/home_page/icon1.png">
                             <span id="single_detect_top_left_span">单条检测</span>
@@ -367,9 +366,9 @@
                             <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[2]}}</span>
                             <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[2]}}</span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>   
 </template>

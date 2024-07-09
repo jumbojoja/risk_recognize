@@ -378,7 +378,7 @@
                 // user_grade_dict:{2: "企业用户", 3: "企业子账户", 4: "付费用户", 5: "体验用户"},
                 user_grade_dict:{2: "体验用户", 3: "体验用户", 4: "体验用户", 5: "体验用户"},
                 user_grade_num: 5,
-                login_flag: false,
+                login_flag: true,
                 modify_password_flag: false,
 
                 surplus_detect_times: 0,
@@ -795,7 +795,7 @@
             progressChange(){
                 this.$refs.audio1.currentTime = this.$refs.audio1.duration*this.audioProgress/100;
 
-                // console.log('中间开始播放音频')
+                //console.log('中间开始播放音频')
                 var audio =document.querySelector('#audio1');
                 audio.play();
                 this.audioPlay = false;

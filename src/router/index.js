@@ -27,6 +27,8 @@ const pic_batch_view = () => import('../views/pic_batch_view.vue')
 const pic_history_view = () => import('../views/pic_history_view.vue')
 const pic_home_view = () => import('../views/pic_home_view.vue')
 const pic_report_view = () => import('../views/pic_report_view.vue')
+const pic_deepfake_view = () => import('../views/pic_deepfake_view.vue')
+const pic_sensitive_view = () => import('../views/pic_sensitive_view.vue')
 const pic_test_view = () => import('../views/pic_test_view.vue')
 
 const txt_batch_history_view = () => import('../views/txt_batch_history_view.vue')
@@ -116,6 +118,18 @@ const routes = [
     path: '/pic_report',
     name: 'pic_report',
     component: pic_report_view
+  },
+
+  {
+    path: '/pic_deepfake',
+    name: 'pic_deepfake',
+    component: pic_deepfake_view
+  },
+
+  {
+    path: '/pic_sensitive',
+    name: 'pic_sensitive',
+    component: pic_sensitive_view
   },
 
   {

@@ -14,7 +14,7 @@
             <div id="banner_div">
                 <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
-                    <span id="banner_title">语音合成检测平台</span>
+                    <span id="banner_title">多模态检测平台</span>
                 </div>
                 <div id="banner_right" v-show="login_flag==false">
                     <span class="login_button" @click="show_login_box(true)">登录</span>
@@ -432,7 +432,7 @@
         methods:{
             //跳转页面
             toPage:function (num){
-                this.$refs['my-upload'].abort();
+                //this.$refs['my-upload'].abort();
                 if(num===1){
                     this.$router.push('/home');
                 }

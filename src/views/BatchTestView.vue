@@ -391,7 +391,7 @@
                 // user_grade_dict:{2: "企业用户", 3: "企业子账户", 4: "付费用户", 5: "体验用户"},
                 user_grade_dict:{2: "体验用户", 3: "体验用户", 4: "体验用户", 5: "体验用户"},
                 user_grade_num: 2,
-                login_flag: false,
+                login_flag: true,
                 modify_password_flag: false,
                 table_flag: false,
 

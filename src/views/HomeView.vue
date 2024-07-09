@@ -1,7 +1,14 @@
 <template >
     <div id="main">
         <div id="homo_div">
-            <div id="consulting_div" v-if="consulting_flag==true">
+            <div id="banner_div">
+                <div id="banner_left">
+                    <img class="banner_img" src="../assets/home_page/logo.png">
+                    <span id="banner_title">语音合成检测平台</span>
+                </div>
+            </div>
+            
+            <!-- <div id="consulting_div" v-if="consulting_flag==true">
                 <div id="consulting_top_div">
                     <img id="consulting_top_img" src="../assets/home_page/kefu.svg">
                     <span id="consulting_top_span">联系我们</span>
@@ -18,7 +25,6 @@
                 </div>
                 <div id="banner_right" v-show="login_flag==false">
                     <span class="login_button" @click="show_login_box(true)">登录</span>
-                    <!-- <span class="register_button" @click="show_login_box(false)">注册</span> -->
                     <span class="register_button" @click="consulting">体验申请</span>
                 </div>
                 <div id="banner_user" v-show="login_flag==true">
@@ -60,13 +66,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div id="login_div" v-show="login_box_flag==true">
+            </div> -->
+            <!-- <div id="login_div" v-show="login_box_flag==true">
                 <div id="login_top_div">
                     <div id="login_top_top_div">
-                        <!-- 现阶段不开发注册功能，右上角注册按钮和登录区域中均去除相关选项，需要恢复的话，修改display_choose样式 -->
                         <div :class="login_or_register?'display_choose':'display_no_choose'" @click="select_login_register(true)">登录</div>
-                        <!-- <div :class="login_or_register?'display_no_choose':'display_choose'" @click="select_login_register(false)">注册</div> -->
                     </div>
                     <div class="login_top_mid_div" v-show="login_or_register==true">
                         <span class="usernameText">用户名</span>
@@ -174,57 +178,40 @@
                 <div class="login_close_img_div" @click="close_modify_box">
                     <img class="login_close_img" src="../assets/home_page/close2.svg">
                 </div>
-            </div>
+            </div> -->
             <div id="intro_div">
-                <p id="intro_title">语音深度合成</p>
+                <p id="intro_title">音频功能介绍</p>
                 <span id="intro_content">深度合成(Deep synthesis) 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
                     频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
                     频内容，让重要人物说从未说过的话。仅通过公开网络渠道人人可获取的音频素材，就能训练出<br>
                     一个能够合成带有目标重要人物音色音频的深度伪造模型。
                 </span>
-                <button id="experience_button">立即体验</button>
             </div>
             <div id="navigation_div">
                 <div id="navigation_title_div">
-                    <span id="navigation_title">语音合成检测平台功能</span>
+                    <span id="navigation_title">语音检测平台功能</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
                 </div>
                 <div id="navigation_content_div">
                     <div class="navigation_item_div" @click="toPage(1)">
                         <div class="navigation_item_div_div">
                             <img class="navigation_item_img1" src="../assets/home_page/icon1.png">
-                            <span class="navigation_item_span1">单条检测</span>
+                            <span class="navigation_item_span1">深度伪造检测</span>
                             <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音深度合成检测。</span>
+                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行深度伪造检测。</span>
                     </div>
                     <div class="navigation_item_div" @click="toPage(2)">
                         <div class="navigation_item_div_div">
                             <img class="navigation_item_img1" src="../assets/home_page/icon2.png">
-                            <span class="navigation_item_span1">检测历史</span>
+                            <span class="navigation_item_span1">敏感内容检测</span>
                             <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <span class="navigation_item_span2">查看单个语音音频文件深度合成检测历史记录。</span>
-                    </div>
-                    <div class="navigation_item_div" @click="toPage(3)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon3.png">
-                            <span class="navigation_item_span1">批量检测</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
-                        </div>
-                        <span class="navigation_item_span2">批量上传语音音频文件，进行语音深度合成检测，并输出检测报告。</span>
-                    </div>
-                    <div class="navigation_item_div" @click="toPage(4)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon4.png">
-                            <span class="navigation_item_span1">检测报告</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
-                        </div>
-                        <span class="navigation_item_span2">查看深度合成语音批量检测的历史检测报告。</span>
+                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行敏感内容检测。</span>
                     </div>
                 </div>
             </div>
-            <div id="content_div">
+            <!-- <div id="content_div">
                 <div id="single_detect_div">
                     <div id="single_detect_top_div">
                         <div id="single_detect_top_left_div">
@@ -365,7 +352,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>   
 </template>
@@ -378,7 +365,7 @@
                 // user_grade_dict:{2: "企业用户", 3: "企业子账户", 4: "付费用户", 5: "体验用户"},
                 user_grade_dict:{2: "体验用户", 3: "体验用户", 4: "体验用户", 5: "体验用户"},
                 user_grade_num: 5,
-                login_flag: false,
+                login_flag: true,
                 modify_password_flag: false,
 
                 surplus_detect_times: 0,
@@ -430,18 +417,11 @@
         methods:{
             //跳转页面
             toPage:function (num){
-                this.$refs['my-upload'].abort();
-                // if(num===1){
-                //     this.$router.push('/home');
-                // }
+                if(num===1){
+                    this.$router.push('/audio_deep');
+                }
                 if(num===2){
-                    this.$router.push('/history');
-                }
-                if(num===3){
-                    this.$router.push('/batchtest');
-                }
-                if(num===4){
-                    this.$router.push('/batchhistory');
+                    this.$router.push('/audio_sensitive');
                 }
             },
 

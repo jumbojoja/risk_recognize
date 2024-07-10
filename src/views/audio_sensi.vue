@@ -95,7 +95,7 @@
                             </div>
                         </div>
                         <div id="listening_div">
-                            <span id="listening_span">播放试听</span>
+                            <!-- <span id="listening_span">播放试听</span>
                             <div id="play_line_div">
                                 <img id="result_span_img_2" src="../assets/home_page/playcon.png" @click="play_audio">
                                 <audio id="audio1"  ref="audio1" controls v-show="false" @ended="overAudio" @timeupdate="updateProgress">
@@ -106,7 +106,7 @@
                                         <el-slider v-model="audioProgress" :show-tooltip="false" @change="progressChange()"></el-slider>
                                     </span>
                                 </div> 
-                            </div>
+                            </div> -->
                         </div>
                         <!-- <div class="model_score_div" v-if="user_grade_num<5">
                             <span class="model_score_span_1">高质量音频检测模型(High-QualityModel)</span>

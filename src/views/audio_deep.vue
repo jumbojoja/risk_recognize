@@ -99,7 +99,12 @@
                             </div>
                         </div>
                         <div id="listening_div">
-                            <span id="listening_span">播放试听</span>
+
+                                <input type="file" ref="audioInput" @change="handleFileUpload">
+                                <button @click="handleFileSelect">选择音频文件</button>
+                                <button @click="playAudio">播放音频</button>
+
+                            <!-- <span id="listening_span">播放试听</span>
                             <div id="play_line_div">
                                 <img id="result_span_img_2" src="../assets/home_page/playcon.png" @click="play_audio">
                                 <audio id="audio1"  ref="audio1" controls v-show="false" @ended="overAudio" @timeupdate="updateProgress">
@@ -110,7 +115,7 @@
                                         <el-slider v-model="audioProgress" :show-tooltip="false" @change="progressChange()"></el-slider>
                                     </span>
                                 </div> 
-                            </div>
+                            </div> -->
                         </div>
                         <!-- <div class="model_score_div" v-if="user_grade_num<5">
                             <span class="model_score_span_1">高质量音频检测模型(High-QualityModel)</span>
@@ -219,9 +224,50 @@
                 segmentScoreList:[[],[],[]],
                 segmentResultList:[[],[],[]],
                 cancelTokenSource: this.$axios.CancelToken.source(),
+                audioContext: null,
+                audioBuffer: null,
+                audioSource: null,
+                audioFile: null
             }
         },
         methods:{
+            handleFileSelect() {
+            this.$refs.audioInput.click()
+            },
+            handleFileUpload(event) {
+             // 获取上传的音频文件
+            this.audioFile = event.target.files[0]
+ 
+             // 创建新的音频上下文
+             this.audioContext = new AudioContext()
+ 
+            let reader = new FileReader()
+            reader.onload = e => {
+             let audioData = e.target.result
+ 
+             // 解码音频数据
+             this.audioContext.decodeAudioData(audioData, buffer => {
+                  this.audioBuffer = buffer
+                this.playAudio()
+                }, error => {
+                console.error('音频解码错误', error)
+                })
+            }
+            reader.readAsArrayBuffer(this.audioFile)
+            },
+            playAudio() {
+            // 停止正在播放的音频
+            if (this.audioSource) {
+             this.audioSource.stop()
+            }
+ 
+            // 创建音频源并开始播放
+            this.audioSource = this.audioContext.createBufferSource()
+            this.audioSource.buffer = this.audioBuffer
+            this.audioSource.loop = false
+            this.audioSource.connect(this.audioContext.destination)
+            this.audioSource.start()
+            },
             //跳转页面
             toPage:function (num){
                 this.$refs['my-upload'].abort();

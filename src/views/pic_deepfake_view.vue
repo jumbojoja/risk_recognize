@@ -14,733 +14,138 @@
             <div id="banner_div">
                 <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
-                    <span id="banner_title">语音合成检测平台</span>
+                    <span id="banner_title">多模态检测平台</span>
                 </div>
             </div>
                 
             <!-- <div id="navigation_div"> -->
-                <div id="navigation_title_div">
-                    <span id="navigation_title">语音合成检测平台功能</span>
-                    <img id="navigation_img" src="../assets/home_page/separate_line.png">
-                </div>
+            <div id="navigation_title_div">
+                <span id="navigation_title">图像深度合成检测</span>
+                <img id="navigation_img" src="../assets/home_page/separate_line.png">
+            </div>
             <!-- </div> -->
         </div>
+        <div>
+      <!-- <div class="position">图片展示</div> -->
+      <div class="images" style="text-align: center;">
+        <div v-for="(item, index) in info" :key="index" class="image-middle">  
+          <el-card shadow="hover" :body-style="{ padding: '0px' }">     
+          <!-- //添加鼠标点击或悬浮图片放大功能 -->
+          <el-popover> 
+          <img :src="info[index].src" slot="reference" class="image"/>    
+          <img :src="info[index].src" class="imagePreview"/>
+          </el-popover>  
+          <!-- <div style="text-align:center;padding-top:12px">
+          <span>{{info[index].name}}</span>   
+          </div>      -->
+          </el-card>
+        
+        </div>     
+      </div>
+    <el-upload
+      ref="my-upload"
+      class="upload-demo"
+      action="http://112.11.139.202:8090/receive_file"
+      multiple
+      :limit="1"
+      :headers="config"
+      :data="nick_name"
+      :disabled="!login_flag"
+      :before-upload="handleBefore"
+      :on-progress="handleProgress"
+      :on-exceed="handleExceed"
+      :on-success="handleSuccess"
+      :on-error="handleError"
+      :show-file-list="false"
+    >
+      <button id="uploadButton" @click="judge_login">立即上传</button>
+    </el-upload>
+    </div>
     </div>   
 </template>
    
 <script>
     export default {
         name: 'HomeView',
-        data(){
-            return{
-                // user_grade_dict:{2: "企业用户", 3: "企业子账户", 4: "付费用户", 5: "体验用户"},
-                user_grade_dict:{2: "体验用户", 3: "体验用户", 4: "体验用户", 5: "体验用户"},
-                user_grade_num: 5,
-                login_flag: true,
-                modify_password_flag: false,
-
-                surplus_detect_times: 0,
-                usernameInput: '',
-                passwordInput: '',
-                register_email: '',
-                register_code: '',
-                register_pass1: '',
-                register_pass2: '',
-                errorMessage: '',
-                modify_code: '',
-                modify_pass1: '',
-                modify_pass2: '',
-                errorMessage2: '',
-                passwordCheck: false,
-                ModifyPasswordCheck: false,
-                login_box_flag: false,
-                login_or_register: true,
-                register_step: true,
-                button_flag: false,
-
-                showDropdown: false,
-                hideTimer: null,
-                consulting_flag: false,
-                
-                upload_flag: true,
-                imageName:"",
-                imageSrc: '',
-                nick_name: {name: ""},
-                upload_flag: true,
-                upload_progress: "",
-                feasible_detect: false,
-                loadingSign:true,
-                doneSign:false,
-                loadList: [],
-                showList:[],
-                audioPlay: true,
-                resultDetect: 3,
-                resultTime: '',
-                resultValue:'',
-                audioProgress:0.5,
-                src:'',
-                file_path: "",
-                modelScoreList:[],
-                modelResultList:[],
-                segmentScoreList:[[],[],[]],
-                segmentResultList:[[],[],[]],
-                cancelTokenSource: this.$axios.CancelToken.source(),
+        data() {
+	        return {
+                info:[
+                {
+                    "id":1,
+                    "name":"动漫1",
+                    "src":require("D://HuaweiMoveData//Users//陈辉//Desktop//test//test.jpg") ,
+                },
+          
+                ],
+                config: {
+                // 配置头部信息
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                    'Content-Type': 'multipart/form-data',
+                },
+                nick_name: {
+                // 配置其他信息
+                    id: sessionStorage.getItem('id'),
+                },
             }
         },
-        methods:{
-            //跳转页面
-            toPage:function (num){
-                this.$refs['my-upload'].abort();
-                // if(num===1){
-                //     this.$router.push('/home');
-                // }
-                if(num===2){
-                    this.$router.push('/pic_history');
-                }
-                if(num===3){
-                    this.$router.push('/pic_batch_test');
-                }
-                if(num===4){
-                    this.$router.push('/pic_batch_history');
-                }
-            },
-
-            startHideTimer() {
-                this.hideTimer = setTimeout(() => {
-                    this.showDropdown = false;
-                }, 1000); // 设置200毫秒的延迟
-            },
-
-            cancelHideTimer() {
-                clearTimeout(this.hideTimer); // 取消延迟隐藏
-            },
-
-            select_login_register(flag){
-                this.login_or_register = flag;
-            },
-            
-            login(){
-                localStorage.removeItem("access-admin");
-                var this_ = this
-                this.$axios.post('http://112.11.139.202:8090/login',{
-                "email": this.usernameInput,
-                "password": this.passwordInput,
-                }).then(res=>{
-                if (res.status == 200) {
-                    // console.log(res.data);
-                    localStorage.setItem("access-admin", JSON.stringify(res.data));
-                    this_.login_flag = true;
-                    this_.login_box_flag = false;
-                    this_.surplus_detect_times = res.data.detectTimes;
-                    this_.user_grade_num = res.data.user_grade;
-                    
-                    // console.log(JSON.parse(window.localStorage.getItem('access-admin')));
-                    // this_.$router.push('/home');
-                }
-                else{
-                    // this.$alert("用户名/密码错误,请重新登录",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                    this.$message({
-                        message: '密码错误！',
-                        type: 'warning',
-                        center: true
-                    });
-                }   
-                }).catch((error) => {
-                    console.log('请求发生错误：', error);
-                });
-            },
-
-            register_go(){
-                this.register_step = false;
-            },
-
-            checkPassword() {
-                //判断密码长度是否大于6位
-                if (this.register_pass1.length < 6) {
-                    this.errorMessage = '密码长度不能少于6位';
-                    return;
-                }
-                // 判断两次输入的密码是否一致
-                if (this.register_pass1 !== this.register_pass2) {
-                    this.errorMessage = '两次输入的密码不一致';
-                    return;
-                }
-                // 通过验证
-                this.passwordCheck = true;
-                this.errorMessage = '';
-            },
-
-            checkPassword2() {
-                //判断密码长度是否大于6位
-                if (this.modify_pass1.length < 6) {
-                    this.errorMessage2 = '密码长度不能少于6位';
-                    return;
-                }
-                // 判断两次输入的密码是否一致
-                if (this.modify_pass1 !== this.modify_pass2) {
-                    this.errorMessage2 = '两次输入的密码不一致';
-                    return;
-                }
-                // 通过验证
-                this.ModifyPasswordCheck = true;
-                this.errorMessage2 = '';
-            },
-
-            getCode() {
-                this.button_flag = true;
-                var this_ = this;
-                console.log(this_.register_email);
-                setTimeout(function() {
-                    this_.button_flag = false;
-                }, 10000);
-                this.$axios.get('http://112.11.139.202:8090/code',{params:{
-                    "email":this_.register_email}
-                    }).then(res=>{
-                        if (res.status == 200){
-                            console.log(res.data);  
-                            this.$alert("验证码已发送，有效期5分钟！",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        } 
-                        else{
-                            console.log(res.data);
-                            // this.$alert(res.data,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        }  
-                    }).catch((error) => {
-                        console.log('请求发生错误：', error);
-                });
-            },
-
-            getModifyCode() {
-                this.button_flag = true;
-                var this_ = this
-                setTimeout(function() {
-                    this_.button_flag = false;
-                }, 10000);
-                this.$axios.get('http://112.11.139.202:8090/code',{params:{
-                    "email":this_.usernameInput}
-                    }).then(res=>{
-                        if (res.status == 200){
-                            console.log(res.data);  
-                            this.$alert("验证码已发送，有效期5分钟！",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        } 
-                        else{
-                            console.log(res.data);
-                            // this.$alert(res.data,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        }  
-                    }).catch((error) => {
-                        console.log('请求发生错误：', error);
-                });
-            },
-
-            register(){
-                if (this.passwordCheck){
-                    this.$axios.post('http://112.11.139.202:8090/register',{
-                        "email":this.register_email,
-                        "code":this.register_code,
-                        "password": this.register_pass1,
-                        }).then(res=>{
-                            if (res.status == 200){
-                                this.$alert('请前往登录', '注册成功', {
-                                    confirmButtonText: '确定',
-                                    showClose: false,
-                                    // callback: action => {
-                                    //     this.$router.push('/login');   
-                                    // }
-                                });
-                            } 
-                            else{
-                                console.log(res.data);
-                                // this.$alert("异常",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                            }  
-                        }).catch((error) => {
-                            console.log('请求发生错误：', error);
-                        });
-                    this_.login_flag = false;
-                    this_.login_box_flag = false;
-                }else{
-                    this.$alert("请检查输入");
-                }
-            },
-
-            go_modify_password(){
-                this.modify_password_flag = true;
-            },
-
-            log_out(){
-                localStorage.removeItem("access-admin");
-                this.login_flag = false;
-                this.surplus_detect_times = 0;
-                this.usernameInput = '';
-            },
-
-            subAccount:function(){
-                let routeUrl = this.$router.resolve({
-                        path: "/subaccount",
-                        query: {}
-                    });
-                window.open(routeUrl.href, '_blank');
-            },
-
-            close_modify_box(){
-                this.modify_password_flag = false;
-            },
-
-            showConfirmDialog() {
-                this.$confirm('确定要修改密码吗？', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    // 用户点击了确定按钮，执行修改密码的操作
-                    this.modify_password();
-                }).catch(() => {
-                    // 用户点击了取消按钮，不执行任何操作
-                });
-            },
-
-            modify_password(){
-                if(this.ModifyPasswordCheck){
-                    var this_ = this;
-                    this.$axios.post('http://112.11.139.202:8090/modify',{
-                    "email":this_.usernameInput,
-                    "code":this_.modify_code,
-                    "password": this_.modify_pass1,
-                    },{headers:{Authorization:JSON.parse(window.localStorage.getItem('access-admin')).token}}).then(res=>{
-                        if (res.status == 200){
-                            this.$alert('请前往登录', '修改成功', {
-                                confirmButtonText: '确定',
-                                showClose: false,
-                                // callback: action => {
-                                //     this.$router.push('/login');   
-                                // }
-                            });
-                        } 
-                        else{
-                            console.log(res.data);
-                            // this.$alert(res.data,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        }  
-                    }).catch((error) => { 
-                        if (error.response && error.response.status === 401) {
-                            console.log('token 验证失效!');
-                            this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
-                            this.login_flag = false;
-                        }
-                        else{
-                            console.log('请求发生错误：', error);
-                        } 
-                    });
-                }else{
-                    this.$alert("请检查输入");
-                };
-                this.modify_password_flag = false;
-            },
-
-            show_login_box(flag){
-                if(flag){
-                    this.login_box_flag = true;
-                    this.login_or_register = true;
-                }else{
-                    this.login_box_flag = true;
-                    this.login_or_register = false;
-                }
-            },
-
-            close_login_box(){
-                this.login_box_flag = false;
-            },
-
-            handleProgress(event, file, fileList){
-                // console.log(`文件 ${file.name} 上传中，上传进度：${event.percent}%`);
-                let progress = Math.round((parseInt(event.percent)/100)*41);
-                this.upload_progress = Math.floor(event.percent).toString() + "%";
-                let len = this.showList.length;
-                if ( len < progress){
-                    for (;len < progress; len++){
-                        this.showList.push(len);
-                    }
-                }
-            },
-
-            judge_login(){
-                if(!this.login_flag){
-                    this.$message({
-                        message: '请先登录！',
-                        center: true
-                    });
-                } 
-            },
-
-            handleBefore(file) {
-                this.upload_flag = false
-                this.nick_name.name = file.name;
-                const legalType = file.type === 'image/';
-                const legalSize = file.size / 1024 / 1024 < 5;
-                if (!legalType) {
-                    this.wavefileName = '请上传图片文件!';
-                    console.log('请上传图片文件!');
-                }
-                if (!legalSize) {
-                    this.wavefileName = '文件须小于5MB!';
-                    console.log('请确保上传文件小于5MB!');
-                }
-                if (legalType && legalSize) {
-                    this.wavefileName = '正在上传...';
-                }
-                return legalType && legalSize ;
-            },
-
-            //上传超过limit文件数时提示信息
-            handleExceed(files, fileList) {
-                this.imageName = '请上传一个图片文件！';
-                console.log('当前限制上传 1 个文件');
-            },
-
-            handleSuccess(response, file, fileList){
-                if (response.hasOwnProperty('dir')) {
-                    console.log('上传完成');
-                    this.imageName = file.name;
-                    this.file_path = response.dir;
-                    this.feasible_detect = true;
-                    this.loadingSign = false;
-                } else {
-                    this.file_path = "";
-                    this.$refs['my-upload'].clearFiles();
-                    this.imageName = "";  
-                    this.imageSrc = "";
-                    this.doneSign = false;
-                    this.resultTime = "";
-                    this.resultDetect = 3;
-                    this.resultValue = "";
-                    this.$alert(response.err,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                }
-                // console.log(this.$refs['wavenameRef'].clientWidth);
-            },
-
-            handleError(info, file, fileList){
-                console.log(info);
-                if (info.status && info.status === 401) {
-                    console.log('token 验证失效!');
-                    this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
-                    this.login_flag = false;
-                }
-                else{
-                    console.log('请求发生错误：', info);
-                } 
-            },
-
-            reselection_file() {
-                this.delInit();
-            },
-
-            delInit() {
-                this.$refs['my-upload'].clearFiles();
-                this.upload_flag = true;
-                this.showList = [];
-                this.resultDetect = 3;
-                this.resultValue = "";
-                this.resultTime = "";
-                this.doneSign = false;
-                this.loadingSign = true;
-                this.feasible_detect = false;
-                this.imageName = '';
-                this.imageSrc = '';
-            },
-
-            updateProgress(){
-                var currentTime = this.$refs.audio1.currentTime;
-                this.audioProgress = currentTime*100/this.$refs.audio1.duration;
-            },
-
-            overAudio(){
-                this.audioPlay=true;
-            },
-
-            progressChange(){
-                this.$refs.audio1.currentTime = this.$refs.audio1.duration*this.audioProgress/100;
-
-                // console.log('中间开始播放音频')
-                var audio =document.querySelector('#audio1');
-                audio.play();
-                this.audioPlay = false;
-            },
-
-            play_audio(){
-                this.audioProgress = 0;
-                var audio =document.querySelector('#audio1');
-                audio.play();
-                this.audioPlay = false;
-            },
-
-            startTest:function (){
-
-                if(!this.feasible_detect){
-                    return
-                }
-
-                this.loadingSign = true;
-                this.doneSign = false;
-
-                this.$axios.get('http://112.11.139.202:8090/detect_file', {params:{"dir":this.file_path}, headers:{
-                    "Authorization": JSON.parse(window.localStorage.getItem('access-admin')).token
-                },cancelToken: this.cancelTokenSource.token}).then(res => {
-                    console.log(res.data);
-                    // 检测结果为真或假
-                    if(res.data.sign === 1){
-                        this.resultTime = res.data.time + 's';
-                        this.resultDetect = parseInt(res.data.result);
-                        this.resultValue = res.data.value;
-
-                        // console.log(res.data.model_score);
-                        // console.log(res.data.segment_score);
-
-                        this.parseResult(this.file_path, res.data.time, res.data.result, res.data.model_score, res.data.segment_score);
-
-                        this.loadingSign = false;
-                        this.doneSign = true;
-                        this.audioPlay = true;
-                        var audio1 =document.querySelector('#audio1');
-                        this.$refs.audio1.src =new URL(res.data.url);
-                        audio1.load();
-                    }
-                    // 检测次数不足
-                    else if(res.data.sign === -1){
-                        this.$alert("剩余检测次数不足，请联系管理员增加次数",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        this.delInit();
-                    }
-                    // 静默
-                    else if(res.data.sign === -2){
-                        this.resultTime = res.data.time + 's';
-                        if(res.data.result==="-2"){
-                            this.resultDetect = -2;
-                        }
-                        this.loadingSign = false;
-                        this.doneSign = true;
-                        this.audioPlay = true;
-                        var audio1 =document.querySelector('#audio1');
-                        this.$refs.audio1.src =new URL(res.data.url);
-                        audio1.load();
-                    }
-                    // 后台繁忙
-                    else if(res.data.sign === 0){
-                        this.$alert("后台繁忙，请稍后再上传检测",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        this.delInit();
-                    }
-                    else{
-                        this.$alert("检测异常，请稍后再试",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        this.delInit();
-                    }
-                }).catch((error) => {
-                    console.log(error);
-                    if (this.$axios.isCancel(error)) {
-                        console.log('请求被取消');
-                    } else {
-                        if (error.response && error.response.status === 401) {
-                            console.log('token 验证失效!');
-                            this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
-                            this.login_flag = false;
-                        }
-                        else{
-                            console.log('请求发生错误：', error);
-                        } 
-                    }
-                }); 
-            },
-
-            // 解析结果
-            parseResult(wavId, wavSecond, detectResult, modelScore, segmentScore){
-                if(modelScore===""){
-                    return 
-                }
-
-                this.audioProgress=0;
-
-                if (detectResult=='0' || detectResult=='1'){
-
-                    this.modelScoreList = [];
-                    this.modelResultList = [];
-                    this.segmentScoreList = [[],[],[]];
-                    this.segmentResultList = [[],[],[]];
-
-                    var modelScoreSplit = modelScore.split('|').map(parseFloat);
-                    for(let i = 0;i<modelScoreSplit.length;i++){
-                        this.modelScoreList.push(((modelScoreSplit[i]*100).toFixed(1)).toString()+'%');
-                        if (modelScoreSplit[i]>=0.56305){
-                            this.modelResultList.push('1');
-                        }
-                        else{
-                            this.modelResultList.push('0');
-                        }
-                    }
-
-                    let segmentScoreSplit = segmentScore.split(',').map(group => group.split('|'));
-
-                    for(let i = 0;i<segmentScoreSplit.length;i++){
-                        if (segmentScoreSplit[i].length==1){
-                            for(let j = 0;j<this.segmentScoreList.length;j++){
-                                this.segmentScoreList[j].push('静默片段');
-                                this.segmentResultList[j].push(2);
-                            }
-                        }
-                        else{
-                            for(let j = 0;j<this.segmentScoreList.length;j++){
-                                this.segmentScoreList[j].push(((parseFloat(segmentScoreSplit[i][j])*100).toFixed(1)).toString()+'%');
-                                if(parseFloat(segmentScoreSplit[i][j])>=0.56305){
-                                    this.segmentResultList[j].push(1);
-                                }
-                                else{
-                                    this.segmentResultList[j].push(0); 
-                                }
-                            
-                            }
-                        }
-                    }
-            
-                this.$axios.post('http://112.11.139.202:8090/audio_info', {"audio": wavId},
-                {headers:{Authorization:JSON.parse(window.localStorage.getItem('access-admin')).token},cancelToken: this.cancelTokenSource.token}).then(res => {
-                    var wavList = res.data.result;
-                    var duration = res.data.duration;
-                    this.drawAnalysers(wavList, duration, this.$refs.recorderGraph0, this.segmentResultList[0]);
-                    this.drawAnalysers(wavList, duration, this.$refs.recorderGraph1, this.segmentResultList[1]);
-                    this.drawAnalysers(wavList, duration, this.$refs.recorderGraph2, this.segmentResultList[2]);
-                    // this.wavShowSign = true;
-                    
-                }).catch((error) => {
-                    if (this.$axios.isCancel(error)) {
-                        console.log('请求被取消');
-                    } else {
-                        if (error.response && error.response.status === 401) {
-                            console.log('token 验证失效!');
-                            this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
-                            this.login_flag = false;
-                        }
-                        else{
-                            console.log('请求发生错误：', error);
-                        }
-                    } 
-                });
-                // var wavList = [-0.022246173, 0.011611759, -0.05370667, -0.4023055, 0.09318283, 0.01346108, -0.20841943, -0.04426442, 0.1304785, 0.0085333735, -0.11419595, -0.33498338, 0.110507995, 0.08962531, 0.19694279, -0.06562919, -0.56299454, -0.29372886, -0.6690906, -0.011255204, -0.45235896, -0.7089376, 0.22364804, 0.0027838948, -0.025959486, -0.0043266946, -0.0811679, -0.027576651, -0.03161356, 0.01949848, 0.5155589, -0.12418827, 0.4795956, -0.15993853, -0.22751977, -0.22109494, -0.1060967, 0.035303336, -0.6102198, -0.12642524, -0.16223772, -0.10703121, -0.32384285, 0.025898404, 0.02527695, -0.013373915, 0.024050113, 0.14224999, -0.1397198, -0.032619476, -0.027883029, 0.07436792, -0.15753336, -0.05574234, -0.047629457, 0.024940083, -0.1656023, 0.05916476, -0.00083302817, -0.16593757, -0.4681193, -0.45496586, 0.7543579, -0.19359094, 0.44639364, -0.09724937, 0.17354281, 0.053043097, -0.046571057, -0.023367798, -0.03117497, -0.0139728375, -0.019479102, -0.015079327, -0.019302024, -0.01589992, -0.01506739, 0.0071050227, -0.04424524, -0.25900644, -0.19256662, -0.016360302, -0.3641906, 0.040349577, 0.13288902, -0.04675888, -0.033523772, -0.061976973, 0.25384143, 0.096267655, -0.042307384, -0.010448433, -0.020133872, -0.013776709, -0.006103396, -0.41704047, -0.1745431, 0.13834895, -0.05574378, -0.084530264, -0.21794596, 0.11701309, -0.37906465, 0.25174135, 0.09065254, 0.4603746, -0.118306555, -0.018703965, -0.080901586, -0.13643663, -0.016743781, 0.015752563, -0.00070809637, -0.04747053, -0.07718118, -0.02747581, -0.017851673, 0.12641785, -0.08603949, -0.010927743, -0.1655548, -0.014623714, -0.020055572, -0.012050385, -0.018188404, -0.016600747, -0.017886665, -0.016245417, -0.01833934, -0.012603338, 0.01022908, -0.008443419, -0.07382443, 0.0010843878, 0.030520104, 0.082391605, -0.09593186, -0.024630273, -0.008321998, -0.005350738, -0.0047083814, -0.012436866, -0.30434725, -0.14593787, 0.5061729, 0.3864308, 0.031651154, -1.0, -0.86939895, -0.28691396, 0.06743252, 0.16672195, 0.1201106, 0.007462227, -0.38210416, 0.19509396, 0.18545164, -0.053662535, -0.06463848, -0.08617498, 0.04061794, 0.0847164, -0.15281376, -0.6316695, -0.69431895, -0.17815928, 0.04168138, 0.026829274, 0.020352995, -0.46438143, -0.34329334, -0.044749428, -0.07876679, -0.11954256, -0.019335352, -0.061995354, 0.179568, 0.33147722, -0.64587694, 0.2315255, -0.021259181, 0.020924427, -0.09235561, 0.034379363, 0.027836936, -0.007748355, 0.030973041, 0.56064636, 0.17388242, 0.33115163, 0.16076663, -0.05822947, -0.04528648, -0.046235893, -0.08603346, -0.0025879585, -0.021320423, 0.12273774, -0.044396415, -0.061056178, -0.01400491, -0.02460389, -0.09555996, -0.02129475, 0.30319104, -0.27934855, 0.09611069, 0.064011954, -0.11522971, 0.12150216, -0.017190224, -0.04125598, 0.015163995, 0.050604694, -0.40619195, -0.20048875, -0.035022065, 0.19989926, -0.021430718, 0.13431245, -0.050596125, -0.122662224, 0.05229644, -0.012750457, -0.015356896, -0.032260243, -0.10022549, -0.14161752, 2.7899923e-05, -0.008828423, -0.024751686, -0.024552984, -0.01693687, -0.026138028, -0.015755536, -0.014386184, 0.0028216604, 7.131624e-05, -0.029763974, -0.012021412, 0.11751977, -0.044745978, -0.036512975, -0.03258768, -0.0072333934, -0.00020256467, -0.011882081, -0.01831702, -0.03713879, -0.016334008, -0.010900285, -0.012831701, -0.01851082, -0.016903883, -0.012712231, -0.034238413, 0.044287097, -0.46729448, 0.1340956, 0.3202244, 0.8455946, -0.17517197, 0.2968125, 0.008604911, -0.025975645, -0.010275997, 0.5660417, 0.31616017, -0.0055145207, 0.53740245, -0.1560013, 0.23661835, 0.23091905, 0.16511597, 0.22231974, -0.19164442, -0.08304534, -0.05940441, -0.055358954, 0.024487115, -0.070718944, -0.014597155, -0.15836081, 0.06292137, -0.5149769, -0.24988021, 0.0011440063, -0.09837059, -0.39546764, 0.033209115, 0.22351755, 0.029111082, -0.0005899162, 0.1611365, -0.016486298, -0.010146262, -0.061796013, -0.03718756, -0.0049191113, -0.02876424, -0.011671463, -0.026378404, -0.022240676, -0.019263646, -0.016989633, -0.014824461, -0.01712784, -0.01425657, -0.016671969, -0.017766241, -0.015761795, -0.017420989, -0.017549464, -0.01274932, -0.030792043, 0.03261959, 0.0001150285, -0.06555211, -0.0011427718, -0.07931883, 0.0024487653, 0.20244423, -0.37138918, -0.26152948, -0.31558365, -0.13910665, 0.00627878, -0.088693164, 0.00404736, 0.04022622, -0.16302012, -0.007569159, 0.19125548, -0.0037068941, -0.023448482, -0.030331375, -0.007535782, -0.12419071, 0.46847737, -0.33349758, 0.20532286, 0.1571543, 0.23627831, -0.37919062, -0.03556691, -0.34590048, -0.15708666, 0.2849162, 0.06429425, -0.04888467, -0.090760395, -0.052791774, -0.053488474, 0.09467086, -0.12786408, -0.400782, -0.45321342, 0.13558626, 0.18260539, 0.31561202, -0.25833464, 0.0049280664, -0.000391058, 0.19637582, -0.051447798, 0.09744365, 0.055986695, -0.0785416, -0.027800778, 0.006538818, -0.034417395, -0.14190827, 0.08957354, -0.058137514, 0.029597221, -0.004014915, -0.0068756756, -0.00277232, 0.0014836731, 0.013927086, -0.0074593723, -0.021141745, 0.0058248877, -0.016252773, -0.015690276, -0.033642232, -0.24379133, -0.25047553, -0.19445361, 0.1725569, -0.09857271, 0.09006389, -0.06449417, -0.056784075, -0.03928091, 0.037808754, -0.009960216, -0.06953942, -0.084292665, 0.091348454];
-                // // param: wavId
-                // // res=> {
-                // //     this.drawAnalysers(wavList, wavSecond, this.$refs.recorderGraph0, this.segmentResultList[0]);
-                // //     this.drawAnalysers(wavList, wavSecond, this.$refs.recorderGraph1, this.segmentResultList[1]);
-                // //     this.drawAnalysers(wavList, wavSecond, this.$refs.recorderGraph2, this.segmentResultList[2]);
-                // // }
-                // this.drawAnalysers(wavList, wavSecond, this.$refs.recorderGraph0, this.segmentResultList[0]);
-                // this.drawAnalysers(wavList, wavSecond, this.$refs.recorderGraph1, this.segmentResultList[1]);
-                // this.drawAnalysers(wavList, wavSecond, this.$refs.recorderGraph2, this.segmentResultList[2]);
-
-                }
-            },
-            // 绘制波形图
-            drawAnalysers(waveData, waveLength, canvas, segmentResult) {
-                var canvasWidth = canvas.width;
-                var canvasHeight = canvas.height;
-                var analyserContext = canvas.getContext('2d');
-                var numBars = 400;
-                var numDiv = parseInt(numBars/waveLength*4);
-                var SPACING = canvasWidth / numBars;
-                var BAR_WIDTH = SPACING;
-                var freqByteData = waveData;
-                analyserContext.clearRect(0, 0, canvasWidth, canvasHeight);
-                var segmentColorList = ["red","green","gray"];
-                var segmentIndex = 0;
-                var segmentColor = segmentColorList[segmentResult[segmentIndex]];
-
-                for (var i = 0; i < freqByteData.length; ++i) {
-                    var magnitude = 0;
-                    magnitude = freqByteData[i]*canvasHeight/2;
-                    if (i%numDiv == 0 && i!==0){
-                        segmentIndex++;
-                        if (segmentIndex<segmentResult.length){
-                            segmentColor = segmentColorList[segmentResult[segmentIndex]];
-                        }
-                    }
-                    analyserContext.fillStyle = segmentColor;
-                    analyserContext.fillRect(i * SPACING, canvasHeight/2, BAR_WIDTH, -magnitude); 
-                }
-            },
-
-            handleMouseOver(){
-                this.showDropdown = true;
-                this.$axios.post('http://112.11.139.202:8090/get_user_info', {},
-                    {headers:{Authorization:JSON.parse(window.localStorage.getItem('access-admin')).token}}).then(res => {
-                        this.surplus_detect_times = res.data.residue;
-                        
-                    }).catch((error) => { 
-                        if (error.response.status === 401) {
-                            console.log('token 验证失效!');
-                            this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
-                            this.login_flag = false;
-                        }
-                        else{
-                            console.log('请求发生错误：', error);
-                        } 
-                    }
-                );
-            },
-
-            consulting(){
-                this.consulting_flag=true;
-            },
-
-            cancel_consulting_div(){
-                this.consulting_flag=false;
-            },
-
-            initHtml:function () {
-                console.log("当前屏幕分辨率: " + window.screen.width);
-                var font_size = window.screen.width/2560*100;
-                if(window.screen.width<1920){
-                        font_size=100;
-                }
-                document.documentElement.style.fontSize = font_size+'px';
-                document.title = "深度合成语音伪造检测软件";
-
-                if (localStorage.getItem("access-admin") !== null) {
-                    // access-admin字段存在
-                    this.$axios.post('http://112.11.139.202:8090/get_user_info', {},
-                    {headers:{Authorization:JSON.parse(window.localStorage.getItem('access-admin')).token}}).then(res => {
-                        console.log(res.data);
-                        
-                        this.login_flag = true;
-                        this.usernameInput = res.data.email;
-                        this.surplus_detect_times = res.data.residue;
-                        this.user_grade_num = res.data.role;
-                        
-                    }).catch((error) => { 
-                        if (error.response && error.response.status === 401) {
-                            console.log('token 验证失效!');
-                            this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
-                            this.login_flag = false;
-                        }
-                        else{
-                            console.log('请求发生错误：', error);
-                        } 
-                    });
-                } else {
-                    // access-admin字段不存在
-                    console.log("登录已过期");
-                }
-            }
-        },
-
-        created(){
-            this.initHtml();
-        },
-
-        beforeDestroy(){
-            this.cancelTokenSource.cancel('请求被取消');
-            console.log('destory request');
-        },
-
-        computed: {
-        config() {
-            if (localStorage.getItem("access-admin") !== null){
-                return { "Authorization": JSON.parse(window.localStorage.getItem('access-admin')).token};
-            }
-        },
-
-
+methods: {
+	// 文件状态改变时的钩子
+	handleChange(file, fileList) { // 文件数量改变
+      this.fileList = fileList
+      const isLt2M = (file.size / 1024 / 1024 < 2)
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+        this.fileList.pop()
+      }
+      return isLt2M
     },
+    handleSuccess(response, file) {
+      if (response.code === 200) {
+        this.$message.success('上传成功');
+        const imageUrl = response.data.url; // 从响应中获取图片URL
+        this.info = [
+          {
+            id: 1,
+            name: '动漫1',
+            src: imageUrl,
+          },
+        ];
+      } else {
+        this.$message.error('上传失败');
+      }
+    },
+    // 文件超出个数限制时的钩子
+    limitCheck() {
+      this.$message.warning('每次上传限制最多五个文件')
+    },
+    // 文件删除的钩子
+    removeFile(file, fileList) {
+      this.fileList = fileList
+    },
+    // 点击确定按钮 上传文件
+    confirm() {
+    	var param = new FormData()
+    	this.fileList.forEach((val, index) => {
+    		param.append('file', val.raw)
+    	})
+    	// 拿取其他的信息
+    	param.append('id', sessionStorage.getItem('id'))
+    	axios(`url......`, {
+   			headers: {
+              'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+              'Content-Type': 'multipart/form-data'
+            },
+            method: 'post',
+            data: param
+          	}).then((res) => {
+	            if (res.data.code === 200) {
+	              this.$message.success('上传成功')
+	            } else {
+	              this.$message.error('上传失败')
+	            }
+          })
+    }
+}
     }
 </script>
  
@@ -844,6 +249,8 @@
     cursor: pointer;
     background-color: #165dff;
 }
+
+
 
 .register_button{
     width: 108px;
@@ -2482,17 +1889,41 @@
     cursor: pointer;
 }
 
-::v-deep .el-message {
-    font-size: 14px; /* 设置提示框中文字的大小 */
-    padding: 10px 15px; /* 设置提示框的内边距 */
-    border-radius: 4px; /* 设置提示框的圆角 */
+.position {
+    margin-left: 15px;
+    font-size: 30px;
+    font-weight: 600;
+  }
+ /* 图片总布局，样式 */
+.images {
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
-#uploaded_image {
-    max-width: 100%;
-    max-height: 300px; /* 根据需要调整 */
-    margin-top: 10px;
+/* Image container */
+.image-middle {
+  margin-right: auto;
+  margin-bottom: auto;
+  display: flex;
+  justify-content: center; /* Center the image within the container */
 }
 
+/* Single image style */
+.image {
+  width: 500px;
+  height: 500px;
+}
 
+/* Image preview style */
+.imagePreview {
+  width: 100px;
+  height: 100px;
+  /* Add styles for the image preview if needed */
+}
 </style>

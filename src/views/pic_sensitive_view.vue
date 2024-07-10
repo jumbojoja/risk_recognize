@@ -175,7 +175,7 @@
                     <img class="login_close_img" src="../assets/home_page/close2.svg">
                 </div>
             </div>
-            <div id="intro_div">
+            <!-- <div id="intro_div">
                 <p id="intro_title">语音深度合成</p>
                 <span id="intro_content"> 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
                     频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
@@ -183,30 +183,30 @@
                     一个能够合成带有目标重要人物音色音频的深度伪造模型。
                 </span>
                 <button id="experience_button">立即体验</button>
-            </div>
+            </div> -->
             <div id="navigation_div">
                 <div id="navigation_title_div">
                     <span id="navigation_title">语音合成检测平台功能</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
                 </div>
-                <div id="navigation_content_div">
+                <!-- <div id="navigation_content_div">
                     <div class="navigation_item_div" @click="toPage(1)">
                         <div class="navigation_item_div_div">
-                            <!-- <img class="navigation_item_img1" src="../assets/home_page/icon1.png"> -->
-                            <span class="navigation_item_span1">深度伪造检测</span>
-                            <!-- <img class="navigation_item_img2" src="../assets/home_page/arrow.png"> -->
+                            <img class="navigation_item_img1" src="../assets/home_page/icon1.png">
+                            <span class="navigation_item_span1">敏感内容检测</span>
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <!-- <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音深度合成检测。</span> -->
+                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音深度合成检测。</span>
                     </div>
                     <div class="navigation_item_div" @click="toPage(2)">
                         <div class="navigation_item_div_div">
-                            <!-- <img class="navigation_item_img1" src="../assets/home_page/icon2.png"> -->
+                            <img class="navigation_item_img1" src="../assets/home_page/icon2.png">
                             <span class="navigation_item_span1">敏感内容检测</span>
-                            <!-- <img class="navigation_item_img2" src="../assets/home_page/arrow.png"> -->
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <!-- <span class="navigation_item_span2">查看单个语音音频文件深度合成检测历史记录。</span> -->
+                        <span class="navigation_item_span2">查看单个语音音频文件深度合成检测历史记录。</span>
                     </div>
-                    <!-- <div class="navigation_item_div" @click="toPage(3)">
+                    <div class="navigation_item_div" @click="toPage(3)">
                         <div class="navigation_item_div_div">
                             <img class="navigation_item_img1" src="../assets/home_page/icon3.png">
                             <span class="navigation_item_span1">批量检测</span>
@@ -221,16 +221,16 @@
                             <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
                         <span class="navigation_item_span2">查看深度合成语音批量检测的历史检测报告。</span>
-                    </div> -->
-                </div>
+                    </div>
+                </div> -->
             </div>
-            <!-- <div id="content_div">
+            <div id="content_div">
                 <div id="single_detect_div">
                     <div id="single_detect_top_div">
-                        <div id="single_detect_top_left_div">
+                        <!-- <div id="single_detect_top_left_div">
                             <img id="single_detect_top_left_img" src="../assets/home_page/icon1.png">
                             <span id="single_detect_top_left_span">单条检测</span>
-                        </div>
+                        </div> -->
                         <div id="single_detect_top_right_div">
                             <button :class="loadingSign?'single_detect_top_right_button_':'single_detect_top_right_button'" @click="startTest" :disabled="loadingSign">开始检测</button>
                         </div>
@@ -240,9 +240,12 @@
                         <div id="upload_div" v-show="upload_flag==true">
                             <div id="upload_left_div">
                                 <div id="upload_left_middle_div">
-                                    <img id="upload_left_middle_img" src="../assets/home_page/upload_logo.png">
+                                    <img id="upload_left_middle_img" :src="uploadedImageUrl">
                                     <span id="upload_left_middle_span">上传本地文件</span>
                                 </div>
+                            </div>
+                            <div>
+                                <input type="file" @change="handleFile">
                             </div>
                             <el-upload
                                 ref="my-upload"
@@ -263,16 +266,31 @@
                                 <button id="uploadButton" @click="judge_login">立即上传</button>
                             </el-upload>
                         </div>
-                        <div id="progress_div" v-show="upload_flag==false">
-                            <span id="progress_span_1">{{ imageName }}</span>
+                        <div v-show="!upload_flag">
+                            <!-- <span id="progress_span_1">{{ imageName }}</span> -->
                             <div id="progress_bottom_div">
-                                <div id="progress_bottom_left_div">
+                                <!-- <div id="progress_bottom_left_div">
                                     <div id="progress_bar_div">
                                         <div class = "loadsmallDiv"  v-for=" (result_row, index) in loadList">
                                             <div class="loadsmallImg" v-show="showList.includes(index)"></div>
                                         </div>
                                     </div>
                                     <span id="progress_span_2">{{ upload_progress }}</span> 
+                                </div> -->
+                                <div class="images" style="text-align: center;">
+                                    <div v-for="(item, index) in info" :key="index" class="image-middle">  
+                                    <el-card shadow="hover" :body-style="{ padding: '0px' }">     
+                                    <!-- //添加鼠标点击或悬浮图片放大功能 -->
+                                    <el-popover> 
+                                        <img :src="item.src"  class="image" />
+                                        <img :src="item.src" class="imagePreview" />
+                                    </el-popover>  
+                                    <div style="text-align:center;padding-top:12px">
+                                        <span>{{info[index].name}}</span>   
+                                    </div>     
+                                    </el-card>
+        
+                                    </div>     
                                 </div>
                                 <button id="reselection_button" @click="reselection_file">重新选择</button>
                                 <img :src="imageSrc" alt="Uploaded Image" id="uploaded_image" v-if="imageSrc">
@@ -366,7 +384,7 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>   
 </template>
@@ -381,7 +399,17 @@
                 user_grade_num: 5,
                 login_flag: true,
                 modify_password_flag: false,
-
+                uploadedImageUrl: "",
+                imageName: "",
+                file_path: "",
+                feasible_detect: false,
+                loadingSign: false,
+                doneSign: false,
+                resultTime: "",
+                resultDetect: 3,
+                resultValue: "",
+                info: [],
+                upload_flag: false,
                 surplus_detect_times: 0,
                 usernameInput: '',
                 passwordInput: '',
@@ -406,29 +434,22 @@
                 consulting_flag: false,
                 
                 upload_flag: true,
-                imageName:"",
                 imageSrc: '',
                 nick_name: {name: ""},
-                upload_flag: true,
                 upload_progress: "",
-                feasible_detect: false,
-                loadingSign:true,
-                doneSign:false,
                 loadList: [],
                 showList:[],
                 audioPlay: true,
-                resultDetect: 3,
-                resultTime: '',
-                resultValue:'',
                 audioProgress:0.5,
                 src:'',
-                file_path: "",
                 modelScoreList:[],
                 modelResultList:[],
                 segmentScoreList:[[],[],[]],
                 segmentResultList:[[],[],[]],
                 cancelTokenSource: this.$axios.CancelToken.source(),
+                fileContent: ''
             }
+            
         },
         methods:{
             //跳转页面
@@ -703,6 +724,16 @@
                 }
             },
 
+            handleFile(event) {
+                    const file = event.target.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                    this.fileContent = event.target.result;
+                    }
+            reader.readAsText(file);
+            console.log(this.fileContent);
+         },
+
             judge_login(){
                 if(!this.login_flag){
                     this.$message({
@@ -712,49 +743,65 @@
                 } 
             },
 
-            handleBefore(file) {
-                this.upload_flag = false
-                this.nick_name.name = file.name;
-                const legalType = file.type === 'image/';
-                const legalSize = file.size / 1024 / 1024 < 5;
-                if (!legalType) {
-                    this.wavefileName = '请上传图片文件!';
-                    console.log('请上传图片文件!');
-                }
-                if (!legalSize) {
-                    this.wavefileName = '文件须小于5MB!';
-                    console.log('请确保上传文件小于5MB!');
-                }
-                if (legalType && legalSize) {
-                    this.wavefileName = '正在上传...';
-                }
-                return legalType && legalSize ;
-            },
+            // handleBefore(file) {
+            //     this.upload_flag = false
+            //     this.nick_name.name = file.name;
+            //     const legalType = file.type === 'image/';
+            //     const legalSize = file.size / 1024 / 1024 < 5;
+            //     if (!legalType) {
+            //         this.wavefileName = '请上传图片文件!';
+            //         console.log('请上传图片文件!');
+            //     }
+            //     if (!legalSize) {
+            //         this.wavefileName = '文件须小于5MB!';
+            //         console.log('请确保上传文件小于5MB!');
+            //     }
+            //     if (legalType && legalSize) {
+            //         this.wavefileName = '正在上传...';
+            //     }
+            //     return legalType && legalSize ;
+            // },
 
             //上传超过limit文件数时提示信息
-            handleExceed(files, fileList) {
-                this.imageName = '请上传一个图片文件！';
-                console.log('当前限制上传 1 个文件');
-            },
+            // handleExceed(files, fileList) {
+            //     this.imageName = '请上传一个图片文件！';
+            //     console.log('当前限制上传 1 个文件');
+            // },
 
             handleSuccess(response, file, fileList){
-                if (response.hasOwnProperty('dir')) {
+                    console.log(response);
                     console.log('上传完成');
+                    const imageUrl = response.data.url; // 从响应中获取图片URL
+                    console.log(imageUrl);
+                    this.uploadedImageUrl = imageUrl; // 将图片URL保存到数据属性中
                     this.imageName = file.name;
                     this.file_path = response.dir;
                     this.feasible_detect = true;
                     this.loadingSign = false;
-                } else {
-                    this.file_path = "";
-                    this.$refs['my-upload'].clearFiles();
-                    this.imageName = "";  
-                    this.imageSrc = "";
-                    this.doneSign = false;
-                    this.resultTime = "";
-                    this.resultDetect = 3;
-                    this.resultValue = "";
-                    this.$alert(response.err,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                }
+                    this.info.push({ src: imageUrl, name: file.name }); // 将图片信息添加到info数组中
+                // if (!response.hasOwnProperty('dir')) {
+                //     console.log('上传完成');
+                //     const imageUrl = response.data.url; // 从响应中获取图片URL
+                //     this.uploadedImageUrl = imageUrl; // 将图片URL保存到数据属性中
+                //     this.imageName = file.name;
+                //     this.file_path = response.dir;
+                //     this.feasible_detect = true;
+                //     this.loadingSign = false;
+                //     this.info.push({ src: imageUrl, name: file.name }); // 将图片信息添加到info数组中
+                // } else {
+                //     this.file_path = "";
+                //     this.$refs['my-upload'].clearFiles();
+                //     this.imageName = "";
+                //     this.uploadedImageUrl = "";
+                //     this.doneSign = false;
+                //     this.resultTime = "";
+                //     this.resultDetect = 3;
+                //     this.resultValue = "";
+                //     this.$alert(response.err, '提示', {
+                //     confirmButtonText: '确定',
+                //     closeOnClickModal: false,
+                //     showClose: false});
+                // }
                 // console.log(this.$refs['wavenameRef'].clientWidth);
             },
 
@@ -776,16 +823,16 @@
 
             delInit() {
                 this.$refs['my-upload'].clearFiles();
-                this.upload_flag = true;
-                this.showList = [];
+                this.uploadedImageUrl = "";
+                this.imageName = "";
+                this.file_path = "";
+                this.feasible_detect = false;
+                this.loadingSign = false;
+                this.doneSign = false;
+                this.resultTime = "";
                 this.resultDetect = 3;
                 this.resultValue = "";
-                this.resultTime = "";
-                this.doneSign = false;
-                this.loadingSign = true;
-                this.feasible_detect = false;
-                this.imageName = '';
-                this.imageSrc = '';
+                this.info = [];
             },
 
             updateProgress(){
@@ -2837,5 +2884,37 @@
     margin-top: 10px;
 }
 
+/* 图片总布局，样式 */
+.images {
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Image container */
+.image-middle {
+  margin-right: auto;
+  margin-bottom: auto;
+  display: flex;
+  justify-content: center; /* Center the image within the container */
+}
+
+/* Single image style */
+.image {
+  width: 100px;
+  height: 100px;
+}
+
+/* Image preview style */
+.imagePreview {
+  width: 100px;
+  height: 100px;
+  /* Add styles for the image preview if needed */
+}
 
 </style>

@@ -7,229 +7,15 @@
                     <span id="banner_title">语音合成检测平台</span>
                 </div>
             </div>
-            
-            <!-- <div id="consulting_div" v-if="consulting_flag==true">
-                <div id="consulting_top_div">
-                    <img id="consulting_top_img" src="../assets/home_page/kefu.svg">
-                    <span id="consulting_top_span">联系我们</span>
-                </div>
-                <div id="consulting_mid_div">
-                    <span class="consulting_mid_span">咨询体验, 请邮件联系: VOcert@outlook.com </span>
-                </div>
-                <button id="consulting_bottom_button" @click="cancel_consulting_div">确定</button>
-            </div>
-            <div id="banner_div">
-                <div id="banner_left">
-                    <img class="banner_img" src="../assets/home_page/logo.png">
-                    <span id="banner_title">多模态风险内容识别平台</span>
-                </div>
-                <div id="banner_right" v-show="login_flag==false">
-                    <span class="login_button" @click="show_login_box(true)">登录</span>
-                    <span class="register_button" @click="consulting">体验申请</span>
-                </div>
-                <div id="banner_user" v-show="login_flag==true">
-                    <img id="banner_user_img" src="../assets/home_page/user.png">
-                    <span id="banner_user_span" @mouseover="handleMouseOver"
-                     @mouseleave="startHideTimer">{{ usernameInput }}</span>
-                </div>
-                <div id="user_div" v-if="showDropdown==true" @mouseleave="startHideTimer" @mouseenter="cancelHideTimer">
-                    <div id="user_top_div">
-                        <div id="user_top_top_div">
-                            <span class="user_div_span1">登录邮箱</span>
-                            <span class="user_div_span2">{{ usernameInput }}</span>
-                        </div>
-                        <div id="user_top_bottom_div">
-                            <span class="user_div_span1_1">剩余检测次数</span>
-                            <span class="user_div_span1_3">{{ surplus_detect_times }}</span>
-                            <span class="user_div_span2_1">条</span>
-                        </div>
-                    </div>
-                    <div id="user_mid_div">
-                        <div id="user_mid_left_div">
-                            <span id="user_div_span3">{{ user_grade_dict[user_grade_num] }}</span>
-                            <span id="user_div_span4">升级体验请联系我们</span>
-                        </div>
-                        <button id="user_mid_button" @click="consulting">立即咨询</button>
-                    </div>
-                    <div id="user_bottom_div">
-                        <div class="user_bottom_small_div" @click="go_modify_password">
-                            <span class="user_div_span5">修改密码</span>
-                            <img class="user_div_span_icon" src="../assets/home_page/right.svg">
-                        </div>
-                        <div class="user_bottom_small_div" @click="subAccount" v-if="user_grade_num<3">
-                            <span class="user_div_span5">子账户管理</span>
-                            <img class="user_div_span_icon" src="../assets/home_page/right.svg">
-                        </div>
-                        <div class="user_bottom_small_div" @click="log_out">
-                            <span class="user_div_span5">退出登录</span>
-                            <img class="user_div_span_icon2" src="../assets/home_page/login_out.svg">
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- <div id="login_div" v-show="login_box_flag==true">
-                <div id="login_top_div">
-                    <div id="login_top_top_div">
-                        <div :class="login_or_register?'display_choose':'display_no_choose'" @click="select_login_register(true)">登录</div>
-                    </div>
-                    <div class="login_top_mid_div" v-show="login_or_register==true">
-                        <span class="usernameText">用户名</span>
-                        <el-input
-                            class="input_style"
-                            placeholder="登录邮箱"
-                            v-model="usernameInput"
-                            prefix-icon="el-icon-user"
-                            clearable>
-                        </el-input>
-                        <span class="passwordText">密码</span>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="请输入密码" 
-                            v-model="passwordInput" 
-                            prefix-icon="el-icon-lock" show-password clearable>
-                        </el-input>
-                        <button class="login_top_button" @click="login">登录</button>
-                    </div>
-                    <div class="login_top_mid_div" v-show="login_or_register==false && register_step==true">
-                        <span class="usernameText">注册邮箱</span>
-                        <el-input
-                            class="input_style"
-                            placeholder="输入注册邮箱example@mail.com"
-                            v-model="register_email"
-                            clearable>
-                        </el-input>
-                        <span class="passwordText">验证码</span>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="请输入验证码" 
-                            v-model="register_code" 
-                            clearable>
-                            <template #append>
-                                <span :class="button_flag?'code_button_ti':'code_button'" :disabled="button_flag" @click="getCode">获取验证码</span>
-                            </template>
-                        </el-input>
-                        <button class="login_top_button" @click="register_go">注册</button>
-                    </div>
-                    <div class="login_top_mid_div" v-show="login_or_register==false && register_step==false">
-                        <span class="usernameText">设置登录密码</span>
-                        <el-input
-                            class="input_style"
-                            placeholder="6-20位字母或数字"
-                            v-model="register_pass1"
-                            clearable
-                            @input="checkPassword">
-                        </el-input>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="再次输入确认密码" 
-                            v-model="register_pass2" 
-                            clearable
-                            @input="checkPassword"
-                            style="margin-top: 11px;">
-                        </el-input>
-                        <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
-                        <button class="login_top_button" @click="register">确认设置登录密码</button>
-                    </div>
-                </div>
-                <div class="login_close_img_div" @click="close_login_box">
-                    <img class="login_close_img" src="../assets/home_page/close2.svg">
-                </div>
-            </div>
-            <div id="modify_div" v-if="modify_password_flag==true">
-                <div id="modify_top_div">
-                    <div id="modify_top_top_div">
-                        <span id="modify_top_top_span">修改密码</span>
-                    </div>
-                    <div id="modify_top_mid_div">
-                        <div id="modify_top_mid_top_div">
-                            <span id="modify_top_mid_top_span1">当前登录邮箱</span>
-                            <span id="modify_top_mid_top_span2">{{ usernameInput }}</span>
-                        </div>
-                        <span class="passwordText2">验证码</span>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="请输入验证码" 
-                            v-model="modify_code" 
-                            clearable>
-                            <template #append>
-                                <span :class="button_flag?'code_button_ti':'code_button'" :disabled="button_flag" @click="getModifyCode">获取验证码</span>
-                            </template>
-                        </el-input>
-                        <span class="usernameText2">设置登录密码</span>
-                        <el-input
-                            class="input_style"
-                            placeholder="6-20位字母或数字"
-                            v-model="modify_pass1"
-                            clearable
-                            @input="checkPassword2">
-                        </el-input>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="再次输入确认密码" 
-                            v-model="modify_pass2" 
-                            clearable
-                            @input="checkPassword2"
-                            style="margin-top: 11px;">
-                        </el-input>
-                        <div class="error-message" v-if="errorMessage2">{{ errorMessage2 }}</div>
-                    </div>
-                    <button class="login_top_button2" @click="showConfirmDialog">确认修改登录密码</button>
-                </div>
-                <div class="login_close_img_div" @click="close_modify_box">
-                    <img class="login_close_img" src="../assets/home_page/close2.svg">
-                </div>
-            </div> -->
-            <div id="intro_div">
-                <p id="intro_title">音频检测</p>
-                <span id="intro_content">功能相关介绍<br>
-                    <!-- 频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
-                    频内容，让重要人物说从未说过的话。仅通过公开网络渠道人人可获取的音频素材，就能训练出<br>
-                    一个能够合成带有目标重要人物音色音频的深度伪造模型。 -->
-                </span>
-            </div>
             <div id="navigation_div">
                 <div id="navigation_title_div">
-                    <span id="navigation_title">音频风险内容检测平台功能</span>
+                    <span id="navigation_title">敏感内容检测</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
-                </div>
-                <div id="navigation_content_div">
-                    <div class="navigation_item_div" @click="toPage(1)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon1.png">
-                            <span class="navigation_item_span1">深度伪造检测</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
-                        </div>
-                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行深度伪造检测。</span>
-                    </div>
-                    <div class="navigation_item_div" @click="toPage(2)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon2.png">
-                            <span class="navigation_item_span1">敏感内容检测</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
-                        </div>
-                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行敏感内容检测。</span>
-                    </div>
-                    <!-- <div class="navigation_item_div" @click="toPage(3)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon3.png">
-                            <span class="navigation_item_span1">批量检测</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
-                        </div>
-                        <span class="navigation_item_span2">批量上传语音音频文件，进行语音深度合成检测，并输出检测报告。</span>
-                    </div>
-                    <div class="navigation_item_div" @click="toPage(4)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon4.png">
-                            <span class="navigation_item_span1">检测报告</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
-                        </div>
-                        <span class="navigation_item_span2">查看深度合成语音批量检测的历史检测报告。</span>
-                    </div> -->
                 </div>
             </div>
             <div id="content_div">
                 <div id="single_detect_div">
-                    <!-- <div id="single_detect_top_div">
+                    <div id="single_detect_top_div">
                         <div id="single_detect_top_left_div">
                             <img id="single_detect_top_left_img" src="../assets/home_page/icon1.png">
                             <span id="single_detect_top_left_span">单条检测</span>
@@ -282,7 +68,8 @@
                         </div>
                         <span id="single_detect_bottom_span_2">支持wav、mp3等格式、长度大于2秒的音频文件</span>
                     </div>
-                    <div id="detailed_result_div" v-show="doneSign==true">
+                    <!-- <div id="detailed_result_div" v-show="doneSign==true"> -->
+                    <div id="detailed_result_div">
                         <div id="detailed_result_top_div">
                             <span id="result_span_1">{{ nick_name.name }}详细检测结果</span>
                             <img id="result_span_img_1" src="../assets/home_page/close.png" @click="delInit">
@@ -321,7 +108,7 @@
                                 </div> 
                             </div>
                         </div>
-                        <div class="model_score_div" v-if="user_grade_num<5">
+                        <!-- <div class="model_score_div" v-if="user_grade_num<5">
                             <span class="model_score_span_1">高质量音频检测模型(High-QualityModel)</span>
                             <span class="model_score_span_2">由录音室级别音频数据精炼而成，侧重高质量合成算法的精准检出。</span>
                             <div class="waveform_diagram_div">
@@ -365,8 +152,8 @@
                             </div>
                             <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[2]}}</span>
                             <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[2]}}</span>
-                        </div>
-                    </div> -->
+                        </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -433,11 +220,18 @@
         methods:{
             //跳转页面
             toPage:function (num){
-                if(num===1){
-                    this.$router.push('/audio_deep');
-                }
+                this.$refs['my-upload'].abort();
+                // if(num===1){
+                //     this.$router.push('/home');
+                // }
                 if(num===2){
-                    this.$router.push('/audio_sensitive');
+                    this.$router.push('/history');
+                }
+                if(num===3){
+                    this.$router.push('/batchtest');
+                }
+                if(num===4){
+                    this.$router.push('/batchhistory');
                 }
             },
 
@@ -791,7 +585,7 @@
             progressChange(){
                 this.$refs.audio1.currentTime = this.$refs.audio1.duration*this.audioProgress/100;
 
-                //console.log('中间开始播放音频')
+                // console.log('中间开始播放音频')
                 var audio =document.querySelector('#audio1');
                 audio.play();
                 this.audioPlay = false;
@@ -1091,7 +885,7 @@
 
 #main{
     width: 100%;
-    min-width: 1920px;   /*1920*/
+    min-width: 1920px;
     background-color: #f3f7ff;
     display: flex;
     justify-content: center;
@@ -1132,8 +926,7 @@
 }
 
 #banner_title{
-    width: 325px;
-    /* width: 224px; */
+    width: 224px;
     height: 64px;
     font-size: 28px;
     font-weight: bold;
@@ -1926,7 +1719,7 @@
 
 #navigation_div{
     width: 100%;
-    height: 340px;
+    height: 140px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1947,8 +1740,7 @@
 }
 
 #navigation_title{
-    width: 420px;
-    /* width: 320px; */
+    width: 320px;
     height: 45px;
     opacity: 1;
     display: flex;
@@ -2830,3 +2622,4 @@
 }
 
 </style>
+s

@@ -21,6 +21,8 @@ const ReportView = () => import('../views/ReportView.vue')
 // const ChangePassView = () => import('../views/ChangePassView.vue')
 const SubAccountView = () => import('../views/SubAccountView.vue')
 const Homeview = () => import('../views/HomeView.vue')
+const audio_deep = () => import('../views/audio_deep.vue')
+const audio_sensi = () => import('../views/audio_sensi.vue')
 
 const pic_batch_history_view = () => import('../views/pic_batch_history_view.vue')
 const pic_batch_view = () => import('../views/pic_batch_view.vue')
@@ -88,6 +90,18 @@ const routes = [
     path: '/subaccount',
     name: 'subaccount',
     component: SubAccountView
+  },
+
+  {
+    path: '/audio_deep',
+    name: 'audio_deep',
+    component: audio_deep
+  },
+
+  {
+    path: '/audio_sensitive',
+    name: 'audio_sensitive',
+    component: audio_sensi
   },
 
   {

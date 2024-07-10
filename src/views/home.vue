@@ -188,25 +188,25 @@
             </div>
             <div id="navigation_div">
                 <div id="navigation_title_div">
-                    <span id="navigation_title">语音合成检测平台功能</span>
+                    <span id="navigation_title">检测平台功能</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
                 </div>
                 <div id="navigation_content_div">
-                    <div class="navigation_item_div" @click="toPage(1)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon1.png">
-                            <span class="navigation_item_span1">音频检测</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
-                        </div>
-                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音深度合成检测。</span>
-                    </div>
                     <div class="navigation_item_div" @click="toPage(2)">
                         <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon2.png">
+                            <img class="navigation_item_img1" src="../assets/home_page/icon1.png">
                             <span class="navigation_item_span1">图像检测</span>
                             <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <span class="navigation_item_span2">查看单个语音音频文件深度合成检测历史记录。</span>
+                        <span class="navigation_item_span2">上传图像，立即进行图像检测。</span>
+                    </div>
+                    <div class="navigation_item_div" @click="toPage(1)">
+                        <div class="navigation_item_div_div">
+                            <img class="navigation_item_img1" src="../assets/home_page/icon2.png">
+                            <span class="navigation_item_span1">音频检测</span>
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
+                        </div>
+                        <span class="navigation_item_span2">上传音频，立即进行图像检测。</span>
                     </div>
                     <div class="navigation_item_div" @click="toPage(3)">
                         <div class="navigation_item_div_div">
@@ -214,7 +214,7 @@
                             <span class="navigation_item_span1">文本检测</span>
                             <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <span class="navigation_item_span2">批量上传语音音频文件，进行语音深度合成检测，并输出检测报告。</span>
+                        <span class="navigation_item_span2">上传文本，立即进行图像检测。</span>
                     </div>
                     <!-- <div class="navigation_item_div" @click="toPage(4)">
                         <div class="navigation_item_div_div">

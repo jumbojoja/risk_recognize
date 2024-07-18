@@ -239,7 +239,7 @@
                     <div id="content_middle_mid_div">
                         <span id="content_middle_mid_span">本次检测综合得分 {{ all_score }}, 检出疑似伪造音频文件 {{ dfNum }}, 占比 {{ proportion }}</span>
                     </div>
-                    <div id="content_middle_bottom_div">
+                    <!-- <div id="content_middle_bottom_div">
                         <div id="content_middle_bottom_top_div">
                             <span class="content_middle_bottom_span">检测日期</span>
                             <span class="content_middle_bottom_span">检测调用方式</span>
@@ -254,7 +254,7 @@
                             <span class="content_middle_bottom_span">30s</span>
                             <span class="content_middle_bottom_span">{{ proportion }}</span>
                         </div>
-                    </div>
+                    </div> -->
                     <div id="table_div">
                         <e-charts class="echarts-1" :option="option1"></e-charts>
                         <e-charts class="echarts-1" :option="option2"></e-charts>

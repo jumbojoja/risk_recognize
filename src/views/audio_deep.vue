@@ -38,9 +38,9 @@
                                 </div>
                             </div>
                             <el-upload
-                                ref="my-upload"
+                                ref="my-upload"el-
                                 class="upload-demo"
-                                action="http://112.11.139.202:8090/receive_file"
+                                action="http://115.233.223.42:20008/picture/fake/one"
                                 multiple
                                 :limit="1"
                                 :headers="config"
@@ -525,6 +525,8 @@
             },
 
             close_login_box(){
+
+            
                 this.login_box_flag = false;
             },
 

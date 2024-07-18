@@ -1,16 +1,16 @@
 <template >
     <div id="main">
         <div id="homo_div">
-            <div id="banner_left">
+            <!-- <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
                     <span id="banner_title">语音合成检测平台</span>
-                </div>
-            <!-- <div id="banner_div">
+                </div> -->
+            <div id="banner_div">
                 <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
                     <span id="banner_title">语音合成检测平台</span>
                 </div>
-            </div> -->
+            </div>
             <div id="navigation_div">
                 <div id="navigation_title_div">
                     <span id="navigation_title">深度伪造检测</span>
@@ -24,18 +24,18 @@
                             <img id="single_detect_top_left_img" src="../assets/home_page/icon1.png">
                             <span id="single_detect_top_left_span">单条检测</span>
                         </div>
-                        <div id="single_detect_top_right_div">
+                        <!-- <div id="single_detect_top_right_div">
                             <button :class="loadingSign?'single_detect_top_right_button_':'single_detect_top_right_button'" @click="startTest" :disabled="loadingSign">开始检测</button>
-                        </div>
+                        </div> -->
                     </div>
                     <div id="single_detect_bottom_div">
                         <span id="single_detect_bottom_span_1">上传待检测文件</span>
                         <div id="upload_div" v-show="upload_flag==true">
                             <div id="upload_left_div">
-                                <div id="upload_left_middle_div">
-                                    <img id="upload_left_middle_img" src="../assets/home_page/upload_logo.png">
-                                    <span id="upload_left_middle_span">上传本地文件</span>
-                                </div>
+
+                                <el-button type="primary" @click="playAudio">
+                                    试听
+                                </el-button>
                             </div>
                             <el-upload
                                 ref="my-upload"el-
@@ -53,8 +53,12 @@
                                 :on-error="handleError"
                                 :show-file-list="false"
                                 >
-                                <button id="uploadButton" @click="judge_login">立即上传</button>
+                                <!-- <button id="uploadButton" @click="judge_login">立即上传</button> -->                               
                             </el-upload>
+                            <button id="uploadButton" @click="handleFileSelect">上传音频</button>
+                            <!-- <div>
+                                <button id="uploadButton1" @click="playAudio">播放音频</button>
+                            </div> -->
                         </div>
                         <div id="progress_div" v-show="upload_flag==false">
                             <span id="progress_span_1">{{ wavefileName }}</span>
@@ -72,96 +76,28 @@
                         </div>
                         <span id="single_detect_bottom_span_2">支持wav、mp3等格式、长度大于2秒的音频文件</span>
                     </div>
-                    <!-- <div id="detailed_result_div" v-show="doneSign==true"> -->
-                    <div id="detailed_result_div">
-                        <div id="detailed_result_top_div">
-                            <span id="result_span_1">{{ nick_name.name }}详细检测结果</span>
-                            <img id="result_span_img_1" src="../assets/home_page/close.png" @click="delInit">
+                    <!-- <div id="detailed_result_div" v-show="doneSign==true"> -->                    
+                        <div id="content_top_div">
+                            <img id="content_top_left_img" src="../assets/home_page/icon4.png">
+                            <span id="content_top_left_span">{{buildTime}} 检测报告</span>
                         </div>
-                        <div id="comp_result_div">
-                            <span id="comp_result_span_1">本次检测综合结果</span>
-                            <div id="comp_result_bottom_div">
-                                <div class="comp_result_bottom_small_div">
-                                    <span class="comp_result_span_2">音频时长</span>
-                                    <div class="comp_result_bottom_small_bottom_div1">{{ resultTime }}</div>
+                        <div id="content_middle_div">
+                            <div id="content_middle_top_div">
+                                <span id="content_middle_top_span">本次检测总得分</span>
+                                <div id="content_middle_top_bottom">
+                                    <span id="content_middle_top_bottom_span">{{ all_score }}</span>
                                 </div>
-                                <div class="comp_result_bottom_small_div">
-                                    <span class="comp_result_span_2">判定结果</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==0" >假</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==1">真</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==-2">静默</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==3">次数不足</span>
-                                </div>
-                                <div class="comp_result_bottom_small_div">
-                                    <span class="comp_result_span_2">置信度</span>
-                                    <div class="comp_result_bottom_small_bottom_div3">{{ resultValue }}</div>
-                                </div>
+                             </div>
+                            <div id="content_middle_mid_div">
+                                <span id="content_middle_mid_span">本次检测综合得分 {{ all_score }}, 检出音频文件标签：{{ tag }}, 音频名称：{{ audioName }}</span>
                             </div>
-                        </div>
-                        <div id="listening_div">
-
-                                <input type="file" ref="audioInput" @change="handleFileUpload">
-                                <button @click="handleFileSelect">选择音频文件</button>
-                                <button @click="playAudio">播放音频</button>
-
-                            <!-- <span id="listening_span">播放试听</span>
-                            <div id="play_line_div">
-                                <img id="result_span_img_2" src="../assets/home_page/playcon.png" @click="play_audio">
-                                <audio id="audio1"  ref="audio1" controls v-show="false" @ended="overAudio" @timeupdate="updateProgress">
-                                    <source :src="src"  type="audio/wav" >
-                                </audio>
-                                <div class="slider-block">
-                                    <span class = "audio-progress">
-                                        <el-slider v-model="audioProgress" :show-tooltip="false" @change="progressChange()"></el-slider>
-                                    </span>
-                                </div> 
-                            </div> -->
-                        </div>
-                        <!-- <div class="model_score_div" v-if="user_grade_num<5">
-                            <span class="model_score_span_1">高质量音频检测模型(High-QualityModel)</span>
-                            <span class="model_score_span_2">由录音室级别音频数据精炼而成，侧重高质量合成算法的精准检出。</span>
-                            <div class="waveform_diagram_div">
-                                <canvas ref="recorderGraph1" class = "model_img"></canvas>
-                                <div class="confidence_div">
-                                    <div v-for="(item, index) in segmentResultList[1]" class="confidence_div_" 
-                                    :class="{'red_': item == '0', 'green_': item == '1', 'grey_': item == '2'}">
-                                    {{segmentScoreList[1][index]}}
-                                    </div>
-                                </div>
+                            <div id="table_div">
+                                <e-charts class="echarts-1" :option="option1"></e-charts>
+                                <e-charts class="echarts-1" :option="option2"></e-charts>
                             </div>
-                            <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[1]}}</span>
-                            <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[1]}}</span>
-                        </div>
-                        <div class="model_score_div" v-if="user_grade_num<5">
-                            <span class="model_score_span_1">精简视角检测模型(Part-InModel)</span>
-                            <span class="model_score_span_2">由经典真伪音频数据训练而成，重点面向主流语音合成技术鉴别。</span>
-                            <div class="waveform_diagram_div">
-                                <canvas ref="recorderGraph0" class = "model_img"></canvas>
-                                <div class="confidence_div">
-                                    <div v-for="(item, index) in segmentResultList[0]" class="confidence_div_" 
-                                    :class="{'red_': item == '0', 'green_': item == '1', 'grey_': item == '2'}">
-                                    {{segmentScoreList[0][index]}}
-                                    </div>
-                                </div>
-                            </div>
-                            <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[0]}}</span>
-                            <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[0]}}</span>
-                        </div>
-                        <div class="model_score_div" v-if="user_grade_num<5">
-                            <span class="model_score_span_1">全视角检测模型(All-InModel)</span>
-                            <span class="model_score_span_2"> </span>
-                            <div class="waveform_diagram_div">
-                                <canvas ref="recorderGraph2" class = "model_img"></canvas>
-                                <div class="confidence_div">
-                                    <div v-for="(item, index) in segmentResultList[2]" class="confidence_div_" 
-                                    :class="{'red_': item == '0', 'green_': item == '1', 'grey_': item == '2'}">
-                                    {{segmentScoreList[2][index]}}
-                                    </div>
-                                </div>
-                            </div>
-                            <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[2]}}</span>
-                            <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[2]}}</span>
-                        </div> -->
+                            <input type="file" ref="audioInput" @change="handleFileUpload" style="opacity: 0;">
+                                <!-- <button @click="handleFileSelect">选择音频文件</button>
+                                <button @click="playAudio">播放音频</button> -->
                     </div>
                 </div>
             </div>
@@ -175,6 +111,9 @@
         data(){
             return{
                 // user_grade_dict:{2: "企业用户", 3: "企业子账户", 4: "付费用户", 5: "体验用户"},
+                all_score : 88,
+                tag : "伪造",
+                audioName: "test",
                 user_grade_dict:{2: "体验用户", 3: "体验用户", 4: "体验用户", 5: "体验用户"},
                 user_grade_num: 5,
                 login_flag: true,
@@ -237,9 +176,10 @@
             handleFileUpload(event) {
              // 获取上传的音频文件
             this.audioFile = event.target.files[0]
+            this.audioName = event.target.files[0].name
  
              // 创建新的音频上下文
-             this.audioContext = new AudioContext()
+            this.audioContext = new AudioContext()
  
             let reader = new FileReader()
             reader.onload = e => {
@@ -1892,11 +1832,16 @@
 }
 
 #content_div{
-    width: 100%;
-    margin-bottom: 10px;
+    margin-top: 40px;
+    width: 1200px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(224, 227, 235, 1);
+    box-shadow: 0px 8px 20px  rgba(44, 51, 67, 0.06);
 }
 
 #single_detect_div{
@@ -2124,6 +2069,33 @@
     cursor: pointer;
 }
 
+#uploadButton1{
+    margin-left: 0px;
+    margin-top: 9.5px;
+    width: 92px;
+    height: 36px;
+    opacity: 1;
+    border-radius: 5px;
+    background: rgba(22, 93, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 14px 6px 14px;
+    border-style: none;
+
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+
+    cursor: pointer;
+}
+
 #progress_div{
     margin-top: 11px;
     margin-left: 28px;
@@ -2223,15 +2195,16 @@
 }
 
 #detailed_result_div{
-    margin-left: 28px;
-    width: 1144px;
-    opacity: 1;
+    margin-top: 40px;
+    width: 1200px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    border-top: 1px solid rgba(229, 230, 235, 0.5);
-    border-bottom: 1px solid rgba(229, 230, 235, 0.5);
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(224, 227, 235, 1);
+    box-shadow: 0px 8px 20px  rgba(44, 51, 67, 0.06);
 }
 
 #detailed_result_top_div{
@@ -2671,6 +2644,174 @@
     font-size: 14px; /* 设置提示框中文字的大小 */
     padding: 10px 15px; /* 设置提示框的内边距 */
     border-radius: 4px; /* 设置提示框的圆角 */
+}
+
+#content_top_div{
+    width: 1200px;
+    height: 70px;
+    opacity: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid rgba(229, 230, 235, 1);
+}
+
+#content_top_left_img{
+    margin-left: 15px;
+    width: 40px;
+    height: 42.35px;
+    opacity: 1;
+    display: flex;
+}
+
+#content_top_left_span{
+    margin-left: 16px;
+    width: 600px;
+    height: 39px;
+    opacity: 1;
+    display: flex;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 40.54px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: top;
+}
+
+#content_middle_div{
+    margin-top: 52px;
+    width: 1144px;
+    height: 640px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#content_middle_top_div{
+    width: 1144px;
+    height: 186px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#content_middle_top_span{
+    width: 140px;
+    height: 28px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(0, 0, 0, 1);
+    text-align: left;
+    vertical-align: top;
+}
+
+#content_middle_top_bottom{
+    margin-top: 16px;
+    width: 142px;
+    height: 142px;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../assets/report_page/score_back.png") ;
+    background-repeat: no-repeat;
+}
+
+#content_middle_top_bottom_span{
+    width: 58px;
+    height: 56px;
+    opacity: 1;
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: 0px;
+    line-height: 56px;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: top;
+}
+
+#content_middle_mid_div{
+    margin-top: 25px;
+    width: 1144px;
+    height: 60px;
+    opacity: 1;
+    background: rgba(238, 245, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#content_middle_mid_span{
+    width: 462px;
+    height: 22px;
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 23.17px;
+    color: rgba(22, 93, 255, 1);
+    text-align: center;
+    vertical-align: top;
+}
+
+#content_middle_bottom_div{
+    margin-top: 25px;
+    width: 1144px;
+    height: 92px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+}
+
+#content_middle_bottom_top_div{
+    width: 1144px;
+    height: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#content_middle_bottom_bottom_div{
+    width: 1144px;
+    height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(242, 243, 245, 1);
+}
+
+#content_top_left_span{
+    margin-left: 16px;
+    width: 600px;
+    height: 39px;
+    opacity: 1;
+    display: flex;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 40.54px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: top;
+}
+
+#table_div{
+    margin-top: 25px;
+    width: 1144px;
+    height: 227.3px;
+    opacity: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 </style>

@@ -1,227 +1,20 @@
 <template >
     <div id="main">
         <div id="homo_div">
-            <div id="consulting_div" v-if="consulting_flag==true">
-                <div id="consulting_top_div">
-                    <img id="consulting_top_img" src="../assets/home_page/kefu.svg">
-                    <span id="consulting_top_span">联系我们</span>
-                </div>
-                <div id="consulting_mid_div">
-                    <span class="consulting_mid_span">咨询体验, 请邮件联系: VOcert@outlook.com </span>
-                </div>
-                <button id="consulting_bottom_button" @click="cancel_consulting_div">确定</button>
-            </div>
+            <!-- <div id="banner_left">
+                    <img class="banner_img" src="../assets/home_page/logo.png">
+                    <span id="banner_title">语音合成检测平台</span>
+                </div> -->
             <div id="banner_div">
                 <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
                     <span id="banner_title">语音合成检测平台</span>
                 </div>
-                <div id="banner_right" v-show="login_flag==false">
-                    <span class="login_button" @click="show_login_box(true)">登录</span>
-                    <!-- <span class="register_button" @click="show_login_box(false)">注册</span> -->
-                    <span class="register_button" @click="consulting">体验申请</span>
-                </div>
-                <div id="banner_user" v-show="login_flag==true">
-                    <img id="banner_user_img" src="../assets/home_page/user.png">
-                    <span id="banner_user_span" @mouseover="handleMouseOver"
-                     @mouseleave="startHideTimer">{{ usernameInput }}</span>
-                </div>
-                <div id="user_div" v-if="showDropdown==true" @mouseleave="startHideTimer" @mouseenter="cancelHideTimer">
-                    <div id="user_top_div">
-                        <div id="user_top_top_div">
-                            <span class="user_div_span1">登录邮箱</span>
-                            <span class="user_div_span2">{{ usernameInput }}</span>
-                        </div>
-                        <div id="user_top_bottom_div">
-                            <span class="user_div_span1_1">剩余检测次数</span>
-                            <span class="user_div_span1_3">{{ surplus_detect_times }}</span>
-                            <span class="user_div_span2_1">条</span>
-                        </div>
-                    </div>
-                    <div id="user_mid_div">
-                        <div id="user_mid_left_div">
-                            <span id="user_div_span3">{{ user_grade_dict[user_grade_num] }}</span>
-                            <span id="user_div_span4">升级体验请联系我们</span>
-                        </div>
-                        <button id="user_mid_button" @click="consulting">立即咨询</button>
-                    </div>
-                    <div id="user_bottom_div">
-                        <div class="user_bottom_small_div" @click="go_modify_password">
-                            <span class="user_div_span5">修改密码</span>
-                            <img class="user_div_span_icon" src="../assets/home_page/right.svg">
-                        </div>
-                        <div class="user_bottom_small_div" @click="subAccount" v-if="user_grade_num<3">
-                            <span class="user_div_span5">子账户管理</span>
-                            <img class="user_div_span_icon" src="../assets/home_page/right.svg">
-                        </div>
-                        <div class="user_bottom_small_div" @click="log_out">
-                            <span class="user_div_span5">退出登录</span>
-                            <img class="user_div_span_icon2" src="../assets/home_page/login_out.svg">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="login_div" v-show="login_box_flag==true">
-                <div id="login_top_div">
-                    <div id="login_top_top_div">
-                        <!-- 现阶段不开发注册功能，右上角注册按钮和登录区域中均去除相关选项，需要恢复的话，修改display_choose样式 -->
-                        <div :class="login_or_register?'display_choose':'display_no_choose'" @click="select_login_register(true)">登录</div>
-                        <!-- <div :class="login_or_register?'display_no_choose':'display_choose'" @click="select_login_register(false)">注册</div> -->
-                    </div>
-                    <div class="login_top_mid_div" v-show="login_or_register==true">
-                        <span class="usernameText">用户名</span>
-                        <el-input
-                            class="input_style"
-                            placeholder="登录邮箱"
-                            v-model="usernameInput"
-                            prefix-icon="el-icon-user"
-                            clearable>
-                        </el-input>
-                        <span class="passwordText">密码</span>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="请输入密码" 
-                            v-model="passwordInput" 
-                            prefix-icon="el-icon-lock" show-password clearable>
-                        </el-input>
-                        <button class="login_top_button" @click="login">登录</button>
-                    </div>
-                    <div class="login_top_mid_div" v-show="login_or_register==false && register_step==true">
-                        <span class="usernameText">注册邮箱</span>
-                        <el-input
-                            class="input_style"
-                            placeholder="输入注册邮箱example@mail.com"
-                            v-model="register_email"
-                            clearable>
-                        </el-input>
-                        <span class="passwordText">验证码</span>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="请输入验证码" 
-                            v-model="register_code" 
-                            clearable>
-                            <template #append>
-                                <span :class="button_flag?'code_button_ti':'code_button'" :disabled="button_flag" @click="getCode">获取验证码</span>
-                            </template>
-                        </el-input>
-                        <button class="login_top_button" @click="register_go">注册</button>
-                    </div>
-                    <div class="login_top_mid_div" v-show="login_or_register==false && register_step==false">
-                        <span class="usernameText">设置登录密码</span>
-                        <el-input
-                            class="input_style"
-                            placeholder="6-20位字母或数字"
-                            v-model="register_pass1"
-                            clearable
-                            @input="checkPassword">
-                        </el-input>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="再次输入确认密码" 
-                            v-model="register_pass2" 
-                            clearable
-                            @input="checkPassword"
-                            style="margin-top: 11px;">
-                        </el-input>
-                        <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
-                        <button class="login_top_button" @click="register">确认设置登录密码</button>
-                    </div>
-                </div>
-                <div class="login_close_img_div" @click="close_login_box">
-                    <img class="login_close_img" src="../assets/home_page/close2.svg">
-                </div>
-            </div>
-            <div id="modify_div" v-if="modify_password_flag==true">
-                <div id="modify_top_div">
-                    <div id="modify_top_top_div">
-                        <span id="modify_top_top_span">修改密码</span>
-                    </div>
-                    <div id="modify_top_mid_div">
-                        <div id="modify_top_mid_top_div">
-                            <span id="modify_top_mid_top_span1">当前登录邮箱</span>
-                            <span id="modify_top_mid_top_span2">{{ usernameInput }}</span>
-                        </div>
-                        <span class="passwordText2">验证码</span>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="请输入验证码" 
-                            v-model="modify_code" 
-                            clearable>
-                            <template #append>
-                                <span :class="button_flag?'code_button_ti':'code_button'" :disabled="button_flag" @click="getModifyCode">获取验证码</span>
-                            </template>
-                        </el-input>
-                        <span class="usernameText2">设置登录密码</span>
-                        <el-input
-                            class="input_style"
-                            placeholder="6-20位字母或数字"
-                            v-model="modify_pass1"
-                            clearable
-                            @input="checkPassword2">
-                        </el-input>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="再次输入确认密码" 
-                            v-model="modify_pass2" 
-                            clearable
-                            @input="checkPassword2"
-                            style="margin-top: 11px;">
-                        </el-input>
-                        <div class="error-message" v-if="errorMessage2">{{ errorMessage2 }}</div>
-                    </div>
-                    <button class="login_top_button2" @click="showConfirmDialog">确认修改登录密码</button>
-                </div>
-                <div class="login_close_img_div" @click="close_modify_box">
-                    <img class="login_close_img" src="../assets/home_page/close2.svg">
-                </div>
-            </div>
-            <div id="intro_div">
-                <p id="intro_title">语音深度合成</p>
-                <span id="intro_content">深度合成(Deep synthesis) 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
-                    频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
-                    频内容，让重要人物说从未说过的话。仅通过公开网络渠道人人可获取的音频素材，就能训练出<br>
-                    一个能够合成带有目标重要人物音色音频的深度伪造模型。
-                </span>
-                <button id="experience_button">立即体验</button>
             </div>
             <div id="navigation_div">
                 <div id="navigation_title_div">
-                    <span id="navigation_title">语音合成检测平台功能</span>
+                    <span id="navigation_title">敏感内容检测</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
-                </div>
-                <div id="navigation_content_div">
-                    <div class="navigation_item_div" @click="toPage(1)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon1.png">
-                            <span class="navigation_item_span1">单条检测</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
-                        </div>
-                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音深度合成检测。</span>
-                    </div>
-                    <div class="navigation_item_div" @click="toPage(2)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon2.png">
-                            <span class="navigation_item_span1">检测历史</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
-                        </div>
-                        <span class="navigation_item_span2">查看单个语音音频文件深度合成检测历史记录。</span>
-                    </div>
-                    <div class="navigation_item_div" @click="toPage(3)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon3.png">
-                            <span class="navigation_item_span1">批量检测</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
-                        </div>
-                        <span class="navigation_item_span2">批量上传语音音频文件，进行语音深度合成检测，并输出检测报告。</span>
-                    </div>
-                    <div class="navigation_item_div" @click="toPage(4)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon4.png">
-                            <span class="navigation_item_span1">检测报告</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
-                        </div>
-                        <span class="navigation_item_span2">查看深度合成语音批量检测的历史检测报告。</span>
-                    </div>
                 </div>
             </div>
             <div id="content_div">
@@ -231,20 +24,7 @@
                             <img id="single_detect_top_left_img" src="../assets/home_page/icon1.png">
                             <span id="single_detect_top_left_span">单条检测</span>
                         </div>
-                        <div id="single_detect_top_right_div">
-                            <button :class="loadingSign?'single_detect_top_right_button_':'single_detect_top_right_button'" @click="startTest" :disabled="loadingSign">开始检测</button>
-                        </div>
-                    </div>
-                    <div id="single_detect_bottom_div">
-                        <span id="single_detect_bottom_span_1">上传待检测文件</span>
-                        <div id="upload_div" v-show="upload_flag==true">
-                            <div id="upload_left_div">
-                                <div id="upload_left_middle_div">
-                                    <img id="upload_left_middle_img" src="../assets/home_page/upload_logo.png">
-                                    <span id="upload_left_middle_span">上传本地文件</span>
-                                </div>
-                            </div>
-                            <el-upload
+                        <el-upload
                                 ref="my-upload"
                                 class="upload-demo"
                                 action="http://112.11.139.202:8090/receive_file"
@@ -260,110 +40,46 @@
                                 :on-error="handleError"
                                 :show-file-list="false"
                                 >
-                                <button id="uploadButton" @click="judge_login">立即上传</button>
+                                <el-button>上传文件</el-button>                               
                             </el-upload>
-                        </div>
-                        <div id="progress_div" v-show="upload_flag==false">
-                            <span id="progress_span_1">{{ wavefileName }}</span>
-                            <div id="progress_bottom_div">
-                                <div id="progress_bottom_left_div">
-                                    <div id="progress_bar_div">
-                                        <div class = "loadsmallDiv"  v-for=" (result_row, index) in loadList">
-                                            <div class="loadsmallImg" v-show="showList.includes(index)"></div>
-                                        </div>
-                                    </div>
-                                    <span id="progress_span_2">{{ upload_progress }}</span>
-                                </div>
-                                <button id="reselection_button" @click="reselection_file">重新选择</button>
-                            </div>
-                        </div>
-                        <span id="single_detect_bottom_span_2">支持wav、mp3等格式、长度大于2秒的音频文件</span>
                     </div>
-                    <div id="detailed_result_div" v-show="doneSign==true">
-                        <div id="detailed_result_top_div">
-                            <span id="result_span_1">{{ nick_name.name }}详细检测结果</span>
-                            <img id="result_span_img_1" src="../assets/home_page/close.png" @click="delInit">
+                    <el-input
+                        v-model="textarea"
+                        style="width: 1200px"
+                        :rows="5"
+                        type="textarea"
+                        placeholder="请输入待检测文本"
+                    />              
+                        <div id="content_top_div">
+                            <img id="content_top_left_img" src="../assets/home_page/icon4.png">
+                            <span id="content_top_left_span">{{buildTime}} 检测报告</span>
+                            <el-button type="primary" class = "my-button" @click="upload_text">上传文本</el-button>
                         </div>
-                        <div id="comp_result_div">
-                            <span id="comp_result_span_1">本次检测综合结果</span>
-                            <div id="comp_result_bottom_div">
-                                <div class="comp_result_bottom_small_div">
-                                    <span class="comp_result_span_2">音频时长</span>
-                                    <div class="comp_result_bottom_small_bottom_div1">{{ resultTime }}</div>
-                                </div>
-                                <div class="comp_result_bottom_small_div">
-                                    <span class="comp_result_span_2">判定结果</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==0" >假</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==1">真</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==-2">静默</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==3">次数不足</span>
-                                </div>
-                                <div class="comp_result_bottom_small_div">
-                                    <span class="comp_result_span_2">置信度</span>
-                                    <div class="comp_result_bottom_small_bottom_div3">{{ resultValue }}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="listening_div">
-                            <span id="listening_span">播放试听</span>
-                            <div id="play_line_div">
-                                <img id="result_span_img_2" src="../assets/home_page/playcon.png" @click="play_audio">
-                                <audio id="audio1"  ref="audio1" controls v-show="false" @ended="overAudio" @timeupdate="updateProgress">
-                                    <source :src="src"  type="audio/wav" >
-                                </audio>
-                                <div class="slider-block">
-                                    <span class = "audio-progress">
-                                        <el-slider v-model="audioProgress" :show-tooltip="false" @change="progressChange()"></el-slider>
-                                    </span>
-                                </div> 
-                            </div>
-                        </div>
-                        <div class="model_score_div" v-if="user_grade_num<5">
-                            <span class="model_score_span_1">高质量音频检测模型(High-QualityModel)</span>
-                            <span class="model_score_span_2">由录音室级别音频数据精炼而成，侧重高质量合成算法的精准检出。</span>
-                            <div class="waveform_diagram_div">
-                                <canvas ref="recorderGraph1" class = "model_img"></canvas>
-                                <div class="confidence_div">
-                                    <div v-for="(item, index) in segmentResultList[1]" class="confidence_div_" 
-                                    :class="{'red_': item == '0', 'green_': item == '1', 'grey_': item == '2'}">
-                                    {{segmentScoreList[1][index]}}
+                        <div id="content_middle_div">
+                            <el-collapse v-model="activeNames" @change="handleChange">
+                                <el-collapse-item title="判断结果" name="1">
+                                    <div>
+                                        {{ isoffensive }}
                                     </div>
-                                </div>
-                            </div>
-                            <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[1]}}</span>
-                            <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[1]}}</span>
-                        </div>
-                        <div class="model_score_div" v-if="user_grade_num<5">
-                            <span class="model_score_span_1">精简视角检测模型(Part-InModel)</span>
-                            <span class="model_score_span_2">由经典真伪音频数据训练而成，重点面向主流语音合成技术鉴别。</span>
-                            <div class="waveform_diagram_div">
-                                <canvas ref="recorderGraph0" class = "model_img"></canvas>
-                                <div class="confidence_div">
-                                    <div v-for="(item, index) in segmentResultList[0]" class="confidence_div_" 
-                                    :class="{'red_': item == '0', 'green_': item == '1', 'grey_': item == '2'}">
-                                    {{segmentScoreList[0][index]}}
+                                </el-collapse-item>
+                                <el-collapse-item title="敏感类型" name="2">
+                                    <div>
+                                        {{ type }}
                                     </div>
-                                </div>
-                            </div>
-                            <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[0]}}</span>
-                            <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[0]}}</span>
-                        </div>
-                        <div class="model_score_div" v-if="user_grade_num<5">
-                            <span class="model_score_span_1">全视角检测模型(All-InModel)</span>
-                            <span class="model_score_span_2"> </span>
-                            <div class="waveform_diagram_div">
-                                <canvas ref="recorderGraph2" class = "model_img"></canvas>
-                                <div class="confidence_div">
-                                    <div v-for="(item, index) in segmentResultList[2]" class="confidence_div_" 
-                                    :class="{'red_': item == '0', 'green_': item == '1', 'grey_': item == '2'}">
-                                    {{segmentScoreList[2][index]}}
+                                </el-collapse-item>
+                                <el-collapse-item title="关键词" name="3">
+                                    <div>
+                                        {{ key_words }}
                                     </div>
-                                </div>
-                            </div>
-                            <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[2]}}</span>
-                            <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[2]}}</span>
+                                </el-collapse-item>
+                                <el-collapse-item title="描述" name="4">
+                                    <div>
+                                        {{ description }}
+                                    </div>
+                                </el-collapse-item>
+      
+                            </el-collapse>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -371,11 +87,23 @@
 </template>
    
 <script>
+    import { ref } from 'vue'
+    import axios from 'axios'
+    const textarea = ref('')
     export default {
         name: 'HomeView',
         data(){
             return{
                 // user_grade_dict:{2: "企业用户", 3: "企业子账户", 4: "付费用户", 5: "体验用户"},
+                activeNames : ['1', '2', '3'],
+                textarea : "",
+                isoffensive : "判断结果 是/否 Yes/No",
+                type : "敏感类型",
+                key_words : "模型提取的关键词",
+                description : "模型对待检测文本的描述",
+                all_score : 70,
+                tag : "嘲讽",
+                audioName: "test",
                 user_grade_dict:{2: "体验用户", 3: "体验用户", 4: "体验用户", 5: "体验用户"},
                 user_grade_num: 5,
                 login_flag: true,
@@ -425,9 +153,63 @@
                 segmentScoreList:[[],[],[]],
                 segmentResultList:[[],[],[]],
                 cancelTokenSource: this.$axios.CancelToken.source(),
+                audioContext: null,
+                audioBuffer: null,
+                audioSource: null,
+                audioFile: null
             }
         },
         methods:{
+            handleFileSelect() {
+            this.$refs.audioInput.click()
+            },
+            handleFileUpload(event) {
+             // 获取上传的音频文件
+            this.audioFile = event.target.files[0]
+            this.audioName = event.target.files[0].name
+ 
+             // 创建新的音频上下文
+            this.audioContext = new AudioContext()
+ 
+            let reader = new FileReader()
+            reader.onload = e => {
+             let audioData = e.target.result
+ 
+             // 解码音频数据
+             this.audioContext.decodeAudioData(audioData, buffer => {
+                  this.audioBuffer = buffer
+                this.playAudio()
+                }, error => {
+                console.error('音频解码错误', error)
+                })
+            }
+            reader.readAsArrayBuffer(this.audioFile)
+            },
+            playAudio() {
+            // 停止正在播放的音频
+            if (this.audioSource) {
+             this.audioSource.stop()
+            }
+ 
+            // 创建音频源并开始播放
+            this.audioSource = this.audioContext.createBufferSource()
+            this.audioSource.buffer = this.audioBuffer
+            this.audioSource.loop = false
+            this.audioSource.connect(this.audioContext.destination)
+            this.audioSource.start()
+            },
+            upload_text() {
+                axios.post("http://115.233.233.42:20008/text/sensitive/one",
+                    {
+                        text: this.textarea
+                    })
+                    .then(response => {
+                        this.isoffensive = response.data.isoffensive
+                        this.type = response.data.type
+                        this.key_words = response.data.key_words
+                        this.description = response.data.description
+                    })
+            },
             //跳转页面
             toPage:function (num){
                 this.$refs['my-upload'].abort();
@@ -435,13 +217,13 @@
                 //     this.$router.push('/home');
                 // }
                 if(num===2){
-                    this.$router.push('/txt_history');
+                    this.$router.push('/history');
                 }
                 if(num===3){
-                    this.$router.push('/txt_batch_test');
+                    this.$router.push('/batchtest');
                 }
                 if(num===4){
-                    this.$router.push('/txt_batch_history');
+                    this.$router.push('/batchhistory');
                 }
             },
 
@@ -1077,6 +859,70 @@
             }
         },
 
+        option2(){
+                return{
+                    // textStyle: {
+                    //     color: '#fff'
+                    // },
+                
+                    title: {
+                        text: '敏感标签分布图',
+                        left: 'center', // 标题水平居中
+                        top: 'bottom', // 图例在底部
+                        // textStyle: {
+                        //     color: '#fff', // 设置标题颜色为橙色
+                        // }
+                    },
+                
+
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                        type: 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '3%',
+                        top:'3%',
+                        bottom: '12%',
+                        containLabel: true
+                    },
+                    xAxis: [
+                        {
+                        type: 'category',
+                        /* data: ['0~0.1', '0.1~0.2', '0.2~0.3', '0.3~0.4', '0.4~0.5', '0.5~0.6','0.6~0.7','0.7~0.8','0.8~0.9', '0.9~1.0'], */
+                        data: ['恐怖', '威胁', '嘲讽', '粗鲁', '责怪', '辱骂','-','-','-', '-'],
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                        }
+                    ],
+                    // yAxis: [
+                    //     {
+                    //     type: 'value'
+                    //     }
+                    // ],
+                    yAxis: {
+                        axisLabel: {
+                            formatter: '{value}%'
+                        }
+                    },
+                    series: [
+                        {
+                        name: 'Direct',
+                        type: 'bar',
+                        barWidth: '60%',
+                        data: this.scoreChartList, 
+                        itemStyle: {
+                        color: function(params) {
+                            var colorList=['#FF0000', '#FF3300', '#FF6600', '#FF9900', '#FFCC00', '#FFFF00', '#CCFF00', '#99FF00', '#66FF00', '#33FF00'];
+                            return colorList[params.dataIndex];
+                        }}
+                        }
+                    ]
+                };
+            },
         /* mounted(){
 	        window.addEventListener('hashchange',()=>{
 		        var currentPath = window.location.hash.slice(1); // 获取输入的路由
@@ -1147,6 +993,12 @@
 #banner_right{
     display: flex;
     align-items: center;
+}
+
+.my-button {
+    position: relative;
+    right: 10px;
+    top: 5px;
 }
 
 .login_button, .register_button{
@@ -1929,7 +1781,7 @@
 
 #navigation_div{
     width: 100%;
-    height: 340px;
+    height: 140px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2050,11 +1902,16 @@
 }
 
 #content_div{
-    width: 100%;
-    margin-bottom: 10px;
+    margin-top: 40px;
+    width: 1200px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(224, 227, 235, 1);
+    box-shadow: 0px 8px 20px  rgba(44, 51, 67, 0.06);
 }
 
 #single_detect_div{
@@ -2249,14 +2106,44 @@
 }
 
 .upload-demo {
-  width: 0; /* 或者设置为与按钮所在的容器相同的宽度 */
-  height: 0; /* 或者设置为与按钮所在的容器相同的高度 */
+    position: relative;
+    right: 100px;
+    top: -100px;
+  width: 20px; /* 或者设置为与按钮所在的容器相同的宽度 */
+  height: 10px; /* 或者设置为与按钮所在的容器相同的高度 */
   display: flex; /* 确保在同一行显示 */
   vertical-align: center; /* 垂直对齐方式可根据需要调整 */
 }
 
 #uploadButton{
     margin-left: 16px;
+    margin-top: 9.5px;
+    width: 92px;
+    height: 36px;
+    opacity: 1;
+    border-radius: 5px;
+    background: rgba(22, 93, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 14px 6px 14px;
+    border-style: none;
+
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+
+    cursor: pointer;
+}
+
+#uploadButton1{
+    margin-left: 0px;
     margin-top: 9.5px;
     width: 92px;
     height: 36px;
@@ -2381,15 +2268,16 @@
 }
 
 #detailed_result_div{
-    margin-left: 28px;
-    width: 1144px;
-    opacity: 1;
+    margin-top: 40px;
+    width: 1200px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    border-top: 1px solid rgba(229, 230, 235, 0.5);
-    border-bottom: 1px solid rgba(229, 230, 235, 0.5);
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(224, 227, 235, 1);
+    box-shadow: 0px 8px 20px  rgba(44, 51, 67, 0.06);
 }
 
 #detailed_result_top_div{
@@ -2829,6 +2717,175 @@
     font-size: 14px; /* 设置提示框中文字的大小 */
     padding: 10px 15px; /* 设置提示框的内边距 */
     border-radius: 4px; /* 设置提示框的圆角 */
+}
+
+#content_top_div{
+    width: 1200px;
+    height: 70px;
+    opacity: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid rgba(229, 230, 235, 1);
+}
+
+#content_top_left_img{
+    margin-left: 15px;
+    width: 40px;
+    height: 42.35px;
+    opacity: 1;
+    display: flex;
+}
+
+#content_top_left_span{
+    margin-left: 16px;
+    width: 600px;
+    height: 39px;
+    opacity: 1;
+    display: flex;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 40.54px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: top;
+}
+
+#content_middle_div{
+    margin-left: 20px;
+    margin-top: 52px;
+    width: 1144px;
+    height: 640px;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+#content_middle_top_div{
+    width: 1144px;
+    height: 186px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#content_middle_top_span{
+    width: 140px;
+    height: 28px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(0, 0, 0, 1);
+    text-align: left;
+    vertical-align: top;
+}
+
+#content_middle_top_bottom{
+    margin-top: 16px;
+    width: 142px;
+    height: 142px;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../assets/report_page/score_back.png") ;
+    background-repeat: no-repeat;
+}
+
+#content_middle_top_bottom_span{
+    width: 58px;
+    height: 56px;
+    opacity: 1;
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: 0px;
+    line-height: 56px;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: top;
+}
+
+#content_middle_mid_div{
+    margin-top: 25px;
+    width: 1144px;
+    height: 60px;
+    opacity: 1;
+    background: rgba(238, 245, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#content_middle_mid_span{
+    width: 462px;
+    height: 22px;
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 23.17px;
+    color: rgba(22, 93, 255, 1);
+    text-align: center;
+    vertical-align: top;
+}
+
+#content_middle_bottom_div{
+    margin-top: 25px;
+    width: 1144px;
+    height: 92px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+}
+
+#content_middle_bottom_top_div{
+    width: 1144px;
+    height: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#content_middle_bottom_bottom_div{
+    width: 1144px;
+    height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(242, 243, 245, 1);
+}
+
+#content_top_left_span{
+    margin-left: 16px;
+    width: 600px;
+    height: 39px;
+    opacity: 1;
+    display: flex;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 40.54px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: top;
+}
+
+#table_div{
+    margin-top: 25px;
+    width: 1144px;
+    height: 227.3px;
+    opacity: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 </style>

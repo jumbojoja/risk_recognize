@@ -1,7 +1,7 @@
 <template >
     <div id="main">
         <div id="homo_div">
-            <div id="consulting_div" v-if="consulting_flag==true">
+            <!-- <div id="consulting_div" v-if="consulting_flag==true">
                 <div id="consulting_top_div">
                     <img id="consulting_top_img" src="../assets/home_page/kefu.svg">
                     <span id="consulting_top_span">联系我们</span>
@@ -10,17 +10,17 @@
                     <span class="consulting_mid_span">咨询体验, 请邮件联系: VOcert@outlook.com </span>
                 </div>
                 <button id="consulting_bottom_button" @click="cancel_consulting_div">确定</button>
-            </div>
+            </div> -->
             <div id="banner_div">
                 <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
-                    <span id="banner_title">语音合成检测平台</span>
+                    <span id="banner_title">多模态检测平台</span>
                 </div>
-                <div id="banner_right" v-show="login_flag==false">
+                <!-- <div id="banner_right" v-show="login_flag==false">
                     <span class="login_button" @click="show_login_box(true)">登录</span>
-                    <!-- <span class="register_button" @click="show_login_box(false)">注册</span> -->
+                    <span class="register_button" @click="show_login_box(false)">注册</span>
                     <span class="register_button" @click="consulting">体验申请</span>
-                </div>
+                </div> -->
                 <div id="banner_user" v-show="login_flag==true">
                     <img id="banner_user_img" src="../assets/home_page/user.png">
                     <span id="banner_user_span" @mouseover="handleMouseOver"
@@ -175,62 +175,72 @@
                     <img class="login_close_img" src="../assets/home_page/close2.svg">
                 </div>
             </div>
-            <!-- <div id="intro_div">
-                <p id="intro_title">语音深度合成</p>
-                <span id="intro_content"> 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
-                    频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
-                    频内容，让重要人物说从未说过的话。仅通过公开网络渠道人人可获取的音频素材，就能训练出<br>
-                    一个能够合成带有目标重要人物音色音频的深度伪造模型。
-                </span>
-                <button id="experience_button">立即体验</button>
-            </div> -->
             <div id="navigation_div">
                 <div id="navigation_title_div">
-                    <span id="navigation_title">语音合成检测平台功能</span>
+                    <span id="navigation_title">图像检测平台功能</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
                 </div>
-                <!-- <div id="navigation_content_div">
-                    <div class="navigation_item_div" @click="toPage(1)">
+                <div id="navigation_content_div">
+                    <div class="navigation_item_div">
                         <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon1.png">
-                            <span class="navigation_item_span1">敏感内容检测</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
+                            <img class="navigation_item_img1" src="../assets/deepfake/default.png">
+                            <p class="upload_message_hint">请上传图片，大小不超过5MB</p>
                         </div>
-                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音深度合成检测。</span>
                     </div>
-                    <div class="navigation_item_div" @click="toPage(2)">
+                    <div class="navigation_item_div">
                         <div class="navigation_item_div_div">
                             <img class="navigation_item_img1" src="../assets/home_page/icon2.png">
-                            <span class="navigation_item_span1">敏感内容检测</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <span class="navigation_item_span2">查看单个语音音频文件深度合成检测历史记录。</span>
                     </div>
-                    <div class="navigation_item_div" @click="toPage(3)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon3.png">
-                            <span class="navigation_item_span1">批量检测</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
+                </div>
+                <el-upload
+                    ref="my-upload"
+                    class="upload-demo"
+                    action="http://115.233.223.42:20008/picture/sensitive/one"
+                    multiple
+                    :limit="1"
+                    :headers="config"
+                    :data="nick_name"
+                    :disabled="!login_flag"
+                    :on-success="handleSuccess"
+                    :show-file-list="false"
+                    >
+                    <button id="uploadButton" @click="handlefile">立即上传</button>
+                </el-upload>
+                <div id="single_detect_top_right_div">
+                    <button id="detectbutton" @click="detection" >开始检测</button>
+                </div>
+                <div id="content_top_div">
+                            <img id="content_top_left_img" src="../assets/home_page/icon4.png">
+                            <span id="content_top_left_span">{{buildTime}} 检测报告</span>
+                </div>
+                <div id="content_middle_div">
+                            <el-collapse v-model="activeNames" @change="handleChange">
+                                <el-collapse-item title="判断结果" name="1">
+                                    <div>
+                                        {{ isoffensive }}
+                                    </div>
+                                </el-collapse-item>
+                                <el-collapse-item title="类型" name="2">
+                                    <div>
+                                        {{ type }}
+                                    </div>
+                                </el-collapse-item>
+                                <el-collapse-item title="概述" name="3">
+                                    <div>
+                                        {{ summary }}
+                                    </div>
+                                </el-collapse-item>    
+                            </el-collapse>
                         </div>
-                        <span class="navigation_item_span2">批量上传语音音频文件，进行语音深度合成检测，并输出检测报告。</span>
-                    </div>
-                    <div class="navigation_item_div" @click="toPage(4)">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon4.png">
-                            <span class="navigation_item_span1">检测报告</span>
-                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
-                        </div>
-                        <span class="navigation_item_span2">查看深度合成语音批量检测的历史检测报告。</span>
-                    </div>
-                </div> -->
             </div>
-            <div id="content_div">
+            <!-- <div id="content_div">
                 <div id="single_detect_div">
                     <div id="single_detect_top_div">
-                        <!-- <div id="single_detect_top_left_div">
+                        <div id="single_detect_top_left_div">
                             <img id="single_detect_top_left_img" src="../assets/home_page/icon1.png">
                             <span id="single_detect_top_left_span">单条检测</span>
-                        </div> -->
+                        </div>
                         <div id="single_detect_top_right_div">
                             <button :class="loadingSign?'single_detect_top_right_button_':'single_detect_top_right_button'" @click="startTest" :disabled="loadingSign">开始检测</button>
                         </div>
@@ -240,12 +250,9 @@
                         <div id="upload_div" v-show="upload_flag==true">
                             <div id="upload_left_div">
                                 <div id="upload_left_middle_div">
-                                    <img id="upload_left_middle_img" :src="uploadedImageUrl">
+                                    <img id="upload_left_middle_img" src="../assets/home_page/upload_logo.png">
                                     <span id="upload_left_middle_span">上传本地文件</span>
                                 </div>
-                            </div>
-                            <div>
-                                <input type="file" @change="handleFile">
                             </div>
                             <el-upload
                                 ref="my-upload"
@@ -266,31 +273,16 @@
                                 <button id="uploadButton" @click="judge_login">立即上传</button>
                             </el-upload>
                         </div>
-                        <div v-show="!upload_flag">
-                            <!-- <span id="progress_span_1">{{ imageName }}</span> -->
+                        <div id="progress_div" v-show="upload_flag==false">
+                            <span id="progress_span_1">{{ imageName }}</span>
                             <div id="progress_bottom_div">
-                                <!-- <div id="progress_bottom_left_div">
+                                <div id="progress_bottom_left_div">
                                     <div id="progress_bar_div">
                                         <div class = "loadsmallDiv"  v-for=" (result_row, index) in loadList">
                                             <div class="loadsmallImg" v-show="showList.includes(index)"></div>
                                         </div>
                                     </div>
                                     <span id="progress_span_2">{{ upload_progress }}</span> 
-                                </div> -->
-                                <div class="images" style="text-align: center;">
-                                    <div v-for="(item, index) in info" :key="index" class="image-middle">  
-                                    <el-card shadow="hover" :body-style="{ padding: '0px' }">     
-                                    <!-- //添加鼠标点击或悬浮图片放大功能 -->
-                                    <el-popover> 
-                                        <img :src="item.src"  class="image" />
-                                        <img :src="item.src" class="imagePreview" />
-                                    </el-popover>  
-                                    <div style="text-align:center;padding-top:12px">
-                                        <span>{{info[index].name}}</span>   
-                                    </div>     
-                                    </el-card>
-        
-                                    </div>     
                                 </div>
                                 <button id="reselection_button" @click="reselection_file">重新选择</button>
                                 <img :src="imageSrc" alt="Uploaded Image" id="uploaded_image" v-if="imageSrc">
@@ -384,7 +376,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>   
 </template>
@@ -399,17 +391,7 @@
                 user_grade_num: 5,
                 login_flag: true,
                 modify_password_flag: false,
-                uploadedImageUrl: "",
-                imageName: "",
-                file_path: "",
-                feasible_detect: false,
-                loadingSign: false,
-                doneSign: false,
-                resultTime: "",
-                resultDetect: 3,
-                resultValue: "",
-                info: [],
-                upload_flag: false,
+
                 surplus_detect_times: 0,
                 usernameInput: '',
                 passwordInput: '',
@@ -434,38 +416,39 @@
                 consulting_flag: false,
                 
                 upload_flag: true,
-                imageSrc: '',
+                imageName:"",
+                imageURL:'../assets/deepfake/default.png',
                 nick_name: {name: ""},
+                upload_flag: true,
                 upload_progress: "",
+                feasible_detect: false,
+                loadingSign:true,
+                doneSign:false,
                 loadList: [],
                 showList:[],
                 audioPlay: true,
+                resultDetect: 3,
+                resultTime: '',
+                resultValue:'',
                 audioProgress:0.5,
                 src:'',
+                file_path: "",
                 modelScoreList:[],
                 modelResultList:[],
                 segmentScoreList:[[],[],[]],
                 segmentResultList:[[],[],[]],
                 cancelTokenSource: this.$axios.CancelToken.source(),
-                fileContent: ''
             }
-            
         },
         methods:{
             //跳转页面
             toPage:function (num){
-                this.$refs['my-upload'].abort();
-                // if(num===1){
-                //     this.$router.push('/home');
-                // }
+                // this.$refs['my-upload'].abort();
+                if(num===1){
+                    this.$router.push('/pic_deepfake');
+                }
                 if(num===2){
-                    this.$router.push('/pic_history');
-                }
-                if(num===3){
-                    this.$router.push('/pic_batch_test');
-                }
-                if(num===4){
-                    this.$router.push('/pic_batch_history');
+                    this.$router.push('/pic_sensitive');
                 }
             },
 
@@ -724,16 +707,6 @@
                 }
             },
 
-            handleFile(event) {
-                    const file = event.target.files[0];
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                    this.fileContent = event.target.result;
-                    }
-            reader.readAsText(file);
-            console.log(this.fileContent);
-         },
-
             judge_login(){
                 if(!this.login_flag){
                     this.$message({
@@ -743,64 +716,55 @@
                 } 
             },
 
-            // handleBefore(file) {
-            //     this.upload_flag = false
-            //     this.nick_name.name = file.name;
-            //     const legalType = file.type === 'image/';
-            //     const legalSize = file.size / 1024 / 1024 < 5;
-            //     if (!legalType) {
-            //         this.wavefileName = '请上传图片文件!';
-            //         console.log('请上传图片文件!');
-            //     }
-            //     if (!legalSize) {
-            //         this.wavefileName = '文件须小于5MB!';
-            //         console.log('请确保上传文件小于5MB!');
-            //     }
-            //     if (legalType && legalSize) {
-            //         this.wavefileName = '正在上传...';
-            //     }
-            //     return legalType && legalSize ;
-            // },
+            handleBefore(file) {
+                this.upload_flag = false
+                this.nick_name.name = file.name;
+                const legalType = (file.type === 'image/');
+                const legalSize = (file.size / 1024 / 1024 < 5);
+                if (!legalType) {
+                    this.wavefileName = '请上传图片文件!';
+                    console.log('请上传图片文件!');
+                }
+                if (!legalSize) {
+                    this.wavefileName = '文件须小于5MB!';
+                    console.log('请确保上传文件小于5MB!');
+                }
+                if (legalType && legalSize) {
+                    this.wavefileName = '正在上传...';
+                }
+                return legalType && legalSize ;
+            },
 
             //上传超过limit文件数时提示信息
-            // handleExceed(files, fileList) {
-            //     this.imageName = '请上传一个图片文件！';
-            //     console.log('当前限制上传 1 个文件');
-            // },
+            handleExceed(files, fileList) {
+                this.imageName = '请上传一个图片文件！';
+                console.log('当前限制上传 1 个文件');
+            },
+
+            handlefile(file){
+                this.imageURL = URL.createObjectURL(file.raw);
+                this.imageName= file.name
+                console.log(this.imageURL);
+            },
 
             handleSuccess(response, file, fileList){
-                    console.log(response);
-                    console.log('上传完成');
-                    const imageUrl = response.data.url; // 从响应中获取图片URL
-                    console.log(imageUrl);
-                    this.uploadedImageUrl = imageUrl; // 将图片URL保存到数据属性中
-                    this.imageName = file.name;
-                    this.file_path = response.dir;
-                    this.feasible_detect = true;
-                    this.loadingSign = false;
-                    this.info.push({ src: imageUrl, name: file.name }); // 将图片信息添加到info数组中
-                // if (!response.hasOwnProperty('dir')) {
+                console.log(response)
+                // if (response.hasOwnProperty('dir')) {
                 //     console.log('上传完成');
-                //     const imageUrl = response.data.url; // 从响应中获取图片URL
-                //     this.uploadedImageUrl = imageUrl; // 将图片URL保存到数据属性中
                 //     this.imageName = file.name;
                 //     this.file_path = response.dir;
                 //     this.feasible_detect = true;
                 //     this.loadingSign = false;
-                //     this.info.push({ src: imageUrl, name: file.name }); // 将图片信息添加到info数组中
                 // } else {
                 //     this.file_path = "";
                 //     this.$refs['my-upload'].clearFiles();
-                //     this.imageName = "";
-                //     this.uploadedImageUrl = "";
+                //     this.imageName = "";  
+                //     this.imageSrc = "";
                 //     this.doneSign = false;
                 //     this.resultTime = "";
                 //     this.resultDetect = 3;
                 //     this.resultValue = "";
-                //     this.$alert(response.err, '提示', {
-                //     confirmButtonText: '确定',
-                //     closeOnClickModal: false,
-                //     showClose: false});
+                //     this.$alert(response.err,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
                 // }
                 // console.log(this.$refs['wavenameRef'].clientWidth);
             },
@@ -823,16 +787,16 @@
 
             delInit() {
                 this.$refs['my-upload'].clearFiles();
-                this.uploadedImageUrl = "";
-                this.imageName = "";
-                this.file_path = "";
-                this.feasible_detect = false;
-                this.loadingSign = false;
-                this.doneSign = false;
-                this.resultTime = "";
+                this.upload_flag = true;
+                this.showList = [];
                 this.resultDetect = 3;
                 this.resultValue = "";
-                this.info = [];
+                this.resultTime = "";
+                this.doneSign = false;
+                this.loadingSign = true;
+                this.feasible_detect = false;
+                this.imageName = '';
+                this.imageURL = '../assets/deepfake/default.png';
             },
 
             updateProgress(){
@@ -860,79 +824,17 @@
                 this.audioPlay = false;
             },
 
-            startTest:function (){
-
-                if(!this.feasible_detect){
-                    return
-                }
-
-                this.loadingSign = true;
-                this.doneSign = false;
-
-                this.$axios.get('http://112.11.139.202:8090/detect_file', {params:{"dir":this.file_path}, headers:{
-                    "Authorization": JSON.parse(window.localStorage.getItem('access-admin')).token
-                },cancelToken: this.cancelTokenSource.token}).then(res => {
-                    console.log(res.data);
-                    // 检测结果为真或假
-                    if(res.data.sign === 1){
-                        this.resultTime = res.data.time + 's';
-                        this.resultDetect = parseInt(res.data.result);
-                        this.resultValue = res.data.value;
-
-                        // console.log(res.data.model_score);
-                        // console.log(res.data.segment_score);
-
-                        this.parseResult(this.file_path, res.data.time, res.data.result, res.data.model_score, res.data.segment_score);
-
-                        this.loadingSign = false;
-                        this.doneSign = true;
-                        this.audioPlay = true;
-                        var audio1 =document.querySelector('#audio1');
-                        this.$refs.audio1.src =new URL(res.data.url);
-                        audio1.load();
-                    }
-                    // 检测次数不足
-                    else if(res.data.sign === -1){
-                        this.$alert("剩余检测次数不足，请联系管理员增加次数",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        this.delInit();
-                    }
-                    // 静默
-                    else if(res.data.sign === -2){
-                        this.resultTime = res.data.time + 's';
-                        if(res.data.result==="-2"){
-                            this.resultDetect = -2;
-                        }
-                        this.loadingSign = false;
-                        this.doneSign = true;
-                        this.audioPlay = true;
-                        var audio1 =document.querySelector('#audio1');
-                        this.$refs.audio1.src =new URL(res.data.url);
-                        audio1.load();
-                    }
-                    // 后台繁忙
-                    else if(res.data.sign === 0){
-                        this.$alert("后台繁忙，请稍后再上传检测",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        this.delInit();
-                    }
-                    else{
-                        this.$alert("检测异常，请稍后再试",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        this.delInit();
-                    }
-                }).catch((error) => {
-                    console.log(error);
-                    if (this.$axios.isCancel(error)) {
-                        console.log('请求被取消');
-                    } else {
-                        if (error.response && error.response.status === 401) {
-                            console.log('token 验证失效!');
-                            this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
-                            this.login_flag = false;
-                        }
-                        else{
-                            console.log('请求发生错误：', error);
-                        } 
-                    }
-                }); 
+            detection() {
+                axios.post("http://115.233.223.42:20008/picture/sensitive/one",
+                    {
+                        name: imageName
+                    })
+                    .then(response => {
+                        this.isoffensive = response.data.isoffensive
+                        this.type = response.data.type
+                        this.summary = response.data.summary
+                        console.log(response)
+                    })
             },
 
             // 解析结果
@@ -1138,8 +1040,7 @@
 <style scoped>
 
 #main{
-    width: 100%;
-    min-width: 1920px;
+    width: 80%;
     background-color: #f3f7ff;
     display: flex;
     justify-content: center;
@@ -1857,126 +1758,13 @@
     align-items: center;
 }
 
-.passwordText2{
-    margin-top: 21px;
-    margin-bottom: 21px;
-    width: 60px;
-    height: 28px;
-    opacity: 1;
-    display: flex;
-    font-size: 20px;
-    font-weight: 400;
-    letter-spacing: 0px;
-    line-height: 28.96px;
-    color: rgba(29, 33, 41, 1);
-    text-align: left;
-    vertical-align: middle;
-}
-
-.usernameText2{
-    margin-top: 21px;
-    margin-bottom: 21px;
-    width: 120px;
-    height: 28px;
-    opacity: 1;
-    display: flex;
-    font-size: 20px;
-    font-weight: 400;
-    letter-spacing: 0px;
-    line-height: 28.96px;
-    color: rgba(29, 33, 41, 1);
-    text-align: left;
-    vertical-align: middle;
-}
-
-.login_top_button2{
-    margin-top: 64px;
-    width: 500px;
-    height: 63px;
-    opacity: 1;
-    border-radius: 4px;
-    background: rgba(22, 93, 255, 1);
-    border: 1px solid rgba(22, 93, 255, 1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    opacity: 1;
-    display: flex;
-    font-size: 24px;
-    font-weight: 400;
-    letter-spacing: 0px;
-    line-height: 29.05px;
-    color: rgba(255, 255, 255, 1);
-    text-align: left;
-    vertical-align: middle;
-    cursor: pointer;
-}
-
-#intro_div{
-    width: 100%;
-    height: 306px;
-    background-image: url("../assets/home_page/intro_back.jpg");
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-}
-
-#intro_title{
-    margin-left: 360px;
-    width: 857px;
-    height: 45px;
-    opacity: 1;
-    display: flex;
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: 0px;
-    line-height: 46.34px;
-    color: rgba(29, 33, 41, 1);
-    text-align: left;
-}
-
-#intro_content{
-    margin-left: 360px;
-    width: 857px;
-    height: 112px;
-    opacity: 1;
-    display: flex;
-    font-size: 20px;
-    font-weight: 400;
-    letter-spacing: 0px;
-    line-height: 28.96px;
-    color: rgba(29, 33, 41, 1);
-    text-align: left;
-    vertical-align: top;
-}
-
-#experience_button{
-    width: 160px;
-    height: 46px;
-    opacity: 1;
-    border-radius: 5px;
-    background: rgba(22, 93, 255, 1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 9px 40px 9px 40px;
-    margin-left: 360px;
-    margin-top: 24px;
-    border-style: none;
-    color: white;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 28.96px;
-    color: rgba(255, 255, 255, 1);
-}
-
 #navigation_div{
     width: 100%;
     height: 340px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* 垂直居中对齐 */
     /* background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(245, 248, 255, 1) 39.9%, rgba(243, 247, 255, 1) 100%); */
     box-shadow: 0px 8px 20px  rgba(44, 51, 67, 0.06);
 }
@@ -2021,40 +1809,127 @@
     display: flex;
     justify-content: space-between;
 }
-
+/* 
+图像框的阴影 */
 .navigation_item_div:hover{
     box-shadow: 8px 8px 24px  rgba(55, 99, 170, 0.2);
 }
-
+/* 鼠标悬浮时字体颜色
 .navigation_item_div:hover .navigation_item_span1{
-    color: rgba(22, 93, 255, 1);
-}
-
+    color: rgb(255, 22, 100);
+} */
+/* 上传图像框 */
 .navigation_item_div{
-    width: 283px;
-    height: 180px;
+    width: 500px;
+    height: 300px;
     opacity: 1;
     border-radius: 8px;
-    background: rgba(255, 255, 255, 1);
+    background: rgb(252, 252, 252);
     box-shadow: 1px 1px 4px  rgba(55, 99, 170, 0.2);
     display: flex;
     flex-direction: column;
     align-items: center;
     cursor: pointer;
 }
-
+/* 上传图像框内图片位置 */
 .navigation_item_div_div{
-    width: 231px;
-    height: 68px;
+    width: 50%;
+    height: 70%;
     display: flex;
     align-items: center;
+    flex-direction: column;
     justify-content: space-between;
     margin-top: 28px;
 }
+/* 图像框下的文字 */
+.upload_message_hint{
+    font-size: 14px;
+    color: #333; /* 文字颜色 */
+    margin-top: 5px; /* 与图片之间的间距 */
+    text-align: center; /* 居中对齐文本 */
+}
+/* el-upload上传文件按钮 */
+#uploadButton{
+    /* margin-left: 0px;
+    margin-top: 50%; */
+    position: absolute;
+    top: 50%; /* 距离顶部的百分比 */
+    left: 31%; /* 距离左侧的百分比 */
+    width: 92px;
+    height: 36px;
+    opacity: 1;
+    border-radius: 5px;
+    background: rgba(22, 93, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 14px 6px 14px;
+    border-style: none;
+    /* 字体 */
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+
+    cursor: pointer;
+}
+#detectbutton{
+        /* margin-left: 0px;
+    margin-top: 50%; */
+    position: absolute;
+    top: 50%; /* 距离顶部的百分比 */
+    left: 69%; /* 距离左侧的百分比 */
+    width: 92px;
+    height: 36px;
+    opacity: 1;
+    border-radius: 5px;
+    background: rgba(22, 93, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 14px 6px 14px;
+    border-style: none;
+    /* 字体 */
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+
+    cursor: pointer;
+}
+/* 文本框 */
+#content_middle_div{
+    margin-left: 20px;
+    margin-top: 52px;
+    width: 1144px;
+    height: 640px;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+#content_top_div{
+    width: 1200px;
+    height: 70px;
+    opacity: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid rgba(229, 230, 235, 1);
+}
 
 .navigation_item_img1{
-    width: 68px;
-    height: 72px;
+    width: 250px;
+    height: 250px;
     display: flex;
 }
 
@@ -2300,33 +2175,6 @@
   height: 0; /* 或者设置为与按钮所在的容器相同的高度 */
   display: flex; /* 确保在同一行显示 */
   vertical-align: center; /* 垂直对齐方式可根据需要调整 */
-}
-
-#uploadButton{
-    margin-left: 16px;
-    margin-top: 9.5px;
-    width: 92px;
-    height: 36px;
-    opacity: 1;
-    border-radius: 5px;
-    background: rgba(22, 93, 255, 1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 6px 14px 6px 14px;
-    border-style: none;
-
-    opacity: 1;
-    display: flex;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0px;
-    line-height: 24px;
-    color: rgba(255, 255, 255, 1);
-    text-align: left;
-    vertical-align: middle;
-
-    cursor: pointer;
 }
 
 #progress_div{
@@ -2884,37 +2732,5 @@
     margin-top: 10px;
 }
 
-/* 图片总布局，样式 */
-.images {
-  position: absolute;
-  top: 50%;
-  left: 30%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Image container */
-.image-middle {
-  margin-right: auto;
-  margin-bottom: auto;
-  display: flex;
-  justify-content: center; /* Center the image within the container */
-}
-
-/* Single image style */
-.image {
-  width: 100px;
-  height: 100px;
-}
-
-/* Image preview style */
-.imagePreview {
-  width: 100px;
-  height: 100px;
-  /* Add styles for the image preview if needed */
-}
 
 </style>

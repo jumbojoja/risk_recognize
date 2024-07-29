@@ -37,6 +37,8 @@ const txt_batch_history_view = () => import('../views/txt_batch_history_view.vue
 const txt_batch_view = () => import('../views/txt_batch_view.vue')
 const txt_history_view = () => import('../views/txt_history_view.vue')
 const txt_home_view = () => import('../views/txt_home_view.vue')
+const txt_sen_view=()=>import('../views/txt_sen.vue')
+const txt_yueyu_view=()=>import('../views/txt_yueyu.vue')
 const txt_report_view = () => import('../views/txt_report_view.vue')
 const txt_test_view = () => import('../views/txt_test_view.vue')
 
@@ -150,6 +152,17 @@ const routes = [
     path: '/txt_home',
     name: 'txt_home',
     component: txt_home_view
+  },
+
+  {
+    path: '/txt_sen',
+    name: 'txt_sen',
+    component: txt_sen_view
+  },
+  {
+    path: '/txt_yueyu',
+    name: 'txt_yueyu',
+    component: txt_yueyu_view
   },
 
   {

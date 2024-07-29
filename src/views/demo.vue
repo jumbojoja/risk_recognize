@@ -174,7 +174,7 @@
             </div>
             <div id="navigation_div">
                 <div id="navigation_title_div">
-                    <span id="navigation_title">语音合成检测平台功能</span>
+                    <span id="navigation_title">多模态检测平台</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
                 </div>
                 <div id="navigation_content_div">

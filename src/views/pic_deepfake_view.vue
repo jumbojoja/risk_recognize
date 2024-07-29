@@ -422,6 +422,9 @@
                 imageName:"",
                 imageURL:'../assets/deepfake/default.png',
                 imageData:'',
+                isoffensive:'',
+                type:'',
+                summary:'',
                 isupload:false,
                 nick_name: {name: ""},
                 upload_flag: true,
@@ -842,8 +845,8 @@
                     .then(response => {
                         console.log(response)
                         console.log(response.data)
-                        this.isoffensive = response.data.isoffensive
-                        console.log(isoffensive)
+                        // this.isoffensive = response.data.isoffensive
+                        // console.log(isoffensive)
                         this.type = response.data.type
                         console.log(type)
                         this.summary = response.data.summary

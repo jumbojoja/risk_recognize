@@ -189,7 +189,8 @@
                     </div>
                     <div class="navigation_item_div">
                         <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon2.png">
+                            <!-- <img class="navigation_item_img1" src="imageData "> -->
+                            <imupg class="navigation_item_img1":src="imageData" alt="Image">
                         </div>
                     </div>
                 </div>
@@ -418,6 +419,7 @@
                 upload_flag: true,
                 imageName:"",
                 imageURL:'../assets/deepfake/default.png',
+                imageData:'',
                 nick_name: {name: ""},
                 upload_flag: true,
                 upload_progress: "",
@@ -748,23 +750,27 @@
             },
 
             handleSuccess(response, file, fileList){
-                if (response.hasOwnProperty('dir')) {
-                    console.log('上传完成');
-                    this.imageName = file.name;
-                    this.file_path = response.dir;
-                    this.feasible_detect = true;
-                    this.loadingSign = false;
-                } else {
-                    this.file_path = "";
-                    this.$refs['my-upload'].clearFiles();
-                    this.imageName = "";  
-                    this.imageSrc = "";
-                    this.doneSign = false;
-                    this.resultTime = "";
-                    this.resultDetect = 3;
-                    this.resultValue = "";
-                    this.$alert(response.err,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                }
+                imageData = response.image;
+                // this.isoffensive=response.data.isoffensive
+                // console.log(this.isoffensive)
+                // console.log(response.data)
+                // if (response.hasOwnProperty('dir')) {
+                //     console.log('上传完成');
+                //     this.imageName = file.name;
+                //     this.file_path = response.dir;
+                //     this.feasible_detect = true;
+                //     this.loadingSign = false;
+                // } else {
+                //     this.file_path = "";
+                //     this.$refs['my-upload'].clearFiles();
+                //     this.imageName = "";  
+                //     this.imageSrc = "";
+                //     this.doneSign = false;
+                //     this.resultTime = "";
+                //     this.resultDetect = 3;
+                //     this.resultValue = "";
+                //     this.$alert(response.err,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
+                // }
                 // console.log(this.$refs['wavenameRef'].clientWidth);
             },
 

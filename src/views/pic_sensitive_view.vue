@@ -749,6 +749,9 @@
 
             handleSuccess(response, file, fileList){
                 console.log(response)
+                console.log(response.data)
+                imageData = response.data.image;
+                
                 // if (response.hasOwnProperty('dir')) {
                 //     console.log('上传完成');
                 //     this.imageName = file.name;

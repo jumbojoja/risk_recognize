@@ -201,7 +201,7 @@
                     })
                     .then(response => {
                         console.log(response)
-                        console.log(response.data)
+                        console.log(response)
                         this.isoffensive = response.data.isoffensive
                         this.type = response.data.type
                         this.key_words = response.data.key_words

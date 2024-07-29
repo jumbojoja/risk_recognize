@@ -190,14 +190,14 @@
                     <div class="navigation_item_div">
                         <div class="navigation_item_div_div">
                             <!-- <img class="navigation_item_img1" src="imageData "> -->
-                            <imupg class="navigation_item_img1":src="imageData" alt="Image">
+                            <img class="navigation_item_img1":src="imageData" alt="Image">
                         </div>
                     </div>
                 </div>
                 <el-upload
                     ref="my-upload"
                     class="upload-demo"
-                    action="http://115.233.223.42:20008/picture/fake/one"
+                    action="http://115.233.223.42:20008/picture/save"
                     multiple
                     :limit="1"
                     :headers="config"
@@ -209,7 +209,7 @@
                     <button id="uploadButton" @click="handlefile">立即上传</button>
                 </el-upload>
                 <div id="single_detect_top_right_div">
-                    <button id="detectbutton" @click="detection" >开始检测</button>
+                    <el-button id="detectbutton" @click="detection" >开始检测</el-button>
                 </div>
                 <div id="content_top_div">
                             <img id="content_top_left_img" src="../assets/home_page/icon4.png">
@@ -381,8 +381,10 @@
         </div>
     </div>   
 </template>
-   
+
 <script>
+    import { ref } from 'vue'
+    import axios from 'axios'
     export default {
         name: 'HomeView',
         data(){
@@ -420,6 +422,7 @@
                 imageName:"",
                 imageURL:'../assets/deepfake/default.png',
                 imageData:'',
+                isupload:false,
                 nick_name: {name: ""},
                 upload_flag: true,
                 upload_progress: "",
@@ -750,7 +753,8 @@
             },
 
             handleSuccess(response, file, fileList){
-                imageData = response.image;
+                this.isupload=true;
+                this.imageData = response.image;
                 // this.isoffensive=response.data.isoffensive
                 // console.log(this.isoffensive)
                 // console.log(response.data)
@@ -797,6 +801,7 @@
                 this.resultDetect = 3;
                 this.resultValue = "";
                 this.resultTime = "";
+                this.isupload=false;
                 this.doneSign = false;
                 this.loadingSign = true;
                 this.feasible_detect = false;
@@ -832,13 +837,18 @@
             detection() {
                 axios.post("http://115.233.223.42:20008/picture/fake/one",
                     {
-                        name: imageName
+                        hint:"开始检测"
                     })
                     .then(response => {
-                        this.isoffensive = response.data.isoffensive
-                        this.type = response.data.type
-                        this.summary = response.data.summary
                         console.log(response)
+                        console.log(response.data)
+                        this.isoffensive = response.data.isoffensive
+                        console.log(isoffensive)
+                        this.type = response.data.type
+                        console.log(type)
+                        this.summary = response.data.summary
+                        console.log(summary)
+                        
                     })
             },
 

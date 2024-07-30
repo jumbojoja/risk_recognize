@@ -75,13 +75,14 @@
                             </div>
                             <div id="content_middle_div">
                                 <div id="content_middle_top_div">
-                                    <span id="content_middle_top_span">本次检测总得分</span>
+                                    <span id="content_middle_top_span">敏感检测结果</span>
                                     <div id="content_middle_top_bottom">
                                         <span id="content_middle_top_bottom_span">{{ all_score }}</span>
                                     </div>
                                 </div>
                                 <div id="content_middle_mid_div">
-                                    <span id="content_middle_mid_span">本次检测综合得分 {{ all_score }}, 敏感音频标签：{{ tag }}, 音频名称：{{ audioName }}</span>
+                                    <span id="content_middle_mid_span">敏感检测结果： {{ all_score }}, 敏感关键词：{{ tag }}, 敏感类型：{{ audioName }}</span>
+                                    <span id="content_middle_mid_span">检测结果描述： {{ description }}</span>
                                 </div>
                                 <div id="content_middle_bottom_div">
                         <!-- <div id="content_middle_bottom_top_div">
@@ -101,7 +102,7 @@
                                 </div>
                                 <div id="table_div">
                                     <!-- <e-charts class="echarts-1" :option="option1"></e-charts> -->
-                                    <e-charts class="echarts-1" :option="option2"></e-charts>
+                                    <!-- <e-charts class="echarts-1" :option="option2"></e-charts> -->
                                 </div>
                                 <input type="file" ref="audioInput" @change="handleFileUpload" style="opacity: 0;">
                                 <!-- <button @click="handleFileSelect">选择音频文件</button>
@@ -119,9 +120,10 @@
         data(){
             return{
                 // user_grade_dict:{2: "企业用户", 3: "企业子账户", 4: "付费用户", 5: "体验用户"},
-                all_score : 70,
-                tag : "嘲讽",
-                audioName: "test",
+                all_score : "yes",
+                tag : "null",
+                audioName: "none",
+                description: "这是描述",
                 user_grade_dict:{2: "体验用户", 3: "体验用户", 4: "体验用户", 5: "体验用户"},
                 user_grade_num: 5,
                 login_flag: true,
@@ -525,23 +527,10 @@
             handleSuccess(response, file, fileList){
                 console.log(response)
                 console.log(response.isoffensive)
-                // if (response.hasOwnProperty('dir')) {
-                //     console.log('上传完成');
-                //     this.wavefileName = file.name;
-                //     this.file_path = response.dir;
-                //     this.feasible_detect = true;
-                //     this.loadingSign = false;
-                // } else {
-                //     this.file_path = "";
-                //     this.$refs['my-upload'].clearFiles();
-                //     this.wavefileName = "";  
-                //     this.doneSign = false;
-                //     this.resultTime = "";
-                //     this.resultDetect = 3;
-                //     this.resultValue = "";
-                //     this.$alert(response.err,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                // }
-                // console.log(this.$refs['wavenameRef'].clientWidth);
+                this.all_score = response.data.isoffensive
+                this.tag = response.data.key_words
+                this.audioName = response.data.type
+                this.description = response.data.description
             },
 
             handleError(info, file, fileList){

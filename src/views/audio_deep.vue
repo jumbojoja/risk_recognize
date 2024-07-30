@@ -512,23 +512,9 @@
             handleSuccess(response, file, fileList){
                 console.log(response)
                 console.log(response.name)
-                // if (response.hasOwnProperty('dir')) {
-                //     console.log('上传完成');
-                //     this.wavefileName = file.name;
-                //     this.file_path = response.dir;
-                //     this.feasible_detect = true;
-                //     this.loadingSign = false;
-                // } else {
-                //     this.file_path = "";
-                //     this.$refs['my-upload'].clearFiles();
-                //     this.wavefileName = "";  
-                //     this.doneSign = false;
-                //     this.resultTime = "";
-                //     this.resultDetect = 3;
-                //     this.resultValue = "";
-                //     this.$alert(response.err,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                // }
-                // console.log(this.$refs['wavenameRef'].clientWidth);
+                this.all_score = response.data.score
+                this.tag = response.data.label
+                this.audioName = response.data.name
             },
 
             handleError(info, file, fileList){

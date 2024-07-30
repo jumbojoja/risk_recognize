@@ -11,14 +11,13 @@
                 </div>
                 <button id="consulting_bottom_button" @click="cancel_consulting_div">确定</button>
             </div>
-            <div id="banner_div">
+            <!-- <div id="banner_div">
                 <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
                     <span id="banner_title">多模态检测平台</span>
                 </div>
                 <div id="banner_right" v-show="login_flag==false">
                     <span class="login_button" @click="show_login_box(true)">登录</span>
-                    <!-- <span class="register_button" @click="show_login_box(false)">注册</span> -->
                     <span class="register_button" @click="consulting">体验申请</span>
                 </div>
                 <div id="banner_user" v-show="login_flag==true">
@@ -60,7 +59,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div id="login_div" v-show="login_box_flag==true">
                 <div id="login_top_div">
                     <div id="login_top_top_div">

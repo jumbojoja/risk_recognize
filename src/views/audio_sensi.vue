@@ -1,16 +1,6 @@
 <template >
     <div id="main">
         <div id="homo_div">
-            <!-- <div id="banner_left">
-                    <img class="banner_img" src="../assets/home_page/logo.png">
-                    <span id="banner_title">语音合成检测平台</span>
-                </div> -->
-            <div id="banner_div">
-                <div id="banner_left">
-                    <img class="banner_img" src="../assets/home_page/logo.png">
-                    <span id="banner_title">语音合成检测平台</span>
-                </div>
-            </div>
             <div id="navigation_div">
                 <div id="navigation_title_div">
                     <span id="navigation_title">敏感内容检测</span>

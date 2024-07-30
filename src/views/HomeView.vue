@@ -4,7 +4,7 @@
             <div id="banner_div">
                 <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
-                    <span id="banner_title">语音合成检测平台</span>
+                    <span id="banner_title">多模态检测平台</span>
                 </div>
             </div>
             
@@ -180,11 +180,11 @@
                 </div>
             </div> -->
             <div id="intro_div">
-                <p id="intro_title">音频检测</p>
-                <span id="intro_content">功能相关介绍<br>
-                    <!-- 频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
+                <p id="intro_title">多模态风险内容识别</p>
+                <span id="intro_content"> 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
+                    频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
                     频内容，让重要人物说从未说过的话。仅通过公开网络渠道人人可获取的音频素材，就能训练出<br>
-                    一个能够合成带有目标重要人物音色音频的深度伪造模型。 -->
+                    一个能够合成带有目标重要人物音色音频的深度伪造模型。
                 </span>
             </div>
             <div id="navigation_div">

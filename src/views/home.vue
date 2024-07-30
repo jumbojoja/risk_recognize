@@ -175,7 +175,7 @@
                 </div>
             </div>
             <div id="intro_div">
-                <p id="intro_title">语音深度合成</p>
+                <p id="intro_title">多模态风险内容识别</p>
                 <span id="intro_content">
 随着通信技术和数字技术的快速发展与普及，诈骗、谣言等风险内容随之增加，<br>
 成为社会管理和网络空间治理的新挑战。多模态风险内容，如诈骗短信、电话，<br>

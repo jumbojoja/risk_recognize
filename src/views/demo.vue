@@ -1,0 +1,1548 @@
+<template >
+    <div id="main">
+        <div id="homo_div">
+            <div id="banner_div">
+                <div id="banner_left">
+                    <img class="banner_img" src="../assets/home_page/logo.png">
+                    <span id="banner_title">多模态风险识别平台</span>
+                </div>
+                <div id="banner_right" v-show="login_flag==false">
+                    <span class="login_button" @click="show_login_box(true)">登录</span>
+                    <span class="register_button" @click="show_login_box(false)">注册</span>
+                </div>
+                <div id="banner_user" v-show="login_flag==true">
+                    <img id="banner_user_img" src="../assets/home_page/user.png">
+                    <span id="banner_user_span" @mouseover="showDropdown = true"
+                     @mouseleave="startHideTimer">{{ usernameInput }}</span>
+                </div>
+                <div id="user_div" v-if="showDropdown==true" @mouseleave="startHideTimer" @mouseenter="cancelHideTimer">
+                    <div id="user_top_div">
+                        <div id="user_top_top_div">
+                            <span class="user_div_span1">登录邮箱</span>
+                            <span class="user_div_span2">{{ usernameInput }}</span>
+                        </div>
+                        <div id="user_top_bottom_div">
+                            <span class="user_div_span1_1">剩余检测次数</span>
+                            <span class="user_div_span1_3">{{ surplus_detect_times }}</span>
+                            <span class="user_div_span2_1">条</span>
+                        </div>
+                    </div>
+                    <div id="user_mid_div">
+                        <div id="user_mid_left_div">
+                            <span id="user_div_span3">{{ user_grade_dict[user_grade_num] }}</span>
+                            <span id="user_div_span4">升级企业用户请联系我们</span>
+                        </div>
+                        <button id="user_mid_button">立即咨询</button>
+                    </div>
+                    <div id="user_bottom_div">
+                        <div class="user_bottom_small_div" @click="go_modify_password">
+                            <span class="user_div_span5">修改密码</span>
+                            <img class="user_div_span_icon" src="../assets/home_page/right.svg">
+                        </div>
+                        <div class="user_bottom_small_div">
+                            <span class="user_div_span5">子账户管理</span>
+                            <img class="user_div_span_icon" src="../assets/home_page/right.svg">
+                        </div>
+                        <div class="user_bottom_small_div" @click="log_out">
+                            <span class="user_div_span5">退出登录</span>
+                            <img class="user_div_span_icon2" src="../assets/home_page/login_out.svg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="login_div" v-show="login_box_flag==true">
+                <div id="login_top_div">
+                    <div id="login_top_top_div">
+                        <div :class="login_or_register?'display_choose':'display_no_choose'" @click="select_login_register(true)">登录</div>
+                        <div :class="login_or_register?'display_no_choose':'display_choose'" @click="select_login_register(false)">注册</div>
+                    </div>
+                    <div class="login_top_mid_div" v-show="login_or_register==true">
+                        <span class="usernameText">用户名</span>
+                        <el-input
+                            class="input_style"
+                            placeholder="登录邮箱"
+                            v-model="usernameInput"
+                            prefix-icon="el-icon-user"
+                            clearable>
+                        </el-input>
+                        <span class="passwordText">密码</span>
+                        <el-input 
+                            class="input_style" 
+                            placeholder="请输入密码" 
+                            v-model="passwordInput" 
+                            prefix-icon="el-icon-lock" show-password clearable>
+                        </el-input>
+                        <button class="login_top_button" @click="login">登录</button>
+                    </div>
+                    <div class="login_top_mid_div" v-show="login_or_register==false && register_step==true">
+                        <span class="usernameText">注册邮箱</span>
+                        <el-input
+                            class="input_style"
+                            placeholder="输入注册邮箱example@mail.com"
+                            v-model="register_email"
+                            clearable>
+                        </el-input>
+                        <span class="passwordText">验证码</span>
+                        <el-input 
+                            class="input_style" 
+                            placeholder="请输入验证码" 
+                            v-model="register_code" 
+                            clearable>
+                            <template #append>
+                                <span :class="button_flag?'code_button_ti':'code_button'" :disabled="button_flag" @click="getCode">获取验证码</span>
+                            </template>
+                        </el-input>
+                        <button class="login_top_button" @click="register_go">注册</button>
+                    </div>
+                    <div class="login_top_mid_div" v-show="login_or_register==false && register_step==false">
+                        <span class="usernameText">设置登录密码</span>
+                        <el-input
+                            class="input_style"
+                            placeholder="6-20位字母或数字"
+                            v-model="register_pass1"
+                            clearable
+                            @input="checkPassword">
+                        </el-input>
+                        <el-input 
+                            class="input_style" 
+                            placeholder="再次输入确认密码" 
+                            v-model="register_pass2" 
+                            clearable
+                            @input="checkPassword"
+                            style="margin-top: 11px;">
+                        </el-input>
+                        <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
+                        <button class="login_top_button" @click="register">确认设置登录密码</button>
+                    </div>
+                </div>
+                <div class="login_close_img_div" @click="close_login_box">
+                    <img class="login_close_img" src="../assets/home_page/close2.svg">
+                </div>
+            </div>
+            <div id="modify_div" v-if="modify_password_flag==true">
+                <div id="modify_top_div">
+                    <div id="modify_top_top_div">
+                        <span id="modify_top_top_span">修改密码</span>
+                    </div>
+                    <div id="modify_top_mid_div">
+                        <div id="modify_top_mid_top_div">
+                            <span id="modify_top_mid_top_span1">当前登录邮箱</span>
+                            <span id="modify_top_mid_top_span2">{{ usernameInput }}</span>
+                        </div>
+                        <span class="passwordText2">验证码</span>
+                        <el-input 
+                            class="input_style" 
+                            placeholder="请输入验证码" 
+                            v-model="modify_code" 
+                            clearable>
+                            <template #append>
+                                <span :class="button_flag?'code_button_ti':'code_button'" :disabled="button_flag" @click="getCode">获取验证码</span>
+                            </template>
+                        </el-input>
+                        <span class="usernameText2">设置登录密码</span>
+                        <el-input
+                            class="input_style"
+                            placeholder="6-20位字母或数字"
+                            v-model="modify_pass1"
+                            clearable
+                            @input="checkPassword2">
+                        </el-input>
+                        <el-input 
+                            class="input_style" 
+                            placeholder="再次输入确认密码" 
+                            v-model="modify_pass2" 
+                            clearable
+                            @input="checkPassword2"
+                            style="margin-top: 11px;">
+                        </el-input>
+                        <div class="error-message" v-if="errorMessage2">{{ errorMessage2 }}</div>
+                    </div>
+                    <button class="login_top_button2" @click="showConfirmDialog">确认修改登录密码</button>
+                </div>
+                <div class="login_close_img_div" @click="close_modify_box">
+                    <img class="login_close_img" src="../assets/home_page/close2.svg">
+                </div>
+            </div>
+            <div id="intro_div">
+                <p id="intro_title">语音深度合成检测</p>
+                <span id="intro_content">aaaaaaaaaa<br>
+                    aaaaaaaa<br>
+                    aaaaaaaa出<br>
+                   aaa。
+                </span>
+                <button id="experience_button">立即体验</button>
+            </div>
+            <div id="navigation_div">
+                <div id="navigation_title_div">
+                    <span id="navigation_title">多模态检测平台</span>
+                    <img id="navigation_img" src="../assets/home_page/separate_line.png">
+                </div>
+                <div id="navigation_content_div">
+                    <div class="navigation_item_div" @click="toPage(1)">
+                        <div class="navigation_item_div_div">
+                            <img class="navigation_item_img1" src="../assets/home_page/icon1.png">
+                            <span class="navigation_item_span1">单条检测</span>
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
+                        </div>
+                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音深度合成检测。</span>
+                    </div>
+                    <div class="navigation_item_div" @click="toPage(2)">
+                        <div class="navigation_item_div_div">
+                            <img class="navigation_item_img1" src="../assets/home_page/icon2.png">
+                            <span class="navigation_item_span1">检测历史</span>
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
+                        </div>
+                        <span class="navigation_item_span2">查看单个语音音频文件深度合成检测历史记录。</span>
+                    </div>
+                    <div class="navigation_item_div" @click="toPage(3)">
+                        <div class="navigation_item_div_div">
+                            <img class="navigation_item_img1" src="../assets/home_page/icon3.png">
+                            <span class="navigation_item_span1">批量检测</span>
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
+                        </div>
+                        <span class="navigation_item_span2">批量上传语音音频文件，进行语音深度合成检测，并输出检测报告。</span>
+                    </div>
+                    <div class="navigation_item_div" @click="toPage(4)">
+                        <div class="navigation_item_div_div">
+                            <img class="navigation_item_img1" src="../assets/home_page/icon4.png">
+                            <span class="navigation_item_span1">检测报告</span>
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
+                        </div>
+                        <span class="navigation_item_span2">查看深度合成语音批量检测的历史检测报告。</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>   
+</template>
+   
+<script>
+    export default {
+        name: 'HomeView',
+        data(){
+            return{
+                tableSize: 1,
+                user_grade_dict:{2: "企业用户", 3: "企业子账户", 4: "付费用户", 5: "普通用户"},
+                user_grade_num: 2,
+                login_flag: false,
+                modify_password_flag: false,
+
+                surplus_detect_times: 0,
+                usernameInput: '',
+                passwordInput: '',
+                register_email: '',
+                register_code: '',
+                register_pass1: '',
+                register_pass2: '',
+                errorMessage: '',
+                modify_code: '',
+                modify_pass1: '',
+                modify_pass2: '',
+                errorMessage2: '',
+                passwordCheck: false,
+                ModifyPasswordCheck: false,
+                login_box_flag: false,
+                login_or_register: true,
+                register_step: true,
+                button_flag: false,
+
+                search_text: '',
+                tableData:[],
+                total_table_data: [],
+                showDropdown: false,
+                hideTimer: null,
+                file_path: "",
+                modelScoreList:[],
+                modelResultList:[],
+                segmentScoreList:[[],[],[]],
+                segmentResultList:[[],[],[]],
+                cancelTokenSource: this.$axios.CancelToken.source(),
+                detectProg: 0,
+                fabProp: '',
+                batch_task_id:-1,  // 存放后端返回的batch_task_id
+                queryFinish: 0,
+                queryTimer: null,
+                per_page_num: 10,
+                page: 1,
+            }
+        },
+        methods:{
+            //跳转页面
+            toPage:function (num){
+                this.$refs['my-upload'].abort();
+                if(num===1){
+                    this.$router.push('/home');
+                }
+                if(num===2){
+                    this.$router.push('/history');
+                }
+                if(num===3){
+                    this.$router.push('/batchtest');
+                }
+                if(num===4){
+                    this.$router.push('/batchreport');
+                }
+            },
+
+            startHideTimer() {
+                this.hideTimer = setTimeout(() => {
+                    this.showDropdown = false;
+                }, 1000); // 设置200毫秒的延迟
+            },
+
+            cancelHideTimer() {
+                clearTimeout(this.hideTimer); // 取消延迟隐藏
+            },
+
+            select_login_register(flag){
+                this.login_or_register = flag;
+            },
+            
+            login(){
+                var this_ = this
+                this.$axios.post('http://112.11.139.202:8090/login',{
+                "email": this.usernameInput,
+                "password": this.passwordInput,
+                }).then(res=>{
+                console.log(res.data);
+                if (res.status == 200) {
+                    // console.log(res.data);
+                    localStorage.setItem("access-admin", JSON.stringify(res.data));
+                    this_.login_flag = true;
+                    this_.login_box_flag = false;
+
+                    // console.log(JSON.parse(window.localStorage.getItem('access-admin')));
+                    // this_.$router.push('/home');
+                }
+                else{
+                    console.log(res.data);
+                    this.$alert("用户名/密码错误,请重新登录",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
+                    
+                }   
+                }).catch((error) => {
+                    console.log('请求发生错误：', error);
+                });
+            },
+
+            register_go(){
+                this.register_step = false;
+            },
+
+            checkPassword() {
+                //判断密码长度是否大于6位
+                if (this.register_pass1.length < 6) {
+                    this.errorMessage = '密码长度不能少于6位';
+                    return;
+                }
+                // 判断两次输入的密码是否一致
+                if (this.register_pass1 !== this.register_pass2) {
+                    this.errorMessage = '两次输入的密码不一致';
+                    return;
+                }
+                // 通过验证
+                this.passwordCheck = true;
+                this.errorMessage = '';
+            },
+
+            checkPassword2() {
+                //判断密码长度是否大于6位
+                if (this.modify_pass1.length < 6) {
+                    this.errorMessage2 = '密码长度不能少于6位';
+                    return;
+                }
+                // 判断两次输入的密码是否一致
+                if (this.modify_pass1 !== this.modify_pass2) {
+                    this.errorMessage2 = '两次输入的密码不一致';
+                    return;
+                }
+                // 通过验证
+                this.ModifyPasswordCheck = true;
+                this.errorMessage2 = '';
+            },
+
+            getCode() {
+                this.button_flag = true;
+                var this_ = this
+                setTimeout(function() {
+                    this_.button_flag = false;
+                }, 10000);
+                this.$axios.get('http://112.11.139.202:8090/code',{params:{
+                        "email":this_.register_email}
+                        }).then(res=>{
+                            if (res.status == 200){
+                                console.log(res.data);  
+                                this.$alert("验证码已发送，有效期5分钟！",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
+                            } 
+                            else{
+                                console.log(res.data);
+                                // this.$alert(res.data,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
+                            }  
+                        }).catch((error) => {
+                            console.log('请求发生错误：', error);
+                        });
+            },
+
+            register(){
+                if (this.passwordCheck){
+                    this.$axios.post('http://112.11.139.202:8090/register',{
+                        "email":this.register_email,
+                        "code":this.register_code,
+                        "password": this.register_pass1,
+                        }).then(res=>{
+                            if (res.status == 200){
+                                this.$alert('请前往登录', '注册成功', {
+                                    confirmButtonText: '确定',
+                                    showClose: false,
+                                    // callback: action => {
+                                    //     this.$router.push('/login');   
+                                    // }
+                                });
+                                this_.login_flag = false;
+                                this_.login_box_flag = false;
+                            } 
+                            else{
+                                console.log(res.data);
+                                // this.$alert("异常",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
+                            }  
+                        }).catch((error) => {
+                            console.log('请求发生错误：', error);
+                        }); 
+                }else{
+                    this.$alert("请检查属输入");
+                }
+            },
+
+            go_modify_password(){
+                this.modify_password_flag = true;
+            },
+
+            log_out(){
+                localStorage.removeItem("access-admin");
+                this.login_flag = false;
+            },
+
+            close_modify_box(){
+                this.modify_password_flag = false;
+            },
+
+            showConfirmDialog(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.$confirm('确定要修改密码吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                    }).then(() => {
+                // 用户点击了确定按钮，执行修改密码的操作
+                    this.modify_password();
+                    }).catch(() => {
+                // 用户点击了取消按钮，不执行任何操作
+                    });
+                    } 
+                    else {
+                        console.log('输入验证错误');
+                        return false;
+                    }
+                });
+            },
+
+            modify_password(){
+                if(this.ModifyPasswordCheck){
+                    var this_ = this;
+                    this.$axios.post('http://112.11.139.202:8090/modify',{
+                    "email":this_.usernameInput,
+                    "code":this_.modify_code,
+                    "password": this_.modify_pass1,
+                    },{headers:{Authorization:JSON.parse(window.localStorage.getItem('access-admin')).token}}).then(res=>{
+                        if (res.status == 200){
+                            this.$alert('请前往登录', '修改成功', {
+                                confirmButtonText: '确定',
+                                showClose: false,
+                                // callback: action => {
+                                //     this.$router.push('/login');   
+                                // }
+                            });
+                            this.modify_password_flag = false;
+                        } 
+                        else{
+                            console.log(res.data);
+                            // this.$alert(res.data,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
+                        }  
+                    }).catch((error) => { 
+                        if (error.response.status === 401) {
+                            console.log('token 验证失效!');
+                            this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
+                            this.login_flag = false;
+                        }
+                        else{
+                            console.log('请求发生错误：', error);
+                        } 
+                    });
+                }else{
+                    this.$alert("请检查属输入");
+                }
+            },
+
+            show_login_box(flag){
+                if(flag){
+                    this.login_box_flag = true;
+                    this.login_or_register = true;
+                }else{
+                    this.login_box_flag = true;
+                    this.login_or_register = false;
+                }
+            },
+
+            close_login_box(){
+                this.login_box_flag = false;
+            },
+
+            reselection_file() {
+                this.delInit();
+            },
+
+            get_page_list(pager){
+                this.page = pager;
+                let start = (this.page - 1) * this.per_page_num;
+                let end = Math.min(start + this.per_page_num, this.total_table_data.length); // 计算结束索引，确保不超出数组长度
+                this.tableData = []; // 清空当前页数据
+                for(let i= start;i< end;i++){
+                    // this.tableData[i] = this.total_table_data[i];
+                    this.tableData.splice(i, 0, this.total_table_data[i]);
+                }
+            },
+
+            get_size_list(limit){
+                this.per_page_num = limit;
+                this.get_page_list(this.page);
+            },
+
+
+            playContent(index){
+            //暂停其他音频输出
+            this.stopAllAudio(index);
+            var audio =document.querySelector('#audio1');
+            this.$refs.audio1.src = this.tableData[index].url;
+            console.log(this.tableData[index].url)
+            audio.load();
+            audio.play();
+            this.tableData[index].audioPlay= 1;
+            },
+
+            initHtml:function () {
+                console.log("当前屏幕分辨率: " + window.screen.width);
+                var font_size = window.screen.width/2560*100;
+                if(window.screen.width<1920){
+                        font_size=100;
+                }
+                this.tableSize = font_size/100;
+                document.documentElement.style.fontSize = font_size+'px';
+                document.title = "深度合成语音伪造检测软件";
+
+                // if (localStorage.getItem("access-admin") !== null) {
+                //     // access-admin字段存在
+                //     this.$axios.post('http://112.11.139.202:8090/get_user_info', {},
+                //     {headers:{Authorization:JSON.parse(window.localStorage.getItem('access-admin')).token}}).then(res => {
+                //         console.log(res.data);
+                        
+                //         this.login_flag = true;
+                //         this.usernameInput = res.data.email;
+                //         this.surplus_detect_times = res.data.residue;
+                //         this.user_grade_num = res.data.role;
+                        
+                //     }).catch((error) => { 
+                //         if (error.response.status === 401) {
+                //             console.log('token 验证失效!');
+                //             this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
+                //             this.login_flag = false;
+                //         }
+                //         else{
+                //             console.log('请求发生错误：', error);
+                //         } 
+                //     });
+                // } else {
+                //     // access-admin字段不存在
+                //     console.log("登录已过期");
+                // }
+            }
+        },
+
+        created(){
+            this.initHtml();
+        },
+
+        beforeDestroy(){
+            this.cancelTokenSource.cancel('请求被取消');
+            console.log('destory request');
+        },
+
+        computed: {
+        config() {
+            return { "Authorization": JSON.parse(window.localStorage.getItem('access-admin')).token};
+        },
+    },
+    }
+</script>
+ 
+
+<style scoped>
+
+#main{
+    width: 100%;
+    min-width: 1920px;
+    background-color: #f3f7ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#homo_div{
+    width: 1920px;
+    min-width: 1920px;
+    /* height: 1080px; */
+    display: flex;
+    flex-direction: column;
+}
+
+#banner_div{
+    width: 100%;
+    height: 64px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#banner_left{
+    display: flex;
+    align-items: center;
+}
+
+.banner_img{
+    width: 59px;
+    height: 40px;
+    display: inline-block;
+    margin-left: 14px;
+    margin-right: 14px;
+}
+
+#banner_title{
+    width: 224px;
+    height: 64px;
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+#banner_right{
+    display: flex;
+    align-items: center;
+}
+
+.login_button, .register_button{
+    background-color: transparent; 
+    color: black;
+    transition: all 0.3s; 
+}
+
+.login_button:hover, .register_button:hover{
+  background-color: #165dff; 
+  color: white;
+}
+
+.login_button{
+    width: 108px;
+    height: 64px;
+    opacity: 1;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(29, 33, 41, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.login_button_sel{
+    width: 108px;
+    height: 64px;
+    opacity: 1;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(29, 33, 41, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #165dff;
+}
+
+.register_button{
+    width: 108px;
+    height: 64px;
+    opacity: 1;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(29, 33, 41, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.register_button_sel{
+    width: 108px;
+    height: 64px;
+    opacity: 1;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(29, 33, 41, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #165dff;
+}
+
+#banner_user{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+#banner_user_img{
+    width: 36px;
+    height: 36px;
+}
+
+#banner_user_span{
+    margin-left: 14px;
+    width: 233px;
+    height: 28px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 23.44px;
+    color: rgba(29, 33, 41, 1);
+    text-align: center;
+    vertical-align: middle;
+}
+
+#user_div{
+    position: fixed;
+    margin-left: 1490px;
+    margin-top: 540px;
+    width: 382px;
+    height: 423.12px;
+    opacity: 1;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 3px 12px 24px  rgba(178, 178, 178, 0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 20px 20px 20px;
+}
+
+#user_top_div{
+    width: 279px;
+    height: 80px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 0px 12px 0px;
+}
+
+#user_top_top_div{
+    width: 279px;
+    height: 22px;
+    opacity: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#user_top_bottom_div{
+    margin-top: 12px;
+    width: 172px;
+    height: 22px;
+    opacity: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.user_div_span1{
+    width: 64px;
+    height: 22px;
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 23.17px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.user_div_span2{
+    width: 200px;
+    height: 22px;
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 18.75px;
+    color: rgba(22, 93, 255, 1);
+    align-items: center;
+    justify-content: right;
+}
+
+.user_div_span1_1{
+    width: 96px;
+    height: 22px;
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 23.17px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.user_div_span2_1{
+    width: 16px;
+    height: 22px;
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 23.17px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.user_div_span1_3{
+    width: 60px;
+    height: 22px;
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 18.75px;
+    color: rgba(22, 93, 255, 1);
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+}
+
+#user_mid_div{
+    width: 342px;
+    height: 70px;
+    opacity: 1;
+    border-radius: 5px;
+    background: linear-gradient(180deg, rgba(244, 247, 255, 1) 0%, rgba(254, 254, 255, 1) 100%);
+    box-shadow: 1px 1px 2px  rgba(178, 178, 178, 0.25);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px 8px 16px;
+}
+
+#usre_mid_left_div{
+    width: 226px;
+    height: 54px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+#user_div_span3{
+    width: 195.09px;
+    height: 28px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+#user_div_span4{
+    margin-top: 6px;
+    width: 195.09px;
+    height: 20px;
+    opacity: 1;
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 20.27px;
+    color: rgba(134, 144, 156, 1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+#user_mid_button{
+    width: 84px;
+    height: 32px;
+    opacity: 1;
+    border-radius: 4px;
+    background: rgba(22, 93, 255, 1);
+    border: 1px solid rgba(22, 93, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 29.05px;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    cursor: pointer;
+}
+
+.user_bottom_small_div:hover {
+    background-color: rgba(242, 243, 245, 1);
+}
+
+/* .user_bottom_small_div:hover .user_div_span5 {
+    color: rgba(255, 255, 255, 1);
+} */
+
+#user_bottom_div{
+    margin-top: 24px;
+    width: 342px;
+    height: 201.12px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.user_bottom_small_div{
+    width: 322px;
+    height: 59.04px;
+    opacity: 1;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 16px 0px 16px;
+    cursor: pointer;
+}
+
+.user_div_span5{
+    width: 195.09px;
+    height: 59.04px;
+    opacity: 1;
+    display: flex;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 26.06px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    align-items: center
+}
+
+.user_div_span_icon{
+    width: 24px;
+    height: 24px;
+    opacity: 1;
+    display: flex;
+}
+
+.user_div_span_icon2{
+    width: 36px;
+    height: 36px;
+    opacity: 1;
+    display: flex;
+}
+
+#login_div{
+    position: fixed;
+    margin-top: 113px;
+    margin-left: 680px;
+    width: 560px;
+    height: 725px;
+    opacity: 1;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#login_top_div{
+    width: 560px;
+    height: 655px;
+    opacity: 1;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(244, 247, 255, 1) 0%, rgba(254, 254, 255, 1) 100%);
+    box-shadow: 3px 12px 24px  rgba(178, 178, 178, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#login_top_top_div{
+    width: 560px;
+    height: 89px;
+    opacity: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.display_choose{
+    width: 280px;
+    height: 89px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 4px solid #165dff;
+
+    opacity: 1;
+    display: flex;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 46.34px;
+    color: rgba(22, 93, 255, 1);
+    text-align: center;
+    vertical-align: middle;
+}
+
+.display_no_choose{
+    width: 280px;
+    height: 89px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid #e5e6eb;
+
+    opacity: 1;
+    display: flex;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    line-height: 40.54px;
+    color: rgba(78, 89, 105, 1);
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.login_top_mid_div{
+    margin-top: 24px;
+    width: 500px;
+    height: 500px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.usernameText{
+    margin-bottom: 11px;
+    width: 120px;
+    height: 28px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.passwordText{
+    margin-top: 11px;
+    margin-bottom: 11px;
+    width: 80px;
+    height: 28px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+::v-deep .el-input__inner{
+    height: 62px;
+    opacity: 1;
+    display: flex;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 21.78px;
+    color: rgba(134, 144, 156, 1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.el-input-group__append{
+    background-color: transparent;
+    border-style: none;
+}
+
+.code_button{
+    width: 90px;
+    height: 22px;
+    opacity: 1;
+    display: flex;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 21.78px;
+    color: rgba(22, 93, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.code_button_ti{
+    width: 90px;
+    height: 22px;
+    opacity: 1;
+    display: flex;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 21.78px;
+    color: gray;
+    text-align: left;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.login_top_button{
+    margin-top: 196px;
+    width: 500px;
+    height: 63px;
+    opacity: 1;
+    border-radius: 4px;
+    background: rgba(22, 93, 255, 1);
+    border: 1px solid rgba(22, 93, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 1;
+    display: flex;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 29.05px;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.login_close_img_div{
+    margin-top: 30px;
+    width: 40px;
+    height: 40px;
+    opacity: 1;
+    border-radius: 50px;
+    background: rgba(201, 205, 212, 1);
+    box-shadow: 3px 12px 24px  rgba(178, 178, 178, 0.25);
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+.login_close_img{
+    width: 20.86px;
+    height: 20.86px;
+    opacity: 1;
+}
+
+#modify_div{
+    position: fixed;
+    margin-top: 113px;
+    margin-left: 680px;
+    width: 560px;
+    height: 725px;
+    opacity: 1;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#modify_top_div{
+    width: 560px;
+    height: 655px;
+    opacity: 1;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(244, 247, 255, 1) 0%, rgba(254, 254, 255, 1) 100%);
+    box-shadow: 3px 12px 24px  rgba(178, 178, 178, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modify_top_top_div{
+    width: 560px;
+    height: 89px;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 4px solid #165dff;
+}
+
+#modify_top_top_span{
+    width: 560px;
+    height: 89px;
+    opacity: 1;
+    display: flex;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 46.34px;
+    color: rgba(22, 93, 255, 1);
+    align-items: center;
+    justify-content: center
+}
+
+#modify_top_mid_div{
+    width: 500px;
+    height: 385px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+#modify_top_mid_top_div{
+    margin-top: 24px;
+    width: 500px;
+    height: 48px;
+    opacity: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#modify_top_mid_top_span1{
+    width: 120px;
+    height: 28px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+#modify_top_mid_top_span2{
+    margin-left: 20px;
+    width: 265px;
+    height: 28px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 23.44px;
+    color: rgba(22, 93, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    align-items: center;
+}
+
+.passwordText2{
+    margin-top: 21px;
+    margin-bottom: 21px;
+    width: 60px;
+    height: 28px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.usernameText2{
+    margin-top: 21px;
+    margin-bottom: 21px;
+    width: 120px;
+    height: 28px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.login_top_button2{
+    margin-top: 64px;
+    width: 500px;
+    height: 63px;
+    opacity: 1;
+    border-radius: 4px;
+    background: rgba(22, 93, 255, 1);
+    border: 1px solid rgba(22, 93, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 1;
+    display: flex;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 29.05px;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+#intro_div{
+    width: 100%;
+    height: 306px;
+    background-image: url("../assets/home_page/intro_back.png");
+    background-size: cover; /* 让背景图片铺满整个区域 */
+    display: flex;
+    flex-direction: column;
+}
+
+#intro_title{
+    margin-left: 360px;
+    width: 857px;
+    height: 45px;
+    opacity: 1;
+    display: flex;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 46.34px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+}
+
+#intro_content{
+    margin-left: 360px;
+    width: 857px;
+    height: 112px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: top;
+}
+
+#experience_button{
+    width: 160px;
+    height: 46px;
+    opacity: 1;
+    border-radius: 5px;
+    background: rgba(22, 93, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 9px 40px 9px 40px;
+    margin-left: 360px;
+    margin-top: 24px;
+    border-style: none;
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 28.96px;
+    color: rgba(255, 255, 255, 1);
+}
+
+#navigation_div{
+    width: 100%;
+    height: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(245, 248, 255, 1) 39.9%, rgba(243, 247, 255, 1) 100%); */
+    box-shadow: 0px 8px 20px  rgba(44, 51, 67, 0.06);
+}
+
+#navigation_title_div{
+    width: 1200px;
+    height: 77px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 10px 10px 10px;
+    margin-top: 20px;
+}
+
+#navigation_title{
+    width: 320px;
+    height: 45px;
+    opacity: 1;
+    display: flex;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 46.34px;
+    color: rgba(29, 33, 41, 1);
+}
+
+#navigation_img{
+    width: 1200px;
+    height: 2px;
+    opacity: 1;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(171, 245, 255, 0) 0%, rgba(171, 245, 255, 1) 24.66%, rgba(41, 125, 252, 1) 50%, rgba(171, 245, 255, 1) 74.85%, rgba(171, 245, 255, 0) 100%);
+    display: flex;
+}
+
+#navigation_content_div{
+    width: 1198px;
+    height: 180px;
+    opacity: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigation_item_div:hover{
+    box-shadow: 8px 8px 24px  rgba(55, 99, 170, 0.2);
+}
+
+.navigation_item_div:hover .navigation_item_span1{
+    color: rgba(22, 93, 255, 1);
+}
+
+.navigation_item_div{
+    width: 283px;
+    height: 180px;
+    opacity: 1;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 1px 1px 4px  rgba(55, 99, 170, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.navigation_item_div_div{
+    width: 231px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 28px;
+}
+
+.navigation_item_img1{
+    width: 68px;
+    height: 72px;
+    display: flex;
+}
+
+.navigation_item_span1{
+    width: 93.96px;
+    height: 29.48px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: top;
+}
+
+.navigation_item_img2{
+    width: 21px;
+    height: 14.65px;
+    display: flex;
+}
+
+.navigation_item_span2{
+    width: 231.92px;
+    height: 40px;
+    opacity: 1;
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 20.27px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: top;
+    margin-top: 16px;
+}
+
+</style>

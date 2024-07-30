@@ -19,6 +19,10 @@ const pic_deepfake_view = () => import('../views/pic_deepfake_view.vue')
 const pic_sensitive_view = () => import('../views/pic_sensitive_view.vue')
 
 const txt_home_view = () => import('../views/txt_home_view.vue')
+const txt_sen_view=()=>import('../views/txt_sen.vue')
+const txt_yueyu_view=()=>import('../views/txt_yueyu.vue')
+const txt_report_view = () => import('../views/txt_report_view.vue')
+const txt_test_view = () => import('../views/txt_test_view.vue')
 
 const home = () => import('../views/home.vue')
 
@@ -91,6 +95,41 @@ const routes = [
     path: '/txt_home',
     name: 'txt_home',
     component: txt_home_view
+  },
+
+  {
+    path: '/txt_sen',
+    name: 'txt_sen',
+    component: txt_sen_view
+  },
+  {
+    path: '/txt_yueyu',
+    name: 'txt_yueyu',
+    component: txt_yueyu_view
+  },
+
+  {
+    path: '/txt_history',
+    name: 'txt_history',
+    component: txt_history_view
+  },
+
+  {
+    path: '/txt_batch_test',
+    name: 'txt_batch_test',
+    component: txt_batch_view
+  },
+
+  {
+    path: '/txt_batch_history',
+    name: 'txt_batch_history',
+    component: txt_batch_history_view
+  },
+
+  {
+    path: '/txt_report',
+    name: 'txt_report',
+    component: txt_report_view
   },
 
   // { path: '*', component: 'NotFound' }   //半分离要加这个,全分离不加！！！

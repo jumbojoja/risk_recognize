@@ -1,7 +1,7 @@
 <template >
     <div id="main">
         <div id="homo_div">
-            <!-- <div id="consulting_div" v-if="consulting_flag==true">
+            <div id="consulting_div" v-if="consulting_flag==true">
                 <div id="consulting_top_div">
                     <img id="consulting_top_img" src="../assets/home_page/kefu.svg">
                     <span id="consulting_top_span">联系我们</span>
@@ -10,17 +10,17 @@
                     <span class="consulting_mid_span">咨询体验, 请邮件联系: VOcert@outlook.com </span>
                 </div>
                 <button id="consulting_bottom_button" @click="cancel_consulting_div">确定</button>
-            </div> -->
+            </div>
             <div id="banner_div">
                 <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
                     <span id="banner_title">多模态检测平台</span>
                 </div>
-                <!-- <div id="banner_right" v-show="login_flag==false">
+                <div id="banner_right" v-show="login_flag==false">
                     <span class="login_button" @click="show_login_box(true)">登录</span>
-                    <span class="register_button" @click="show_login_box(false)">注册</span>
+                    <!-- <span class="register_button" @click="show_login_box(false)">注册</span> -->
                     <span class="register_button" @click="consulting">体验申请</span>
-                </div> -->
+                </div>
                 <div id="banner_user" v-show="login_flag==true">
                     <img id="banner_user_img" src="../assets/home_page/user.png">
                     <span id="banner_user_span" @mouseover="handleMouseOver"
@@ -148,7 +148,7 @@
                             v-model="modify_code" 
                             clearable>
                             <template #append>
-                                <span :class="button_flag?'code_button_ti':'code_button'" :disabled="button_flag" @click="getModifyCode">获取验证码</span>
+                                <span :class="button_flag?'code_button_ti':'code_button'" :disabled="button_flag" @click="getCode">获取验证码</span>
                             </template>
                         </el-input>
                         <span class="usernameText2">设置登录密码</span>
@@ -176,8 +176,8 @@
                 </div>
             </div>
             <div id="intro_div">
-                <p id="intro_title">多模态风险内容识别</p>
-                <span id="intro_content"> 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
+                <p id="intro_title">语音深度合成检测</p>
+                <span id="intro_content">深度合成(Deep synthesis) 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
                     频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
                     频内容，让重要人物说从未说过的话。仅通过公开网络渠道人人可获取的音频素材，就能训练出<br>
                     一个能够合成带有目标重要人物音色音频的深度伪造模型。
@@ -186,27 +186,27 @@
             </div>
             <div id="navigation_div">
                 <div id="navigation_title_div">
-                    <span id="navigation_title">图像检测平台功能</span>
+                    <span id="navigation_title">语音合成检测平台功能</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
                 </div>
                 <div id="navigation_content_div">
                     <div class="navigation_item_div" @click="toPage(1)">
                         <div class="navigation_item_div_div">
-                            <!-- <img class="navigation_item_img1" src="../assets/home_page/icon1.png"> -->
-                            <span class="navigation_item_span1">深度伪造检测</span>
-                            <!-- <img class="navigation_item_img2" src="../assets/home_page/arrow.png"> -->
+                            <img class="navigation_item_img1" src="../assets/home_page/icon1.png">
+                            <span class="navigation_item_span1">单条检测</span>
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <!-- <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音深度合成检测。</span> -->
+                        <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音深度合成检测。</span>
                     </div>
                     <div class="navigation_item_div" @click="toPage(2)">
                         <div class="navigation_item_div_div">
-                            <!-- <img class="navigation_item_img1" src="../assets/home_page/icon2.png"> -->
-                            <span class="navigation_item_span1">敏感内容检测</span>
-                            <!-- <img class="navigation_item_img2" src="../assets/home_page/arrow.png"> -->
+                            <img class="navigation_item_img1" src="../assets/home_page/icon2.png">
+                            <span class="navigation_item_span1">检测历史</span>
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <!-- <span class="navigation_item_span2">查看单个语音音频文件深度合成检测历史记录。</span> -->
+                        <span class="navigation_item_span2">查看单个语音音频文件深度合成检测历史记录。</span>
                     </div>
-                    <!-- <div class="navigation_item_div" @click="toPage(3)">
+                    <div class="navigation_item_div" @click="toPage(3)">
                         <div class="navigation_item_div_div">
                             <img class="navigation_item_img1" src="../assets/home_page/icon3.png">
                             <span class="navigation_item_span1">批量检测</span>
@@ -221,69 +221,133 @@
                             <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
                         <span class="navigation_item_span2">查看深度合成语音批量检测的历史检测报告。</span>
-                    </div> -->
+                    </div>
                 </div>
             </div>
-            <!-- <div id="content_div">
-                <div id="single_detect_div">
-                    <div id="single_detect_top_div">
-                        <div id="single_detect_top_left_div">
-                            <img id="single_detect_top_left_img" src="../assets/home_page/icon1.png">
-                            <span id="single_detect_top_left_span">单条检测</span>
-                        </div>
-                        <div id="single_detect_top_right_div">
-                            <button :class="loadingSign?'single_detect_top_right_button_':'single_detect_top_right_button'" @click="startTest" :disabled="loadingSign">开始检测</button>
-                        </div>
+            <div id="content_div">
+                <div id="content_top_div">
+                    <img id="content_top_left_img" src="../assets/home_page/icon2.png">
+                    <span id="content_top_left_span">检测历史</span>
+                </div>
+                <div id="content_mid_div">
+                    <span id="content_mid_span">查找历史检测文件</span>
+                    <div id="content_mid_bottom_div">
+                        <span class="demonstration">检测日期</span>
+                        <el-date-picker
+                            v-model="se_time"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                        </el-date-picker>
+                        <span class="demonstration2">文件名</span>
+                        <input v-model="search_file_name" id="content_mid_bottom_input">
+                        <button id="content_mid_bottom_button" @click="search_file">查找</button>
                     </div>
-                    <div id="single_detect_bottom_div">
-                        <span id="single_detect_bottom_span_1">上传待检测文件</span>
-                        <div id="upload_div" v-show="upload_flag==true">
-                            <div id="upload_left_div">
-                                <div id="upload_left_middle_div">
-                                    <img id="upload_left_middle_img" src="../assets/home_page/upload_logo.png">
-                                    <span id="upload_left_middle_span">上传本地文件</span>
-                                </div>
-                            </div>
-                            <el-upload
-                                ref="my-upload"
-                                class="upload-demo"
-                                action="http://112.11.139.202:8090/receive_file"
-                                multiple
-                                :limit="1"
-                                :headers="config"
-                                :data="nick_name"
-                                :disabled="!login_flag"
-                                :before-upload="handleBefore"
-                                :on-progress="handleProgress"
-                                :on-exceed="handleExceed"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :show-file-list="false"
+                </div>
+                <div id="file_table_div">
+                    <div id="file_table_small_div">
+                        <el-table
+                            class="tableClass"
+                            :data="tableData"
+                            :width="1144*tableSize"
+                            :header-row-style="{height:'0.45rem'}"
+                            :header-cell-style="{color:'rgba(29, 33, 41, 1)',padding:'0','background-color': 'rgba(242, 243, 245, 1)'}"
+                            :row-style="{height:'0.45rem'}"
+                            :cell-style="{padding:'0','background-color': 'rgba(255, 255, 255, 1)',color:'rgba(29, 33, 41, 1)'}"
+                            >
+
+                            <el-table-column
+                                prop="taskIndex"
+                                align = "center"
+                                label="序号"
+                                :width="68*tableSize"
                                 >
-                                <button id="uploadButton" @click="judge_login">立即上传</button>
-                            </el-upload>
-                        </div>
-                        <div id="progress_div" v-show="upload_flag==false">
-                            <span id="progress_span_1">{{ imageName }}</span>
-                            <div id="progress_bottom_div">
-                                <div id="progress_bottom_left_div">
-                                    <div id="progress_bar_div">
-                                        <div class = "loadsmallDiv"  v-for=" (result_row, index) in loadList">
-                                            <div class="loadsmallImg" v-show="showList.includes(index)"></div>
-                                        </div>
-                                    </div>
-                                    <span id="progress_span_2">{{ upload_progress }}</span> 
-                                </div>
-                                <button id="reselection_button" @click="reselection_file">重新选择</button>
-                                <img :src="imageSrc" alt="Uploaded Image" id="uploaded_image" v-if="imageSrc">
-                            </div>
-                        </div>
-                        <span id="single_detect_bottom_span_2">支持小于5Mb的图像文件</span>
+                            </el-table-column>
+
+                            <el-table-column
+                                prop="buildTime"
+                                align = "center"
+                                label="检测日期"
+                                :width="322*tableSize"
+                                >
+                                <!-- <template slot-scope="scope">
+                                    <div class="scroll-text">{{ scope.row.fileName }}</div>
+                                </template> -->
+                            </el-table-column>
+
+                            <el-table-column
+                                prop="fileName"
+                                align = "center"
+                                label="文件名称"
+                                :width="322*tableSize"
+                                >
+                            </el-table-column>
+
+                            <el-table-column
+                                prop="fileDuration"
+                                align = "center"
+                                label="音频时长"
+                                :width="96*tableSize"
+                                >
+                            </el-table-column>
+
+                            <el-table-column
+                                label="判断结果"
+                                align = "center"
+                                :width="91*tableSize"
+                                >
+                                <template slot-scope="scope">
+                                    <span :class="{resultTextColor:scope.row.detectResult==0, resultCorColor:scope.row.detectResult==1}">{{showResult(scope.row.detectResult)}}</span>
+                                </template>
+                            </el-table-column>
+
+                            <el-table-column
+                                prop="score"
+                                align = "center"
+                                label="置信度"
+                                :width="85*tableSize"
+                                >
+                            </el-table-column>
+
+                            <el-table-column
+                                prop="checkTime"
+                                align = "center"
+                                label="详细结果"
+                                :width="88*tableSize"
+                                >
+                                <template slot-scope="scope">
+                                    <el-button style="color: rgba(22, 93, 255, 1);" v-show="(scope.row.detectResult==0 || scope.row.detectResult==1) && scope.row.modelScore!=='' && user_grade_num<5" @click="handleClick(scope.row)" type="text"> 查看 </el-button>
+                                    <el-button style="color: gray;" v-show="(scope.row.detectResult==0 || scope.row.detectResult==1) && scope.row.modelScore==''"  type="text"  disabled> 查看 </el-button>
+                                </template>
+                                
+                            </el-table-column>
+
+                            <el-table-column
+                                label="试听"
+                                align = "center"
+                                :width="72*tableSize"
+                                >
+                                <template slot-scope="scope">
+                                    <span @click="playContent(scope.$index)" class="recorderSpan">播放</span>
+                                </template>
+                            </el-table-column>
+                        </el-table>
                     </div>
-                    <div id="detailed_result_div" v-show="doneSign==true">
+                </div>
+                <audio id="audio2"  ref="audio2" controls v-show="false" @ended="overAudio">
+                    <source :src="src"  type="audio/wav" >
+                </audio>
+                <div id="pagination_div">
+                    <el-pagination id="pagination" :page-sizes="[8, 10]" @current-change="get_page_list"
+                    :pager-count="7" layout="->,total,prev,pager,next,sizes" :total="total_num" @size-change="get_size_list">
+                    </el-pagination>
+                </div>
+                <el-dialog :visible.sync="dialogVisible" class="dialog_class" :before-close="close_el_dialog">
+                    <div id="detailed_result_div" v-show="wavDoneSign==true">
                         <div id="detailed_result_top_div">
-                            <span id="result_span_1">{{ nick_name.name }}详细检测结果</span>
-                            <img id="result_span_img_1" src="../assets/home_page/close.png" @click="delInit">
+                            <span id="result_span_1">{{ nick_name }}详细检测结果</span>
+                            <!-- <img id="result_span_img_1" src="../assets/home_page/close.png" @click="delInit"> -->
                         </div>
                         <div id="comp_result_div">
                             <span id="comp_result_span_1">本次检测综合结果</span>
@@ -294,10 +358,10 @@
                                 </div>
                                 <div class="comp_result_bottom_small_div">
                                     <span class="comp_result_span_2">判定结果</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==0" >假</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==1">真</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==-2">静默</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==3">次数不足</span>
+                                    <span class="comp_result_bottom_small_bottom_div2" v-show="resultDetect==0" >假</span>
+                                    <span class="comp_result_bottom_small_bottom_div2" v-show="resultDetect==1">真</span>
+                                    <span class="comp_result_bottom_small_bottom_div2" v-show="resultDetect==-2">静默</span>
+                                    <span class="comp_result_bottom_small_bottom_div2" v-show="resultDetect==3">次数不足</span>
                                 </div>
                                 <div class="comp_result_bottom_small_div">
                                     <span class="comp_result_span_2">置信度</span>
@@ -310,7 +374,7 @@
                             <div id="play_line_div">
                                 <img id="result_span_img_2" src="../assets/home_page/playcon.png" @click="play_audio">
                                 <audio id="audio1"  ref="audio1" controls v-show="false" @ended="overAudio" @timeupdate="updateProgress">
-                                    <source :src="src"  type="audio/wav" >
+                                    <source :src="audio1_src"  type="audio/wav" >
                                 </audio>
                                 <div class="slider-block">
                                     <span class = "audio-progress">
@@ -319,7 +383,7 @@
                                 </div> 
                             </div>
                         </div>
-                        <div class="model_score_div" v-if="user_grade_num<5">
+                        <div class="model_score_div">
                             <span class="model_score_span_1">高质量音频检测模型(High-QualityModel)</span>
                             <span class="model_score_span_2">由录音室级别音频数据精炼而成，侧重高质量合成算法的精准检出。</span>
                             <div class="waveform_diagram_div">
@@ -334,7 +398,7 @@
                             <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[1]}}</span>
                             <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[1]}}</span>
                         </div>
-                        <div class="model_score_div" v-if="user_grade_num<5">
+                        <div class="model_score_div">
                             <span class="model_score_span_1">精简视角检测模型(Part-InModel)</span>
                             <span class="model_score_span_2">由经典真伪音频数据训练而成，重点面向主流语音合成技术鉴别。</span>
                             <div class="waveform_diagram_div">
@@ -349,9 +413,9 @@
                             <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[0]}}</span>
                             <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[0]}}</span>
                         </div>
-                        <div class="model_score_div" v-if="user_grade_num<5">
+                        <div class="model_score_div">
                             <span class="model_score_span_1">全视角检测模型(All-InModel)</span>
-                            <span class="model_score_span_2"> </span>
+                            <span class="model_score_span_2">由平台全量真伪音频数据制作，着重拟合真伪数据整体分布趋势。</span>
                             <div class="waveform_diagram_div">
                                 <canvas ref="recorderGraph2" class = "model_img"></canvas>
                                 <div class="confidence_div">
@@ -365,8 +429,8 @@
                             <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[2]}}</span>
                         </div>
                     </div>
-                </div>
-            </div> -->
+                </el-dialog>
+            </div>
         </div>
     </div>   
 </template>
@@ -376,11 +440,23 @@
         name: 'HomeView',
         data(){
             return{
+                nick_name: '',
+                audio1_src: '',
+                resultTime: '',
+                resultDetect: 3,
+                resultValue: '',
+                src: '',
+                audioProgress:0.5,
+
+                search_file_name: '',
+                se_time: [],
+                tableSize: 1,
                 // user_grade_dict:{2: "企业用户", 3: "企业子账户", 4: "付费用户", 5: "体验用户"},
                 user_grade_dict:{2: "体验用户", 3: "体验用户", 4: "体验用户", 5: "体验用户"},
-                user_grade_num: 5,
-                login_flag: true,
+                user_grade_num: 2,
+                login_flag: false,
                 modify_password_flag: false,
+                consulting_flag: false,
 
                 surplus_detect_times: 0,
                 usernameInput: '',
@@ -400,45 +476,66 @@
                 login_or_register: true,
                 register_step: true,
                 button_flag: false,
+                dialogVisible: false,  // 颗粒度弹窗显示标志
+                wavDoneSign:false,  // 波形数据完成返回标志
 
+                search_text: '',
+                tableData:[],
+                total_table_data: [],
                 showDropdown: false,
                 hideTimer: null,
-                consulting_flag: false,
-                
-                upload_flag: true,
-                imageName:"",
-                imageSrc: '',
-                nick_name: {name: ""},
-                upload_flag: true,
-                upload_progress: "",
-                feasible_detect: false,
-                loadingSign:true,
-                doneSign:false,
-                loadList: [],
-                showList:[],
-                audioPlay: true,
-                resultDetect: 3,
-                resultTime: '',
-                resultValue:'',
-                audioProgress:0.5,
-                src:'',
                 file_path: "",
                 modelScoreList:[],
                 modelResultList:[],
                 segmentScoreList:[[],[],[]],
                 segmentResultList:[[],[],[]],
                 cancelTokenSource: this.$axios.CancelToken.source(),
+                detectProg: 0,
+                fabProp: '',
+                batch_task_id:-1,  // 存放后端返回的batch_task_id
+                queryFinish: 0,
+                queryTimer: null,
+                per_page_num: 10,
+                page: 1,
+                total_num: 0,
+                audioPlay: false,
             }
         },
         methods:{
+            showResult(result){
+                if(result === -3) {
+                    return "检测中";
+                }
+                else if(result === -2){
+                    return "无语音或质量低";
+                }else if(result === 0){
+                    return "假";
+                }else if(result === 1) {
+                    return "真";
+                }   
+            },
+
+            consulting(){
+                this.consulting_flag=true;
+            },
+
+            cancel_consulting_div(){
+                this.consulting_flag=false;
+            },
+
             //跳转页面
             toPage:function (num){
-                // this.$refs['my-upload'].abort();
                 if(num===1){
-                    this.$router.push('/txt_sen');
+                    this.$router.push('/home');
                 }
-                if(num===2){
-                    this.$router.push('/txt_yueyu');
+                // if(num===2){
+                //     this.$router.push('/history');
+                // }
+                if(num===3){
+                    this.$router.push('/batchtest');
+                }
+                if(num===4){
+                    this.$router.push('/batchhistory');
                 }
             },
 
@@ -457,12 +554,12 @@
             },
             
             login(){
-                localStorage.removeItem("access-admin");
                 var this_ = this
                 this.$axios.post('http://112.11.139.202:8090/login',{
                 "email": this.usernameInput,
                 "password": this.passwordInput,
                 }).then(res=>{
+                console.log(res.data);
                 if (res.status == 200) {
                     // console.log(res.data);
                     localStorage.setItem("access-admin", JSON.stringify(res.data));
@@ -470,7 +567,7 @@
                     this_.login_box_flag = false;
                     this_.surplus_detect_times = res.data.detectTimes;
                     this_.user_grade_num = res.data.user_grade;
-                    
+
                     // console.log(JSON.parse(window.localStorage.getItem('access-admin')));
                     // this_.$router.push('/home');
                 }
@@ -525,47 +622,24 @@
 
             getCode() {
                 this.button_flag = true;
-                var this_ = this;
-                console.log(this_.register_email);
-                setTimeout(function() {
-                    this_.button_flag = false;
-                }, 10000);
-                this.$axios.get('http://112.11.139.202:8090/code',{params:{
-                    "email":this_.register_email}
-                    }).then(res=>{
-                        if (res.status == 200){
-                            console.log(res.data);  
-                            this.$alert("验证码已发送，有效期5分钟！",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        } 
-                        else{
-                            console.log(res.data);
-                            // this.$alert(res.data,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        }  
-                    }).catch((error) => {
-                        console.log('请求发生错误：', error);
-                });
-            },
-
-            getModifyCode() {
-                this.button_flag = true;
                 var this_ = this
                 setTimeout(function() {
                     this_.button_flag = false;
                 }, 10000);
                 this.$axios.get('http://112.11.139.202:8090/code',{params:{
-                    "email":this_.usernameInput}
-                    }).then(res=>{
-                        if (res.status == 200){
-                            console.log(res.data);  
-                            this.$alert("验证码已发送，有效期5分钟！",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        } 
-                        else{
-                            console.log(res.data);
-                            // this.$alert(res.data,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                        }  
-                    }).catch((error) => {
-                        console.log('请求发生错误：', error);
-                });
+                        "email":this_.register_email}
+                        }).then(res=>{
+                            if (res.status == 200){
+                                console.log(res.data);  
+                                this.$alert("验证码已发送，有效期5分钟！",'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
+                            } 
+                            else{
+                                console.log(res.data);
+                                // this.$alert(res.data,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
+                            }  
+                        }).catch((error) => {
+                            console.log('请求发生错误：', error);
+                        });
             },
 
             register(){
@@ -594,7 +668,7 @@
                     this_.login_flag = false;
                     this_.login_box_flag = false;
                 }else{
-                    this.$alert("请检查输入");
+                    this.$alert("请检查属输入");
                 }
             },
 
@@ -605,8 +679,7 @@
             log_out(){
                 localStorage.removeItem("access-admin");
                 this.login_flag = false;
-                this.surplus_detect_times = 0;
-                this.usernameInput = '';
+                this.toPage(1);
             },
 
             subAccount:function(){
@@ -634,6 +707,165 @@
                 });
             },
 
+            updateProgress(){
+                var currentTime = this.$refs.audio1.currentTime;
+                this.audioProgress = currentTime*100/this.$refs.audio1.duration;
+            },
+
+            overAudio(){
+                this.audioPlay=true;
+            },
+
+            progressChange(){
+                this.$refs.audio1.currentTime = this.$refs.audio1.duration*this.audioProgress/100;
+
+                // console.log('中间开始播放音频')
+                var audio =document.querySelector('#audio1');
+                audio.play();
+                this.audioPlay = false;
+            },
+
+            play_audio(){
+                this.audioProgress = 0;
+                var audio =document.querySelector('#audio1');
+                audio.load();
+                audio.play();
+                this.audioPlay = false;
+            },
+
+            close_el_dialog(done){
+                this.audioProgress = 0;
+                var audio =document.querySelector('#audio1');
+                audio.pause();
+                this.audio1_src = '';
+                done(); 
+            },
+
+            handleClick(task_dic){
+                this.stopAllAudio();
+                this.dialogVisible = true;
+                this.wavDoneSign = true;
+                this.resultTime = task_dic.fileDuration + 's';
+                this.resultDetect = task_dic.detectResult;
+                this.resultValue = task_dic.score;
+                this.nick_name = task_dic.fileName;
+                this.audio1_src = task_dic.url;
+
+                // 使用nextTick为了使弹窗元素更新后再执行后续，否则获取不到dom元素的宽高而无法显示波形
+                this.$nextTick(() => {
+                    this.drawAnalysers([], 0, this.$refs.recorderGraph0, []);
+                    this.drawAnalysers([], 0, this.$refs.recorderGraph1, []);
+                    this.drawAnalysers([], 0, this.$refs.recorderGraph2, []);
+                    this.parseResult(task_dic.taskId, task_dic.fileDuration, task_dic.detectResult, task_dic.modelScore, task_dic.segmentScore);
+                });
+            },
+
+            // 解析结果
+            parseResult(wavId, wavSecond, detectResult, modelScore, segmentScore){
+                if(modelScore===""){
+                    return 
+                }
+
+                this.audioProgress=0;
+
+                if (detectResult=='0' || detectResult=='1'){
+
+                    this.modelScoreList = [];
+                    this.modelResultList = [];
+                    this.segmentScoreList = [[],[],[]];
+                    this.segmentResultList = [[],[],[]];
+
+                    var modelScoreSplit = modelScore.split('|').map(parseFloat);
+                    for(let i = 0;i<modelScoreSplit.length;i++){
+                        this.modelScoreList.push(((modelScoreSplit[i]*100).toFixed(1)).toString()+'%');
+                        if (modelScoreSplit[i]>=0.56305){
+                            this.modelResultList.push('1');
+                        }
+                        else{
+                            this.modelResultList.push('0');
+                        }
+                    }
+
+                    let segmentScoreSplit = segmentScore.split(',').map(group => group.split('|'));
+
+                    for(let i = 0;i<segmentScoreSplit.length;i++){
+                        if (segmentScoreSplit[i].length==1){
+                            for(let j = 0;j<this.segmentScoreList.length;j++){
+                                this.segmentScoreList[j].push('静默片段');
+                                this.segmentResultList[j].push(2);
+                            }
+                        }
+                        else{
+                            for(let j = 0;j<this.segmentScoreList.length;j++){
+                                this.segmentScoreList[j].push(((parseFloat(segmentScoreSplit[i][j])*100).toFixed(1)).toString()+'%');
+                                if(parseFloat(segmentScoreSplit[i][j])>=0.56305){
+                                    this.segmentResultList[j].push(1);
+                                }
+                                else{
+                                    this.segmentResultList[j].push(0); 
+                                }
+                            
+                            }
+                        }
+                    }
+            
+                this.$axios.post('http://112.11.139.202:8090/audio_info', {"audio": wavId},
+                {headers:{Authorization:JSON.parse(window.localStorage.getItem('access-admin')).token},cancelToken: this.cancelTokenSource.token}).then(res => {
+                    var wavList = res.data.result;
+                    var duration = res.data.duration;
+                    this.drawAnalysers(wavList, duration, this.$refs.recorderGraph0, this.segmentResultList[0]);
+                    this.drawAnalysers(wavList, duration, this.$refs.recorderGraph1, this.segmentResultList[1]);
+                    this.drawAnalysers(wavList, duration, this.$refs.recorderGraph2, this.segmentResultList[2]);
+                    // this.wavShowSign = true;
+                    
+                }).catch((error) => {
+                    if (this.$axios.isCancel(error)) {
+                        console.log('请求被取消');
+                    } else {
+                        if (error.response.status === 401) {
+                            console.log('token 验证失效!');
+                            this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
+                            this.login_flag = false;
+                            this.dialogVisible = false;
+                            this.wavDoneSign = false;
+                        }
+                        else{
+                            console.log('请求发生错误：', error);
+                        }
+                    } 
+                });
+                }
+            },
+
+            // 绘制波形图
+            drawAnalysers(waveData, waveLength, canvas, segmentResult) {
+                var canvasWidth = canvas.width;
+                var canvasHeight = canvas.height;
+                var analyserContext = canvas.getContext('2d');
+                var numBars = 400;
+                var numDiv = parseInt(numBars/waveLength*4);
+                var SPACING = canvasWidth / numBars;
+                var BAR_WIDTH = SPACING;
+                var freqByteData = waveData;
+                analyserContext.clearRect(0, 0, canvasWidth, canvasHeight);
+                var segmentColorList = ["red","green","gray"];
+                var segmentIndex = 0;
+                var segmentColor = segmentColorList[segmentResult[segmentIndex]];
+
+                for (var i = 0; i < freqByteData.length; ++i) {
+                    var magnitude = 0;
+                    magnitude = freqByteData[i]*canvasHeight/2;
+                    if (i%numDiv == 0 && i!==0){
+                        segmentIndex++;
+                        if (segmentIndex<segmentResult.length){
+                            segmentColor = segmentColorList[segmentResult[segmentIndex]];
+                        }
+                    }
+                    analyserContext.fillStyle = segmentColor;
+                    analyserContext.fillRect(i * SPACING, canvasHeight/2, BAR_WIDTH, -magnitude); 
+                }
+            },
+
             modify_password(){
                 if(this.ModifyPasswordCheck){
                     var this_ = this;
@@ -656,7 +888,7 @@
                             // this.$alert(res.data,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
                         }  
                     }).catch((error) => { 
-                        if (error.response && error.response.status === 401) {
+                        if (error.response.status === 401) {
                             console.log('token 验证失效!');
                             this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
                             this.login_flag = false;
@@ -666,7 +898,7 @@
                         } 
                     });
                 }else{
-                    this.$alert("请检查输入");
+                    this.$alert("请检查属输入");
                 };
                 this.modify_password_flag = false;
             },
@@ -685,119 +917,156 @@
                 this.login_box_flag = false;
             },
 
-            handleProgress(event, file, fileList){
-                // console.log(`文件 ${file.name} 上传中，上传进度：${event.percent}%`);
-                let progress = Math.round((parseInt(event.percent)/100)*41);
-                this.upload_progress = Math.floor(event.percent).toString() + "%";
-                let len = this.showList.length;
-                if ( len < progress){
-                    for (;len < progress; len++){
-                        this.showList.push(len);
-                    }
-                }
-            },
-
-            judge_login(){
-                if(!this.login_flag){
-                    this.$message({
-                        message: '请先登录！',
-                        center: true
-                    });
-                } 
-            },
-
-            handleBefore(file) {
-                this.upload_flag = false
-                this.nick_name.name = file.name;
-                const legalType = file.type === 'image/';
-                const legalSize = file.size / 1024 / 1024 < 5;
-                if (!legalType) {
-                    this.wavefileName = '请上传图片文件!';
-                    console.log('请上传图片文件!');
-                }
-                if (!legalSize) {
-                    this.wavefileName = '文件须小于5MB!';
-                    console.log('请确保上传文件小于5MB!');
-                }
-                if (legalType && legalSize) {
-                    this.wavefileName = '正在上传...';
-                }
-                return legalType && legalSize ;
-            },
-
-            //上传超过limit文件数时提示信息
-            handleExceed(files, fileList) {
-                this.imageName = '请上传一个图片文件！';
-                console.log('当前限制上传 1 个文件');
-            },
-
-            handleSuccess(response, file, fileList){
-                if (response.hasOwnProperty('dir')) {
-                    console.log('上传完成');
-                    this.imageName = file.name;
-                    this.file_path = response.dir;
-                    this.feasible_detect = true;
-                    this.loadingSign = false;
-                } else {
-                    this.file_path = "";
-                    this.$refs['my-upload'].clearFiles();
-                    this.imageName = "";  
-                    this.imageSrc = "";
-                    this.doneSign = false;
-                    this.resultTime = "";
-                    this.resultDetect = 3;
-                    this.resultValue = "";
-                    this.$alert(response.err,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                }
-                // console.log(this.$refs['wavenameRef'].clientWidth);
-            },
-
-            handleError(info, file, fileList){
-                console.log(info);
-                if (info.status && info.status === 401) {
-                    console.log('token 验证失效!');
-                    this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
-                    this.login_flag = false;
-                }
-                else{
-                    console.log('请求发生错误：', info);
-                } 
-            },
-
-            reselection_file() {
-                this.delInit();
-            },
-
             delInit() {
-                this.$refs['my-upload'].clearFiles();
-                this.upload_flag = true;
-                this.showList = [];
                 this.resultDetect = 3;
                 this.resultValue = "";
                 this.resultTime = "";
-                this.doneSign = false;
-                this.loadingSign = true;
-                this.feasible_detect = false;
-                this.imageName = '';
-                this.imageSrc = '';
             },
 
-            updateProgress(){
-                var currentTime = this.$refs.audio1.currentTime;
-                this.audioProgress = currentTime*100/this.$refs.audio1.duration;
+            get_page_list(pager){
+                this.page = pager;
+                this.$axios.post('http://112.11.139.202:8090/histroy_info', {"searchName": this.search_file_name, "page": this.page, "pageNum": this.per_page_num, "seTime": this.se_time},
+                {headers:{Authorization:JSON.parse(window.localStorage.getItem('access-admin')).token},cancelToken: this.cancelTokenSource.token}).then(res => {
+                    // 完成历史获取
+                    console.log(res.data);
+                    // if (res.data.taskList!==null){
+                    var resTaskList = res.data.taskList;
+                    if (this.tableData.length==resTaskList.length){
+                        for(let i = 0;i<this.tableData.length;i++){
+                            resTaskList[i].audioPlay = this.tableData[i].audioPlay;
+                        }
+                    }
+                    this.tableData = resTaskList;
+                    this.total_num = res.data.totalCount;
+                    // }
+                }).catch((error) => { 
+                    if (this.$axios.isCancel(error)) {
+                        console.log('请求被取消');
+                    } 
+                    else {
+                        console.log("停止定时请求");
+                        if(this.queryTimer){
+                                clearInterval(this.queryTimer); // 清除定时任务
+                                this.queryTimer = null;
+                            }
+                
+                        if (error.response.status === 401) {
+                            console.log('token 验证失效!');
+                            this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
+                            this.login_flag = false;
+                        }
+                        else{
+                            console.log('请求发生错误：', error);
+                        } 
+                    }
+                });
             },
 
-            overAudio(){
-                this.audioPlay=true;
+            get_size_list(limit){
+                this.per_page_num = limit;
+                this.get_page_list(this.page);
             },
 
-            progressChange(){
-                this.$refs.audio1.currentTime = this.$refs.audio1.duration*this.audioProgress/100;
+            playStopContent(){
+                var audio =document.querySelector('#audio2');
+                audio.pause(); //暂停
+            },
 
-                // console.log('中间开始播放音频')
-                var audio =document.querySelector('#audio1');
-                audio.play();
-                this.audioPlay = false;
+            stopAllAudio(){
+                this.playStopContent();
+                for(let i = 0;i<this.tableData.length;i++){
+                    this.tableData[i].audioPlay = 0;
+                }
+            },
+
+            playContent(index){
+            //暂停其他音频输出
+            this.stopAllAudio();
+            var audio =document.querySelector('#audio2');
+            this.$refs.audio2.src = this.tableData[index].url;
+            console.log(this.tableData[index].url)
+            audio.load();
+            audio.play();
+            this.tableData[index].audioPlay= 1;
+            },
+
+            getTaskList(){
+                this.$axios.post('http://112.11.139.202:8090/histroy_info', {"searchName": this.search_file_name, "page": this.page, "pageNum": this.per_page_num, "seTime": this.se_time},
+                {headers:{Authorization:JSON.parse(window.localStorage.getItem('access-admin')).token},cancelToken: this.cancelTokenSource.token}).then(res => {
+                    // 完成历史获取
+                    console.log(res.data);
+                    // if (res.data.taskList!==null){
+                    var resTaskList = res.data.taskList;
+                    if (this.tableData.length==resTaskList.length){
+                        for(let i = 0;i<this.tableData.length;i++){
+                            resTaskList[i].audioPlay = this.tableData[i].audioPlay;
+                        }
+                    }
+                    this.tableData = resTaskList;
+                    this.total_num = res.data.totalCount;
+                    // }
+                }).catch((error) => { 
+                    if (this.$axios.isCancel(error)) {
+                        console.log('请求被取消');
+                    } 
+                    else {
+                        console.log("停止定时请求");
+                        console.log(error);
+                        if(this.queryTimer){
+                                clearInterval(this.queryTimer); // 清除定时任务
+                                this.queryTimer = null;
+                            }
+                
+                        if (error.response && error.response.status === 401) {
+                            console.log('token 验证失效!');
+                            this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
+                            this.login_flag = false;
+                        }
+                        else{
+                            console.log('请求发生错误：', error);
+                        } 
+                    }
+                });
+            },
+
+            search_file(){
+                this.page = 1;
+                this.$axios.post('http://112.11.139.202:8090/search_histroy_file', {"searchName": this.search_file_name, "seTime": this.se_time, "page": this.page, "pageNum": this.per_page_num},
+                {headers:{Authorization:JSON.parse(window.localStorage.getItem('access-admin')).token},cancelToken: this.cancelTokenSource.token}).then(res => {
+                    // 完成历史获取
+                    console.log(res.data);
+                    // if (res.data.taskList!==null){
+                    var resTaskList = res.data.taskList;
+                    if (this.tableData.length==resTaskList.length){
+                        for(let i = 0;i<this.tableData.length;i++){
+                            resTaskList[i].audioPlay = this.tableData[i].audioPlay;
+                        }
+                    }
+                    this.tableData = resTaskList;
+                    this.total_num = res.data.totalCount;
+                    // }
+                }).catch((error) => { 
+                    if (this.$axios.isCancel(error)) {
+                        console.log('请求被取消');
+                    } 
+                    else {
+                        console.log("停止定时请求");
+                        console.log(error);
+                        if(this.queryTimer){
+                                clearInterval(this.queryTimer); // 清除定时任务
+                                this.queryTimer = null;
+                            }
+                
+                        if (error.response && error.response.status === 401) {
+                            console.log('token 验证失效!');
+                            this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
+                            this.login_flag = false;
+                        }
+                        else{
+                            console.log('请求发生错误：', error);
+                        } 
+                    }
+                });
             },
 
             handleMouseOver(){
@@ -819,13 +1088,6 @@
                 );
             },
 
-            consulting(){
-                this.consulting_flag=true;
-            },
-
-            cancel_consulting_div(){
-                this.consulting_flag=false;
-            },
 
             initHtml:function () {
                 console.log("当前屏幕分辨率: " + window.screen.width);
@@ -833,6 +1095,7 @@
                 if(window.screen.width<1920){
                         font_size=100;
                 }
+                this.tableSize = font_size/100;
                 document.documentElement.style.fontSize = font_size+'px';
                 document.title = "深度合成语音伪造检测软件";
 
@@ -848,7 +1111,7 @@
                         this.user_grade_num = res.data.role;
                         
                     }).catch((error) => { 
-                        if (error.response && error.response.status === 401) {
+                        if (error.response.status === 401) {
                             console.log('token 验证失效!');
                             this.$alert("登录失效",'提示',{confirmButtonText: '确定'});
                             this.login_flag = false;
@@ -861,6 +1124,7 @@
                     // access-admin字段不存在
                     console.log("登录已过期");
                 }
+                this.getTaskList();
             }
         },
 
@@ -872,16 +1136,6 @@
             this.cancelTokenSource.cancel('请求被取消');
             console.log('destory request');
         },
-
-        computed: {
-        config() {
-            if (localStorage.getItem("access-admin") !== null){
-                return { "Authorization": JSON.parse(window.localStorage.getItem('access-admin')).token};
-            }
-        },
-
-
-    },
     }
 </script>
  
@@ -890,19 +1144,18 @@
 
 #main{
     width: 100%;
-    max-width: 2520px;
-    background-color: #fafafaea;
+    min-width: 1920px;
+    background-color: #f3f7ff;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #homo_div{
-    width: 1920px;
-    height: 512px;
-    width: 80%;
-    height:80%;
-    background-color: #fff3f9;
+    /* width: 1920px; */
+    width: 100%;
+    min-width: 1920px;
+    /* height: 1080px; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1083,7 +1336,7 @@
 
 #user_top_bottom_div{
     margin-top: 12px;
-    width: 192px;
+    width: 172px;
     height: 22px;
     opacity: 1;
     display: flex;
@@ -1148,7 +1401,7 @@
 }
 
 .user_div_span1_3{
-    width: 80px;
+    width: 60px;
     height: 22px;
     opacity: 1;
     display: flex;
@@ -1513,6 +1766,7 @@
 #modify_div{
     position: fixed;
     margin-top: 113px;
+    /* margin-left: 680px; */
     width: 560px;
     height: 725px;
     opacity: 1;
@@ -1521,6 +1775,14 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+}
+
+.resultTextColor{
+    color: rgb(217, 0, 27);
+}
+
+.resultCorColor{
+    color: green;
 }
 
 #modify_top_div{
@@ -1669,7 +1931,7 @@
     width: 100%;
     height: 306px;
     background-image: url("../assets/home_page/intro_back.jpg");
-    background-position: center;
+    background-size: cover; /* 让背景图片铺满整个区域 */
     display: flex;
     flex-direction: column;
 }
@@ -1811,20 +2073,17 @@
 }
 
 .navigation_item_span1{
-    /*width: 93.96px;*/
-    width:auto;
+    width: 93.96px;
     height: 29.48px;
     opacity: 1;
     display: flex;
-    justify-content: center; /* 文字水平居中 */
-    align-items: center; /* 文字垂直居中 */
     font-size: 20px;
     font-weight: 700;
     letter-spacing: 0px;
     line-height: 28.96px;
     color: rgba(29, 33, 41, 1);
-    text-align: center; /* 文字水平居中 */
-    vertical-align: middle; /* 文字垂直居中 */
+    text-align: left;
+    vertical-align: top;
 }
 
 .navigation_item_img2{
@@ -1849,56 +2108,95 @@
 }
 
 #content_div{
-    width: 100%;
-    margin-bottom: 10px;
+    margin-top: 40px;
+    width: 1200px;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-#single_detect_div{
-    margin-top: 40px;
-    width: 1200px;
-    /* height: 263px; */
-    opacity: 1;
+    justify-content: center;
     border-radius: 8px;
     background: rgba(255, 255, 255, 1);
-    border: 1px solid rgba(229, 230, 235, 1);
+    border: 1px solid rgba(224, 227, 235, 1);
     box-shadow: 0px 8px 20px  rgba(44, 51, 67, 0.06);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
 }
 
-#single_detect_top_div{
+#file_table_div{
+    width: 1200px;
+    height: 510px;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 15px;
+}
+
+#file_table_small_div{
+    width: 1144px;
+    display: flex;
+}
+
+.playButtons_span{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    color: rgba(22, 93, 255, 1);
+}
+
+.recorderSpan{
+    width: 52px;
+    height: 22px;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 22px;
+    color: rgba(22, 93, 255, 1);
+    cursor: pointer;
+}
+
+#pagination_div{
+    width: 1200px;
+    height: 40px;
+    opacity: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#pagination{
+    width: 1144px;
+    height: 32px;
+    z-index: 999;
+}
+
+::v-deep #pagination .el-input__inner{
+    height: 32px;
+    margin-top: -3px;
+}
+
+#content_top_div{
     width: 1200px;
     height: 70px;
     opacity: 1;
-    background: rgba(255, 255, 255, 1);
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    border-bottom: 1px solid rgba(229, 230, 235, 0.5);
+    border-bottom: 1px solid rgba(229, 230, 235, 1);
 }
 
-#single_detect_top_left_div{
+#content_top_left_img{
     margin-left: 15px;
-    width: 220px;
-    height: 42.35px;
-    display: flex;
-
-}
-
-#single_detect_top_left_img{
     width: 40px;
     height: 42.35px;
     opacity: 1;
     display: flex;
 }
 
-#single_detect_top_left_span{
-    margin-left: 4px;
+#content_top_left_span{
+    margin-left: 16px;
     width: 112px;
     height: 39px;
     opacity: 1;
@@ -1912,256 +2210,96 @@
     vertical-align: top;
 }
 
-.single_detect_top_right_button{
-    margin-right: 15px;
-    width: 146.48px;
-    height: 48px;
-    opacity: 1;
-    border-radius: 6px;
-    background: rgba(22, 93, 255, 1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 0px;
-    line-height: 28.96px;
-    color: rgba(255, 255, 255, 1);
-    text-align: center;
-    vertical-align: middle;
-    border-style: none;
-    cursor: pointer;
-}
-
-.single_detect_top_right_button_{
-    margin-right: 15px;
-    width: 146.48px;
-    height: 48px;
-    opacity: 1;
-    border-radius: 6px;
-    background: rgba(242, 244, 249, 1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 0px;
-    line-height: 28.96px;
-    color: gray;
-    text-align: center;
-    vertical-align: middle;
-    border-style: none;
-    cursor: pointer;
-}
-
-#single_detect_bottom_div{
-    width: 1200px;
-    height: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-}
-
-#single_detect_bottom_span_1{
+#content_mid_div{
     margin-top: 28px;
-    margin-left: 28px;
-    width: 140px;
-    height: 29px;
+    width: 1144px;
+    height: 78px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#content_mid_span{
+    width: 160px;
+    height: 28px;
     opacity: 1;
     display: flex;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 700;
     letter-spacing: 0px;
     line-height: 28.96px;
-    color: rgba(29, 33, 41, 1);
+    color: rgba(0, 0, 0, 1);
     text-align: left;
     vertical-align: middle;
 }
 
-#single_detect_bottom_span_2{
-    margin-top: 16px;
-    margin-left: 28px;
-    width: 305px;
-    height: 21px;
-    opacity: 1;
-    display: flex;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: 0px;
-    line-height: 20.27px;
-    color: rgba(78, 89, 105, 1);
-    text-align: left;
-    vertical-align: top;
-}
-
-#upload_div{
-    margin-top: 16px;
-    margin-left: 28px;
+#content_mid_bottom_div{
+    margin-top: 18px;
+    margin-top: 18px;
     width: 1144px;
-    height: 55px;
-    display: flex;
-    /* align-items: center; */
-}
-
-#upload_left_div{
-    width: 641px;
-    height: 55px;
-    opacity: 1;
-    background: rgba(242, 244, 249, 1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#upload_left_middle_div{
-    width: 141.56px;
-    height: 24px;
+    height: 32px;
     opacity: 1;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
 
-#upload_left_middle_img{
-    width: 29.56px;
-    height: 15.08px;
+.demonstration{
+    margin-right: 10px;
+    width: 90px;
+    height: 28px;
     opacity: 1;
     display: flex;
-}
-
-#upload_left_middle_span{
-    margin-left: 16px;
-    width: 96px;
-    height: 24px;
-    opacity: 1;
-    display: flex;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 400;
     letter-spacing: 0px;
-    line-height: 24px;
-    color: rgba(29, 33, 41, 1);
-    text-align: left;
-    vertical-align: middle;
-}
-
-.upload-demo {
-  width: 0; /* 或者设置为与按钮所在的容器相同的宽度 */
-  height: 0; /* 或者设置为与按钮所在的容器相同的高度 */
-  display: flex; /* 确保在同一行显示 */
-  vertical-align: center; /* 垂直对齐方式可根据需要调整 */
-}
-
-#uploadButton{
-    margin-left: 16px;
-    margin-top: 9.5px;
-    width: 92px;
-    height: 36px;
-    opacity: 1;
-    border-radius: 5px;
-    background: rgba(22, 93, 255, 1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 6px 14px 6px 14px;
-    border-style: none;
-
-    opacity: 1;
-    display: flex;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0px;
-    line-height: 24px;
-    color: rgba(255, 255, 255, 1);
-    text-align: left;
-    vertical-align: middle;
-
-    cursor: pointer;
-}
-
-#progress_div{
-    margin-top: 11px;
-    margin-left: 28px;
-    width: 749px;
-    height: 63px;
-    display: flex;
-    flex-direction: column;
-}
-
-#progress_span_1{
-    margin-bottom: 5px;
-    width: 700px;
-    height: 24px;
-    opacity: 1;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0px;
-    line-height: 24px;
-}
-
-#progress_bottom_div{
-    width: 749px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-}
-
-#progress_bottom_left_div{
-    width: 641px;
-    height: 34px;
-    opacity: 1;
-    border: 0.75px solid rgba(0, 102, 255, 1);
-    display: flex;
-    align-items: center;
-}
-
-#progress_bar_div{
-    margin-left: 7px;
-    width: 575px;
-    height: 20px;
-    background: #cce0ff;
-    border: 1px solid #cce0ff;
-}
-
-.loadsmallDiv{
-    width:14px;
-    height:20px;
-    float: left;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.loadsmallImg{
-    width:11px;
-    height:16px;
-    background: blue;
-}
-
-#progress_span_2{
-    margin-left: 4px;
-    width: 45px;
-    height: 22px;
-    opacity: 1;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0px;
-    line-height: 18.75px;
-    color: rgba(22, 93, 255, 1);
+    line-height: 28.96px;
+    color: rgba(0, 0, 0, 1);
     text-align: left;
     vertical-align: top;
 }
 
-#reselection_button{
+.demonstration2{
     margin-left: 16px;
-    width: 92px;
-    height: 36px;
+    margin-right: 10px;
+    width: 70px;
+    height: 28px;
+    opacity: 1;
+    display: flex;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(0, 0, 0, 1);
+    text-align: left;
+    vertical-align: top;
+}
+
+#content_mid_bottom_input{
+    width: 500px;
+    height: 32px;
+    opacity: 1;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(224, 227, 235, 1);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#content_mid_div input:focus {
+    border-color: blue; /* 设置选中时的边框颜色为蓝色 */
+}
+
+#content_mid_bottom_button{
+    margin-left: 16px;
+    width: 77px;
+    height: 32px;
     opacity: 1;
     border-radius: 5px;
-    background: rgba(22, 93, 255, 1);
+    background: rgba(11, 85, 244, 0.96);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     border-style: none;
@@ -2171,12 +2309,42 @@
     font-size: 16px;
     font-weight: 400;
     letter-spacing: 0px;
-    line-height: 24px;
+    line-height: 23.17px;
     color: rgba(255, 255, 255, 1);
     text-align: left;
     vertical-align: middle;
-
     cursor: pointer;
+}
+
+::v-deep #content_mid_div .el-input__inner{
+    height: 32px;
+    opacity: 1;
+    display: flex;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 21.78px;
+    color: rgba(134, 144, 156, 1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+::v-deep #content_mid_div .el-range-separator{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+::v-deep #content_mid_div .el-icon-date{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+::v-deep #content_mid_div .el-range__close-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #detailed_result_div{
@@ -2192,7 +2360,7 @@
 }
 
 #detailed_result_top_div{
-    margin-top: 21px;
+    margin-top: -45px;
     width: 1144px;
     height: 38px;
     opacity: 1;
@@ -2220,7 +2388,7 @@
 }
 
 #comp_result_div{
-    margin-top: 16px;
+    margin-top: 26px;
     width: 1144px;
     height: 210px;
     opacity: 1;
@@ -2345,7 +2513,6 @@
 
 #listening_div{
     margin-top: 16px;
-    margin-bottom: 15px;
     width: 1144px;
     height: 68.54px;
     opacity: 1;
@@ -2395,9 +2562,9 @@
     justify-content: space-between;
 }
 
-::v-deep .el-slider__button-wrapper{
+/* ::v-deep .el-slider__button-wrapper{
     top:-75px;
-}
+} */
 
 ::v-deep .el-slider__button{
     width: 8px;
@@ -2410,6 +2577,36 @@
 
 ::v-deep .el-slider__bar {
     height: 3px;
+}
+
+.audio-progress{
+    width: 1100px;
+}
+
+.model_score_div{
+    margin-top: 16px;
+    width: 1144px;
+    height: 244.6px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.model_score_span_1{
+    
+    width: 500px;
+    height: 24px;
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 23.17px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: top;
 }
 
 .model_score_span_2{
@@ -2425,6 +2622,17 @@
     color: rgba(29, 33, 41, 1);
     text-align: left;
     vertical-align: top;
+}
+
+.waveform_diagram_div{
+    margin-top: 15px;
+    width: 1144px;
+    height: 106.6px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .model_img{
@@ -2582,18 +2790,5 @@
     justify-content: center;
     cursor: pointer;
 }
-
-::v-deep .el-message {
-    font-size: 14px; /* 设置提示框中文字的大小 */
-    padding: 10px 15px; /* 设置提示框的内边距 */
-    border-radius: 4px; /* 设置提示框的圆角 */
-}
-
-#uploaded_image {
-    max-width: 100%;
-    max-height: 300px; /* 根据需要调整 */
-    margin-top: 10px;
-}
-
 
 </style>

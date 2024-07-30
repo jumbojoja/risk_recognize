@@ -10,47 +10,42 @@ import VueRouter from 'vue-router'
 // const HomeView = () => import('../views/HomeView.vue') //这个为异步加载写法，优点：会把每个路由组件的代码分割成一一个js文件，初始化时不会加载这些js文件，只当激活路由组件才会去加载对应的js文件
 
 
-const AudioTestView = () => import('../views/AudioTestView.vue')
-// const LoginView = () => import('../views/LoginView.vue')
-// const RegisterView = () => import('../views/RegisterView.vue')
-const HistoryView = () => import('../views/HistoryView.vue')
-const BatchTestView = () => import('../views/BatchTestView.vue')
-const BatchHistoryView = () => import('../views/BatchHistoryView.vue')
-const ReportView = () => import('../views/ReportView.vue')
-// const UserView = () => import('../views/UserView.vue')
-// const ChangePassView = () => import('../views/ChangePassView.vue')
-const SubAccountView = () => import('../views/SubAccountView.vue')
 const Homeview = () => import('../views/HomeView.vue')
 const audio_deep = () => import('../views/audio_deep.vue')
 const audio_sensi = () => import('../views/audio_sensi.vue')
 
-const pic_batch_history_view = () => import('../views/pic_batch_history_view.vue')
-const pic_batch_view = () => import('../views/pic_batch_view.vue')
-const pic_history_view = () => import('../views/pic_history_view.vue')
 const pic_home_view = () => import('../views/pic_home_view.vue')
-const pic_report_view = () => import('../views/pic_report_view.vue')
 const pic_deepfake_view = () => import('../views/pic_deepfake_view.vue')
 const pic_sensitive_view = () => import('../views/pic_sensitive_view.vue')
-const pic_test_view = () => import('../views/pic_test_view.vue')
 
-const txt_batch_history_view = () => import('../views/txt_batch_history_view.vue')
-const txt_batch_view = () => import('../views/txt_batch_view.vue')
-const txt_history_view = () => import('../views/txt_history_view.vue')
 const txt_home_view = () => import('../views/txt_home_view.vue')
 const txt_sen_view=()=>import('../views/txt_sen.vue')
 const txt_yueyu_view=()=>import('../views/txt_yueyu.vue')
-const txt_report_view = () => import('../views/txt_report_view.vue')
-const txt_test_view = () => import('../views/txt_test_view.vue')
 
 const home = () => import('../views/home.vue')
 
 Vue.use(VueRouter)
+
+import pagesOne from '../components/page1'
+import pagesTwo from '../components/page2'
 
 const routes = [
 
   { path: '/', redirect: '/mainhome'},
 
   // { path: '/', redirect: '/batchtest' },
+
+  {
+    path: '/pagesOne',
+    name: 'pagesOne',
+    component: pagesOne
+  },
+
+  {
+    path: '/pagesTwo',
+    name: 'pagesTwo',
+    component: pagesTwo
+  },
 
   {
     path: '/mainhome',
@@ -62,36 +57,6 @@ const routes = [
     path: '/home',
     name: 'home',
     component:Homeview
-  },
-
-  {
-    path: '/history',
-    name: 'history',
-    component:HistoryView
-  },
-
-  {
-    path: '/batchtest',
-    name: 'batchtest',
-    component:BatchTestView
-  },
-
-  {
-    path: '/batchhistory',
-    name: 'batchhistory',
-    component:BatchHistoryView
-  },
-
-  {
-    path: '/report',
-    name: 'report',
-    component:ReportView
-  },
-
-  {
-    path: '/subaccount',
-    name: 'subaccount',
-    component: SubAccountView
   },
 
   {
@@ -110,30 +75,6 @@ const routes = [
     path: '/pic_home',
     name: 'pic_home',
     component: pic_home_view
-  },
-
-  {
-    path: '/pic_history',
-    name: 'pic_history',
-    component: pic_history_view
-  },
-
-  {
-    path: '/pic_batch_test',
-    name: 'pic_batch_test',
-    component: pic_batch_view
-  },
-
-  {
-    path: '/pic_batch_history',
-    name: 'pic_batch_history',
-    component: pic_batch_history_view
-  },
-
-  {
-    path: '/pic_report',
-    name: 'pic_report',
-    component: pic_report_view
   },
 
   {
@@ -163,30 +104,6 @@ const routes = [
     path: '/txt_yueyu',
     name: 'txt_yueyu',
     component: txt_yueyu_view
-  },
-
-  {
-    path: '/txt_history',
-    name: 'txt_history',
-    component: txt_history_view
-  },
-
-  {
-    path: '/txt_batch_test',
-    name: 'txt_batch_test',
-    component: txt_batch_view
-  },
-
-  {
-    path: '/txt_batch_history',
-    name: 'txt_batch_history',
-    component: txt_batch_history_view
-  },
-
-  {
-    path: '/txt_report',
-    name: 'txt_report',
-    component: txt_report_view
   },
 
   // { path: '*', component: 'NotFound' }   //半分离要加这个,全分离不加！！！

@@ -1,30 +1,51 @@
+<template>
+  <div class="app">
+    <!-- 头部 -->
+    <myHeader></myHeader>
 
-<template >
-  <!-- <div id="app"> -->
-  <!-- <nav> -->
-    <!-- <router-link to="/">Home</router-link> | -->
-    <!-- <router-link to="/about">About</router-link> -->
-  <!-- </nav> -->
-    <!-- <router-view id="appId"/> -->
-    <body>
-
-    <router-view />
-    </body>
-  <!-- </div> -->
+    <el-container 
+      style="height: 100vh; 
+      border: 1px solid #eee; 
+      margin: 0;
+      border: 0;
+      padding: 0;">
+      <!-- 侧边栏 -->
+      <el-aside style="width: 200px;">
+        <asideNav></asideNav>
+      </el-aside>
+      <!-- 主页面 -->
+      <el-main>
+        <keep-alive>
+          <router-view></router-view>  
+        </keep-alive>
+      </el-main>
+    </el-container>
+  </div>
 </template>
+ 
+<script>
+import myHeader from "@/components/myHeader"
+import asideNav from "@/components/asideNav"
 
-<!-- 防止各页面100%,两边仍有留白 -->
-<!-- <style >
+
+ 
+export default {
+  name: "App",
+  components: {
+    myHeader,
+    asideNav,
+  }
+}
+</script>
+
+<style>
+  html,
   body{
-        /* width: 100%; */
-        /* min-width: 1920px; */
-        width:auto;
-        padding:0;
-        margin: 0;
-        font-family:"PingFang SC", "Microsoft yahei","Arial";
-        font-style: normal;
-        background-color: #f3f7ff;
-    }
+    height: 100%;
+    margin: 0;
+    border: 0;
+    padding: 0;
+  }
+</style>
 
-</style> -->
 

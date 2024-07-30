@@ -1043,7 +1043,7 @@
 <style scoped>
 
 #main{
-    width: 80%;
+    width: 100%;
     background-color: #f3f7ff;
     display: flex;
     justify-content: center;

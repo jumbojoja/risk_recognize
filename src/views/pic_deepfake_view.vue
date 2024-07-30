@@ -1,178 +1,10 @@
 <template >
     <div id="main">
         <div id="homo_div">
-            <!-- <div id="consulting_div" v-if="consulting_flag==true">
-                <div id="consulting_top_div">
-                    <img id="consulting_top_img" src="../assets/home_page/kefu.svg">
-                    <span id="consulting_top_span">联系我们</span>
-                </div>
-                <div id="consulting_mid_div">
-                    <span class="consulting_mid_span">咨询体验, 请邮件联系: VOcert@outlook.com </span>
-                </div>
-                <button id="consulting_bottom_button" @click="cancel_consulting_div">确定</button>
-            </div> -->
             <div id="banner_div">
                 <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
                     <span id="banner_title">多模态检测平台</span>
-                </div>
-                <!-- <div id="banner_right" v-show="login_flag==false">
-                    <span class="login_button" @click="show_login_box(true)">登录</span>
-                    <span class="register_button" @click="show_login_box(false)">注册</span>
-                    <span class="register_button" @click="consulting">体验申请</span>
-                </div> -->
-                <div id="banner_user" v-show="login_flag==true">
-                    <img id="banner_user_img" src="../assets/home_page/user.png">
-                    <span id="banner_user_span" @mouseover="handleMouseOver"
-                     @mouseleave="startHideTimer">{{ usernameInput }}</span>
-                </div>
-                <div id="user_div" v-if="showDropdown==true" @mouseleave="startHideTimer" @mouseenter="cancelHideTimer">
-                    <div id="user_top_div">
-                        <div id="user_top_top_div">
-                            <span class="user_div_span1">登录邮箱</span>
-                            <span class="user_div_span2">{{ usernameInput }}</span>
-                        </div>
-                        <div id="user_top_bottom_div">
-                            <span class="user_div_span1_1">剩余检测次数</span>
-                            <span class="user_div_span1_3">{{ surplus_detect_times }}</span>
-                            <span class="user_div_span2_1">条</span>
-                        </div>
-                    </div>
-                    <div id="user_mid_div">
-                        <div id="user_mid_left_div">
-                            <span id="user_div_span3">{{ user_grade_dict[user_grade_num] }}</span>
-                            <span id="user_div_span4">升级体验请联系我们</span>
-                        </div>
-                        <button id="user_mid_button" @click="consulting">立即咨询</button>
-                    </div>
-                    <div id="user_bottom_div">
-                        <div class="user_bottom_small_div" @click="go_modify_password">
-                            <span class="user_div_span5">修改密码</span>
-                            <img class="user_div_span_icon" src="../assets/home_page/right.svg">
-                        </div>
-                        <div class="user_bottom_small_div" @click="subAccount" v-if="user_grade_num<3">
-                            <span class="user_div_span5">子账户管理</span>
-                            <img class="user_div_span_icon" src="../assets/home_page/right.svg">
-                        </div>
-                        <div class="user_bottom_small_div" @click="log_out">
-                            <span class="user_div_span5">退出登录</span>
-                            <img class="user_div_span_icon2" src="../assets/home_page/login_out.svg">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="login_div" v-show="login_box_flag==true">
-                <div id="login_top_div">
-                    <div id="login_top_top_div">
-                        <!-- 现阶段不开发注册功能，右上角注册按钮和登录区域中均去除相关选项，需要恢复的话，修改display_choose样式 -->
-                        <div :class="login_or_register?'display_choose':'display_no_choose'" @click="select_login_register(true)">登录</div>
-                        <!-- <div :class="login_or_register?'display_no_choose':'display_choose'" @click="select_login_register(false)">注册</div> -->
-                    </div>
-                    <div class="login_top_mid_div" v-show="login_or_register==true">
-                        <span class="usernameText">用户名</span>
-                        <el-input
-                            class="input_style"
-                            placeholder="登录邮箱"
-                            v-model="usernameInput"
-                            prefix-icon="el-icon-user"
-                            clearable>
-                        </el-input>
-                        <span class="passwordText">密码</span>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="请输入密码" 
-                            v-model="passwordInput" 
-                            prefix-icon="el-icon-lock" show-password clearable>
-                        </el-input>
-                        <button class="login_top_button" @click="login">登录</button>
-                    </div>
-                    <div class="login_top_mid_div" v-show="login_or_register==false && register_step==true">
-                        <span class="usernameText">注册邮箱</span>
-                        <el-input
-                            class="input_style"
-                            placeholder="输入注册邮箱example@mail.com"
-                            v-model="register_email"
-                            clearable>
-                        </el-input>
-                        <span class="passwordText">验证码</span>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="请输入验证码" 
-                            v-model="register_code" 
-                            clearable>
-                            <template #append>
-                                <span :class="button_flag?'code_button_ti':'code_button'" :disabled="button_flag" @click="getCode">获取验证码</span>
-                            </template>
-                        </el-input>
-                        <button class="login_top_button" @click="register_go">注册</button>
-                    </div>
-                    <div class="login_top_mid_div" v-show="login_or_register==false && register_step==false">
-                        <span class="usernameText">设置登录密码</span>
-                        <el-input
-                            class="input_style"
-                            placeholder="6-20位字母或数字"
-                            v-model="register_pass1"
-                            clearable
-                            @input="checkPassword">
-                        </el-input>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="再次输入确认密码" 
-                            v-model="register_pass2" 
-                            clearable
-                            @input="checkPassword"
-                            style="margin-top: 11px;">
-                        </el-input>
-                        <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
-                        <button class="login_top_button" @click="register">确认设置登录密码</button>
-                    </div>
-                </div>
-                <div class="login_close_img_div" @click="close_login_box">
-                    <img class="login_close_img" src="../assets/home_page/close2.svg">
-                </div>
-            </div>
-            <div id="modify_div" v-if="modify_password_flag==true">
-                <div id="modify_top_div">
-                    <div id="modify_top_top_div">
-                        <span id="modify_top_top_span">修改密码</span>
-                    </div>
-                    <div id="modify_top_mid_div">
-                        <div id="modify_top_mid_top_div">
-                            <span id="modify_top_mid_top_span1">当前登录邮箱</span>
-                            <span id="modify_top_mid_top_span2">{{ usernameInput }}</span>
-                        </div>
-                        <span class="passwordText2">验证码</span>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="请输入验证码" 
-                            v-model="modify_code" 
-                            clearable>
-                            <template #append>
-                                <span :class="button_flag?'code_button_ti':'code_button'" :disabled="button_flag" @click="getModifyCode">获取验证码</span>
-                            </template>
-                        </el-input>
-                        <span class="usernameText2">设置登录密码</span>
-                        <el-input
-                            class="input_style"
-                            placeholder="6-20位字母或数字"
-                            v-model="modify_pass1"
-                            clearable
-                            @input="checkPassword2">
-                        </el-input>
-                        <el-input 
-                            class="input_style" 
-                            placeholder="再次输入确认密码" 
-                            v-model="modify_pass2" 
-                            clearable
-                            @input="checkPassword2"
-                            style="margin-top: 11px;">
-                        </el-input>
-                        <div class="error-message" v-if="errorMessage2">{{ errorMessage2 }}</div>
-                    </div>
-                    <button class="login_top_button2" @click="showConfirmDialog">确认修改登录密码</button>
-                </div>
-                <div class="login_close_img_div" @click="close_modify_box">
-                    <img class="login_close_img" src="../assets/home_page/close2.svg">
                 </div>
             </div>
             <div id="navigation_div">
@@ -180,6 +12,100 @@
                     <span id="navigation_title">图像检测平台功能</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
                 </div>
+            </div>
+            <div id="content_div">
+                <div id="image_u">
+                    <div id="single_detect_top_div">
+                        <div class="navigation_item_div_div">
+                            <img :src=imageURL alt="上传图片">
+                            <p class="upload_message_hint">请上传图片，大小不超过5MB</p>
+                        </div>
+                        <div class="navigation_item_div_div">
+                            <img :src="return_img" alt="返回图片">
+                        </div>
+                        <el-upload
+                            ref="my-upload"
+                            class="upload-demo"
+                            action="http://115.233.223.42:20008/picture/sensitive/one"
+                            multiple
+                            :limit="1"
+                            :headers="config"
+                            :data="nick_name"
+                            :disabled="!login_flag"
+                            :on-success="handleSuccess"
+                            :show-file-list="false"
+                            >
+                            <button id="uploadButton" @click="handlefile">立即上传</button>
+                        </el-upload>
+                        <div id="single_detect_top_right_div">
+                            <button id="detectbutton" @click="detection" >开始检测</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="single_detect_div">
+                        <div id="content_middle_div">
+                            <div id="content_top_div">
+                            <img id="content_top_left_img" src="../assets/home_page/icon4.png">
+                            <span id="content_top_left_span">{{buildTime}} 检测报告</span>
+                        </div>
+                            <el-collapse v-model="activeNames" @change="handleChange">
+                                <el-collapse-item title="判断结果" name="1">
+                                    <div>
+                                        {{ isoffensive }}
+                                    </div>
+                                </el-collapse-item>
+                                <el-collapse-item title="敏感类型" name="2">
+                                    <div>
+                                        {{ type }}
+                                    </div>
+                                </el-collapse-item>
+                                <el-collapse-item title="关键词" name="3">
+                                    <div>
+                                        {{ key_words }}
+                                    </div>
+                                </el-collapse-item>
+                                <el-collapse-item title="描述" name="4">
+                                    <div>
+                                        {{ description }}
+                                    </div>
+                                </el-collapse-item>
+      
+                            </el-collapse>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
                 <div id="navigation_content_div">
                     <div class="navigation_item_div">
                         <div class="navigation_item_div_div">
@@ -189,15 +115,14 @@
                     </div>
                     <div class="navigation_item_div">
                         <div class="navigation_item_div_div">
-                            <!-- <img class="navigation_item_img1" src="imageData "> -->
-                            <img class="navigation_item_img1":src="imageData" alt="Image">
+                            <img class="navigation_item_img1" src="../assets/home_page/icon2.png">
                         </div>
                     </div>
                 </div>
                 <el-upload
                     ref="my-upload"
                     class="upload-demo"
-                    action="http://115.233.223.42:20008/picture/save"
+                    action="http://115.233.223.42:20008/picture/sensitive/one"
                     multiple
                     :limit="1"
                     :headers="config"
@@ -209,32 +134,10 @@
                     <button id="uploadButton" @click="handlefile">立即上传</button>
                 </el-upload>
                 <div id="single_detect_top_right_div">
-                    <el-button id="detectbutton" @click="detection" >开始检测</el-button>
+                    <button id="detectbutton" @click="detection" >开始检测</button>
                 </div>
-                <div id="content_top_div">
-                            <img id="content_top_left_img" src="../assets/home_page/icon4.png">
-                            <span id="content_top_left_span">{{buildTime}} 检测报告</span>
-                </div>
-                <div id="content_middle_div">
-                            <el-collapse v-model="activeNames" @change="handleChange">
-                                <el-collapse-item title="判断结果" name="1">
-                                    <div>
-                                        {{ isoffensive }}
-                                    </div>
-                                </el-collapse-item>
-                                <el-collapse-item title="类型" name="2">
-                                    <div>
-                                        {{ type }}
-                                    </div>
-                                </el-collapse-item>
-                                <el-collapse-item title="概述" name="3">
-                                    <div>
-                                        {{ summary }}
-                                    </div>
-                                </el-collapse-item>    
-                            </el-collapse>
-                        </div>
-            </div>
+
+            </div>     -->
             <!-- <div id="content_div">
                 <div id="single_detect_div">
                     <div id="single_detect_top_div">
@@ -378,13 +281,11 @@
                     </div>
                 </div>
             </div> -->
-        </div>
+        <!-- </div>
     </div>   
-</template>
-
+</template> -->
+   
 <script>
-    import { ref } from 'vue'
-    import axios from 'axios'
     export default {
         name: 'HomeView',
         data(){
@@ -420,12 +321,11 @@
                 
                 upload_flag: true,
                 imageName:"",
-                imageURL:'../assets/deepfake/default.png',
-                imageData:'',
-                isoffensive:'',
-                type:'',
-                summary:'',
-                isupload:false,
+                imageURL:require('../assets/deepfake/default.png'),
+                return_img:'',
+                isoffensive : "判断结果 是/否 Yes/No",
+                type : "类型",
+                summary : "模型对待检测文本的描述",
                 nick_name: {name: ""},
                 upload_flag: true,
                 upload_progress: "",
@@ -750,17 +650,33 @@
             },
 
             handlefile(file){
-                this.imageURL = URL.createObjectURL(file.raw);
-                this.imageName= file.name
-                console.log(this.imageURL);
+                // console.log(response)
+                // console.log(response.data)
+                // this.isoffensive=response.data.isoffensive
+                // console.log(this.isoffensive)
+                // this.imageURL = URL.createObjectURL(file.raw);
+                // console.log("start")
+                // this.imageName= file.name
+                // console.log(this.imageName)
+                // console.log("over")
             },
 
             handleSuccess(response, file, fileList){
-                this.isupload=true;
-                this.imageData = response.image;
-                // this.isoffensive=response.data.isoffensive
-                // console.log(this.isoffensive)
-                // console.log(response.data)
+                console.log(response)
+                this.imageURL = URL.createObjectURL(file.raw);
+                console.log(this.imageURL)
+                console.log("start")
+                this.imageName= file.name
+                // console.log(this.imageURL);
+                console.log(response)
+                this.isoffensive=response.isoffensive
+                this.type=response.type
+                this.summary=response.summary
+                console.log(this.isoffensive)
+                console.log(this.type)
+                console.log(this.summary)
+                console.log("over")
+                // imageData = response.data.image;
                 // if (response.hasOwnProperty('dir')) {
                 //     console.log('上传完成');
                 //     this.imageName = file.name;
@@ -804,7 +720,6 @@
                 this.resultDetect = 3;
                 this.resultValue = "";
                 this.resultTime = "";
-                this.isupload=false;
                 this.doneSign = false;
                 this.loadingSign = true;
                 this.feasible_detect = false;
@@ -838,20 +753,18 @@
             },
 
             detection() {
-                axios.post("http://115.233.223.42:20008/picture/fake/one",
+                axios.post("http://115.233.223.42:20008/picture/sensitive/one",
                     {
-                        hint:"开始检测"
+                        
                     })
                     .then(response => {
+                        console.log("检测")
                         console.log(response)
-                        console.log(response.data)
                         // this.isoffensive = response.data.isoffensive
-                        // console.log(isoffensive)
-                        this.type = response.data.type
-                        console.log(type)
-                        this.summary = response.data.summary
-                        console.log(summary)
-                        
+                        // this.type = response.data.type
+                        // this.summary = response.data.summary
+                        // console.log(response)
+                        console.log("检测结束")
                     })
             },
 
@@ -1074,7 +987,7 @@
     flex-direction: column;
     align-items: center;
 }
-
+/* Logo栏目 */
 #banner_div{
     width: 100%;
     height: 64px;
@@ -1778,7 +1691,7 @@
 
 #navigation_div{
     width: 100%;
-    height: 340px;
+    height: 68px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1851,13 +1764,12 @@
 }
 /* 上传图像框内图片位置 */
 .navigation_item_div_div{
-    width: 50%;
-    height: 70%;
+    margin-left: 200px;
+    margin-top: 400px;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
-    margin-top: 28px;
 }
 /* 图像框下的文字 */
 .upload_message_hint{
@@ -1871,8 +1783,8 @@
     /* margin-left: 0px;
     margin-top: 50%; */
     position: absolute;
-    top: 50%; /* 距离顶部的百分比 */
-    left: 31%; /* 距离左侧的百分比 */
+    margin-left: -820px;
+    margin-top: 370px;
     width: 92px;
     height: 36px;
     opacity: 1;
@@ -1900,8 +1812,8 @@
         /* margin-left: 0px;
     margin-top: 50%; */
     position: absolute;
-    top: 50%; /* 距离顶部的百分比 */
-    left: 69%; /* 距离左侧的百分比 */
+    margin-left: -370px;
+    margin-top: 370px;
     width: 92px;
     height: 36px;
     opacity: 1;
@@ -1925,6 +1837,57 @@
 
     cursor: pointer;
 }
+/* 总的白框 */
+#content_div{
+    margin-top: 0px;
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(224, 227, 235, 1);
+    box-shadow: 0px 8px 20px  rgba(44, 51, 67, 0.06);
+}
+#image_u{
+    margin-top: 0px;
+    width: 1200px;
+    /* height: 263px; */
+    opacity: 1;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(229, 230, 235, 1);
+    box-shadow: 0px 8px 20px  rgba(44, 51, 67, 0.06);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+#single_detect_div{
+    margin-top: 400px;
+    width: 1200px;
+    /* height: 263px; */
+    opacity: 1;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(229, 230, 235, 1);
+    box-shadow: 0px 8px 20px  rgba(44, 51, 67, 0.06);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+#single_detect_top_div{
+    width: 1200px;
+    height: 70px;
+    opacity: 1;
+    background: rgba(255, 255, 255, 1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(229, 230, 235, 0.5);
+}
 /* 文本框 */
 #content_middle_div{
     margin-left: 20px;
@@ -1935,6 +1898,7 @@
     flex-direction: column;
     /* align-items: center; */
 }
+/* 检测报告 */
 #content_top_div{
     width: 1200px;
     height: 70px;
@@ -1943,6 +1907,21 @@
     justify-content: flex-start;
     align-items: center;
     border-bottom: 1px solid rgba(229, 230, 235, 1);
+}
+/* 检测报告字 */
+#content_top_left_span{
+    margin-left: 16px;
+    width: 600px;
+    height: 39px;
+    opacity: 1;
+    display: flex;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 40.54px;
+    color: rgba(29, 33, 41, 1);
+    text-align: left;
+    vertical-align: top;
 }
 
 .navigation_item_img1{
@@ -1989,7 +1968,7 @@
     margin-top: 16px;
 }
 
-#content_div{
+/* #content_div{
     width: 100%;
     margin-bottom: 10px;
     display: flex;
@@ -2000,7 +1979,6 @@
 #single_detect_div{
     margin-top: 40px;
     width: 1200px;
-    /* height: 263px; */
     opacity: 1;
     border-radius: 8px;
     background: rgba(255, 255, 255, 1);
@@ -2010,7 +1988,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-}
+} */
 
 #single_detect_top_div{
     width: 1200px;

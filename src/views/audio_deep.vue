@@ -30,7 +30,7 @@
                             <el-upload
                                 ref="my-upload"el-
                                 class="upload-demo"
-                                action="http://115.233.223.42:20008/picture/fake/one"
+                                action="http://115.233.223.42:20008/audio/fake/one"
                                 multiple
                                 :limit="1"
                                 :headers="config"
@@ -43,9 +43,10 @@
                                 :on-error="handleError"
                                 :show-file-list="false"
                                 >
+                                <button id="uploadButton" @click="handleFileSelect">上传音频</button>
                                 <!-- <button id="uploadButton" @click="judge_login">立即上传</button> -->                               
                             </el-upload>
-                            <button id="uploadButton" @click="handleFileSelect">上传音频</button>
+                            <!-- <button id="uploadButton" @click="handleFileSelect">上传音频</button> -->
                             <!-- <div>
                                 <button id="uploadButton1" @click="playAudio">播放音频</button>
                             </div> -->
@@ -163,7 +164,7 @@
         },
         methods:{
             handleFileSelect() {
-            this.$refs.audioInput.click()
+            // this.$refs.audioInput.click()
             },
             handleFileUpload(event) {
              // 获取上传的音频文件
@@ -509,22 +510,24 @@
             },
 
             handleSuccess(response, file, fileList){
-                if (response.hasOwnProperty('dir')) {
-                    console.log('上传完成');
-                    this.wavefileName = file.name;
-                    this.file_path = response.dir;
-                    this.feasible_detect = true;
-                    this.loadingSign = false;
-                } else {
-                    this.file_path = "";
-                    this.$refs['my-upload'].clearFiles();
-                    this.wavefileName = "";  
-                    this.doneSign = false;
-                    this.resultTime = "";
-                    this.resultDetect = 3;
-                    this.resultValue = "";
-                    this.$alert(response.err,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                }
+                console.log(response)
+                console.log(response.name)
+                // if (response.hasOwnProperty('dir')) {
+                //     console.log('上传完成');
+                //     this.wavefileName = file.name;
+                //     this.file_path = response.dir;
+                //     this.feasible_detect = true;
+                //     this.loadingSign = false;
+                // } else {
+                //     this.file_path = "";
+                //     this.$refs['my-upload'].clearFiles();
+                //     this.wavefileName = "";  
+                //     this.doneSign = false;
+                //     this.resultTime = "";
+                //     this.resultDetect = 3;
+                //     this.resultValue = "";
+                //     this.$alert(response.err,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
+                // }
                 // console.log(this.$refs['wavenameRef'].clientWidth);
             },
 
@@ -868,7 +871,7 @@
 
 #main{
     width: 100%;
-    /* min-width: 1920px; */
+    /*min-width: 1920px;*/
     background-color: #f3f7ff;
     display: flex;
     justify-content: center;
@@ -878,8 +881,7 @@
 #homo_div{
     /* width: 1920px; */
     width: 100%;
-    height: 100%;
-    /* min-width: 1920px; */
+    min-width: 1920px;
     /* height: 1080px; */
     display: flex;
     flex-direction: column;

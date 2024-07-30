@@ -190,8 +190,6 @@
                         text: this.textarea
                     })
                     .then(response => {
-                        console.log(response)
-                        console.log(response.data)
                         this.isoffensive = response.data.isoffensive
                         this.type = response.data.type
                         this.key_words = response.data.key_words
@@ -221,10 +219,10 @@
                         // hint:"已经上传"
                     })
                     .then(response => {
-                        // this.isoffensive = response.data.isoffensive
-                        // this.type = response.data.type
-                        // this.summary = response.data.summary
-                        console.log(response)
+                        this.isoffensive = response.data.isoffensive
+                        this.type = response.data.type
+                        this.key_words = response.data.key_words
+                        this.description = response.data.description
                     })
             },
 

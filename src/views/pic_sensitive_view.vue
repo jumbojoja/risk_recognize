@@ -1,12 +1,12 @@
 <template >
     <div id="main">
         <div id="homo_div">
-            <div id="banner_div">
+            <!-- <div id="banner_div">
                 <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
                     <span id="banner_title">多模态检测平台</span>
                 </div>
-            </div>
+            </div> -->
             <div id="navigation_div">
                 <div id="navigation_title_div">
                     <span id="navigation_title">图像检测平台功能</span>
@@ -20,9 +20,9 @@
                             <img :src=imageURL alt="上传图片" class="image-style">
                             <p class="upload_message_hint">请上传图片，大小不超过5MB</p>
                         </div>
-                        <div class="navigation_item_div_div">
+                        <!-- <div class="navigation_item_div_div">
                             <img :src="return_img" alt="返回图片">
-                        </div>
+                        </div> -->
                         <el-upload
                             ref="my-upload"
                             class="upload-demo"
@@ -659,42 +659,22 @@
                 // this.imageName= file.name
                 // console.log(this.imageName)
                 // console.log("over")
+                // img_str=base64.b64encode(buffered.getvalue()).decode('utf-8')
+                // response={
+                //     "isoffensive":bool(pred_ckass),
+                //     "type":None,
+                //     "summary":None,
+                //     "image":img_str
+                // }
             },
 
             handleSuccess(response, file, fileList){
-                console.log(response)
                 this.imageURL = URL.createObjectURL(file.raw);
-                console.log(this.imageURL)
-                console.log("start")
                 this.imageName= file.name
-                // console.log(this.imageURL);
-                console.log(response)
                 this.isoffensive=response.isoffensive
                 this.type=response.type
                 this.summary=response.summary
-                console.log(this.isoffensive)
-                console.log(this.type)
-                console.log(this.summary)
-                console.log("over")
-                // imageData = response.data.image;
-                // if (response.hasOwnProperty('dir')) {
-                //     console.log('上传完成');
-                //     this.imageName = file.name;
-                //     this.file_path = response.dir;
-                //     this.feasible_detect = true;
-                //     this.loadingSign = false;
-                // } else {
-                //     this.file_path = "";
-                //     this.$refs['my-upload'].clearFiles();
-                //     this.imageName = "";  
-                //     this.imageSrc = "";
-                //     this.doneSign = false;
-                //     this.resultTime = "";
-                //     this.resultDetect = 3;
-                //     this.resultValue = "";
-                //     this.$alert(response.err,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                // }
-                // console.log(this.$refs['wavenameRef'].clientWidth);
+
             },
 
             handleError(info, file, fileList){
@@ -1764,7 +1744,7 @@
 }
 /* 上传图像框内图片位置 */
 .navigation_item_div_div{
-    margin-left: 200px;
+    margin-left: 450px;
     margin-top: 400px;
     display: flex;
     align-items: center;
@@ -1782,8 +1762,7 @@
 #uploadButton{
     /* margin-left: 0px;
     margin-top: 50%; */
-    position: absolute;
-    margin-left: -820px;
+    margin-left: -420px;
     margin-top: 370px;
     width: 92px;
     height: 36px;
@@ -1811,9 +1790,8 @@
 #detectbutton{
         /* margin-left: 0px;
     margin-top: 50%; */
-    position: absolute;
-    margin-left: -370px;
-    margin-top: 370px;
+    margin-left: -400px;
+    margin-top: 777px;
     width: 92px;
     height: 36px;
     opacity: 1;
@@ -1901,7 +1879,7 @@
 /* 检测报告 */
 #content_top_div{
     width: 1200px;
-    height: 70px;
+    height: 50px;
     opacity: 1;
     display: flex;
     justify-content: flex-start;
@@ -1927,8 +1905,8 @@
 .image-style {
     width: 200px; /* 设置图像宽度为200像素 */
     height: 200px; /* 设置图像高度为200像素 */
-    top: 50px; /* 距离顶部50像素 */
-    left: 50px; /* 距离左侧50像素 */
+    margin-top: auto;
+    margin-left:auto;
   }
 
 .navigation_item_img1{

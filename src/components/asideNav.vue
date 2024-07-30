@@ -27,7 +27,7 @@
                 <el-menu-item index="/pic_sensitive">敏感内容识别</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-submenu index="/sudio">
+            <el-submenu index="/audio">
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span>音频检测</span>
@@ -39,10 +39,22 @@
                 <el-menu-item index="/audio_sensitive">敏感内容识别</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-menu-item index="/txt_home">
+            <el-submenu index="/txt">
+              <template slot="title">
+                <i class="el-icon-location"></i>
+                <span>文本检测</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="/txt_yueyu">越狱检测</el-menu-item>
+              </el-menu-item-group>
+              <el-menu-item-group>
+                <el-menu-item index="/txt_sen">敏感内容识别</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <!-- <el-menu-item index="/txt_home">
               <i class="el-icon-document"></i>
               <span slot="title">文本检测</span>
-            </el-menu-item>
+            </el-menu-item> -->
           </el-menu>
         </el-col>
       </el-row>

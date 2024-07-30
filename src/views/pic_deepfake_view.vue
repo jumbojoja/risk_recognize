@@ -1,12 +1,12 @@
 <template >
     <div id="main">
         <div id="homo_div">
-            <div id="banner_div">
+            <!-- <div id="banner_div">
                 <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
                     <span id="banner_title">多模态检测平台</span>
                 </div>
-            </div>
+            </div> -->
             <div id="navigation_div">
                 <div id="navigation_title_div">
                     <span id="navigation_title">图像检测平台功能</span>
@@ -17,7 +17,7 @@
                 <div id="image_u">
                     <div id="single_detect_top_div">
                         <div class="navigation_item_div_div">
-                            <img :src=imageURL alt="上传图片">
+                            <img :src=imageURL alt="上传图片" class="image-style">
                             <p class="upload_message_hint">请上传图片，大小不超过5MB</p>
                         </div>
                         <div class="navigation_item_div_div">
@@ -664,18 +664,11 @@
             handleSuccess(response, file, fileList){
                 console.log(response)
                 this.imageURL = URL.createObjectURL(file.raw);
-                console.log(this.imageURL)
-                console.log("start")
                 this.imageName= file.name
-                // console.log(this.imageURL);
-                console.log(response)
                 this.isoffensive=response.isoffensive
                 this.type=response.type
                 this.summary=response.summary
-                console.log(this.isoffensive)
-                console.log(this.type)
-                console.log(this.summary)
-                console.log("over")
+                this.return_img=response.img_str
                 // imageData = response.data.image;
                 // if (response.hasOwnProperty('dir')) {
                 //     console.log('上传完成');
@@ -1782,8 +1775,7 @@
 #uploadButton{
     /* margin-left: 0px;
     margin-top: 50%; */
-    position: absolute;
-    margin-left: -820px;
+    margin-left: -870px;
     margin-top: 370px;
     width: 92px;
     height: 36px;
@@ -1811,9 +1803,8 @@
 #detectbutton{
         /* margin-left: 0px;
     margin-top: 50%; */
-    position: absolute;
-    margin-left: -370px;
-    margin-top: 370px;
+    margin-left: -400px;
+    margin-top: 777px;
     width: 92px;
     height: 36px;
     opacity: 1;
@@ -1923,6 +1914,13 @@
     text-align: left;
     vertical-align: top;
 }
+
+.image-style {
+    width: 200px; /* 设置图像宽度为200像素 */
+    height: 200px; /* 设置图像高度为200像素 */
+    margin-top: auto;
+    margin-left:auto;
+  }
 
 .navigation_item_img1{
     width: 250px;

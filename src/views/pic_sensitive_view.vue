@@ -17,7 +17,7 @@
                 <div id="image_u">
                     <div id="single_detect_top_div">
                         <div class="navigation_item_div_div">
-                            <img :src=imageURL alt="上传图片">
+                            <img :src=imageURL alt="上传图片" class="image-style">
                             <p class="upload_message_hint">请上传图片，大小不超过5MB</p>
                         </div>
                         <div class="navigation_item_div_div">
@@ -1923,6 +1923,13 @@
     text-align: left;
     vertical-align: top;
 }
+
+.image-style {
+    width: 200px; /* 设置图像宽度为200像素 */
+    height: 200px; /* 设置图像高度为200像素 */
+    top: 50px; /* 距离顶部50像素 */
+    left: 50px; /* 距离左侧50像素 */
+  }
 
 .navigation_item_img1{
     width: 250px;

@@ -1091,7 +1091,7 @@
 
 #main{
     width: 100%;
-    min-width: 1920px;   /*1920*/
+    /* min-width: 1920px; */   /*1920*/
     background-color: #f3f7ff;
     display: flex;
     justify-content: center;

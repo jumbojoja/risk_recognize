@@ -7,9 +7,9 @@
             class="el-menu-vertical-demo"
             @open="handleOpen"
             @close="handleClose"
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b"
+            background-color="#abd9ff"
+            text-color="#000000"
+            active-text-color="#cdad00"
             style="height: 100%; width: 100%;">
             <el-menu-item index="/">
               <i class="el-icon-menu"></i>

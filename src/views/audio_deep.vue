@@ -3,7 +3,7 @@
         <div id="homo_div">
             <div id="navigation_div">
                 <div id="navigation_title_div">
-                    <span id="navigation_title">深度伪造检测</span>
+                    <span id="navigation_title">音频深度伪造检测</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
                 </div>
             </div>
@@ -12,7 +12,7 @@
                     <div id="single_detect_top_div">
                         <div id="single_detect_top_left_div">
                             <img id="single_detect_top_left_img" src="../assets/home_page/icon1.png">
-                            <span id="single_detect_top_left_span">单条检测</span>
+                            <span id="single_detect_top_left_span">待测音频</span>
                         </div>
                         <!-- <div id="single_detect_top_right_div">
                             <button :class="loadingSign?'single_detect_top_right_button_':'single_detect_top_right_button'" @click="startTest" :disabled="loadingSign">开始检测</button>
@@ -22,13 +22,10 @@
                         <span id="single_detect_bottom_span_1">上传待检测文件</span>
                         <div id="upload_div" v-show="upload_flag==true">
                             <div id="upload_left_div">
-
-                                <el-button type="primary" @click="playAudio">
-                                    试听
-                                </el-button>
+                                <img id="upload_left_middle_img" src="../assets/home_page/upload_logo.png">
                             </div>
                             <el-upload
-                                ref="my-upload"el-
+                                ref="my-upload"
                                 class="upload-demo"
                                 action="http://115.233.223.42:20008/audio/fake/one"
                                 multiple
@@ -43,13 +40,12 @@
                                 :on-error="handleError"
                                 :show-file-list="false"
                                 >
-                                <button id="uploadButton" @click="handleFileSelect">上传音频</button>
-                                <!-- <button id="uploadButton" @click="judge_login">立即上传</button> -->                               
+                                <button id="uploadButton">上传音频</button>                              
                             </el-upload>
                             <!-- <button id="uploadButton" @click="handleFileSelect">上传音频</button> -->
-                            <!-- <div>
+                            <div id="move_div">
                                 <button id="uploadButton1" @click="playAudio">播放音频</button>
-                            </div> -->
+                            </div>
                         </div>
                         <div id="progress_div" v-show="upload_flag==false">
                             <span id="progress_span_1">{{ wavefileName }}</span>
@@ -63,7 +59,11 @@
                                     <span id="progress_span_2">{{ upload_progress }}</span>
                                 </div>
                                 <button id="reselection_button" @click="reselection_file">重新选择</button>
+                                <button id="reselection_button1" @click="playAudio">播放音频</button>
                             </div>
+                            <!-- <span id="right_move_span">
+                                <button id="uploadButton1" @click="playAudio">播放音频</button>
+                            </span> -->
                         </div>
                         <span id="single_detect_bottom_span_2">支持wav、mp3等格式、长度大于2秒的音频文件</span>
                     </div>
@@ -81,10 +81,6 @@
                              </div>
                             <div id="content_middle_mid_div">
                                 <span id="content_middle_mid_span">本次检测综合得分 {{ all_score }}, 检出音频文件标签：{{ tag }}, 音频名称：{{ audioName }}</span>
-                            </div>
-                            <div id="table_div">
-                                <e-charts class="echarts-1" :option="option1"></e-charts>
-                                <e-charts class="echarts-1" :option="option2"></e-charts>
                             </div>
                             <input type="file" ref="audioInput" @change="handleFileUpload" style="opacity: 0;">
                                 <!-- <button @click="handleFileSelect">选择音频文件</button>
@@ -164,7 +160,7 @@
         },
         methods:{
             handleFileSelect() {
-            // this.$refs.audioInput.click()
+            this.$refs.audioInput.click()
             },
             handleFileUpload(event) {
              // 获取上传的音频文件
@@ -499,6 +495,26 @@
                 }
                 if (legalType && legalSize) {
                     this.wavefileName = '正在上传...';
+                     // 获取上传的音频文件
+                    this.audioFile = file
+                    this.audioName = file.name
+ 
+                    // 创建新的音频上下文
+                    this.audioContext = new AudioContext()
+ 
+                    let reader = new FileReader()
+                    reader.onload = e => {
+                    let audioData = e.target.result
+ 
+                    // 解码音频数据
+                    this.audioContext.decodeAudioData(audioData, buffer => {
+                        this.audioBuffer = buffer
+                        /* this.playAudio() */
+                        }, error => {
+                        console.error('音频解码错误', error)
+                        })
+                    }
+                    reader.readAsArrayBuffer(this.audioFile)
                 }
                 return legalType && legalSize ;
             },
@@ -512,9 +528,9 @@
             handleSuccess(response, file, fileList){
                 console.log(response)
                 console.log(response.name)
-                this.all_score = response.data.score
-                this.tag = response.data.label
-                this.audioName = response.data.name
+                this.all_score = response.score
+                this.tag = response.label
+                this.audioName = response.name
             },
 
             handleError(info, file, fileList){
@@ -2098,7 +2114,7 @@
 }
 
 #progress_bottom_div{
-    width: 749px;
+    width: 899px;
     height: 36px;
     display: flex;
     align-items: center;
@@ -2152,6 +2168,31 @@
 
 #reselection_button{
     margin-left: 16px;
+    width: 92px;
+    height: 36px;
+    opacity: 1;
+    border-radius: 5px;
+    background: rgba(22, 93, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-style: none;
+
+    opacity: 1;
+    display: flex;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: middle;
+
+    cursor: pointer;
+}
+
+#reselection_button1{
+    margin-left: 10px;
     width: 92px;
     height: 36px;
     opacity: 1;
@@ -2701,19 +2742,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url("../assets/report_page/score_back.png") ;
+    /* background-image: url("../assets/report_page/score_back.png") ; */
     background-repeat: no-repeat;
 }
 
 #content_middle_top_bottom_span{
-    width: 58px;
-    height: 56px;
+    /* width: 58px;
+    height: 56px; */
     opacity: 1;
     font-size: 48px;
     font-weight: 600;
     letter-spacing: 0px;
     line-height: 56px;
-    color: rgba(255, 255, 255, 1);
+    color: rgb(32, 17, 17);
     text-align: left;
     vertical-align: top;
 }
@@ -2793,6 +2834,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#move_div{
+    position: relative;
+    left: 130px;
+}
+
+#right_move_span{
+    position: relative;
+    width: 100px;
 }
 
 </style>

@@ -11,7 +11,8 @@
 #banner_div{
     width: 100%;
     height: 64px;
-    background-color: rgb(152, 131, 131);
+    /* background-color: rgb(152, 131, 131); */
+    background-color: #ddf0ff;
     display: flex;
     flex-direction: row;
     align-items: center;

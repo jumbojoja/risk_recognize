@@ -56,20 +56,14 @@
                                 </el-collapse-item>
                                 <el-collapse-item title="敏感类型" name="2">
                                     <div>
-                                        {{ type }}
+                                        {{ summary }}
                                     </div>
                                 </el-collapse-item>
                                 <el-collapse-item title="关键词" name="3">
                                     <div>
-                                        {{ key_words }}
+                                        {{ type }}
                                     </div>
                                 </el-collapse-item>
-                                <el-collapse-item title="描述" name="4">
-                                    <div>
-                                        {{ description }}
-                                    </div>
-                                </el-collapse-item>
-      
                             </el-collapse>
                         </div>
                 </div>
@@ -650,31 +644,16 @@
             },
 
             handlefile(file){
-                // console.log(response)
-                // console.log(response.data)
-                // this.isoffensive=response.data.isoffensive
-                // console.log(this.isoffensive)
-                // this.imageURL = URL.createObjectURL(file.raw);
-                // console.log("start")
-                // this.imageName= file.name
-                // console.log(this.imageName)
-                // console.log("over")
-                // img_str=base64.b64encode(buffered.getvalue()).decode('utf-8')
-                // response={
-                //     "isoffensive":bool(pred_ckass),
-                //     "type":None,
-                //     "summary":None,
-                //     "image":img_str
-                // }
+
             },
 
             handleSuccess(response, file, fileList){
+                console.log(response)
                 this.imageURL = URL.createObjectURL(file.raw);
                 this.imageName= file.name
                 this.isoffensive=response.isoffensive
-                this.type=response.type
                 this.summary=response.summary
-
+                this.type=response.type
             },
 
             handleError(info, file, fileList){
@@ -1762,7 +1741,7 @@
 #uploadButton{
     /* margin-left: 0px;
     margin-top: 50%; */
-    margin-left: -420px;
+    margin-left: -500px;
     margin-top: 370px;
     width: 92px;
     height: 36px;
@@ -1790,7 +1769,7 @@
 #detectbutton{
         /* margin-left: 0px;
     margin-top: 50%; */
-    margin-left: -400px;
+    margin-left: -570px;
     margin-top: 777px;
     width: 92px;
     height: 36px;
@@ -1903,8 +1882,8 @@
 }
 
 .image-style {
-    width: 200px; /* 设置图像宽度为200像素 */
-    height: 200px; /* 设置图像高度为200像素 */
+    width: 300px; /* 设置图像宽度为200像素 */
+    height: 300px; /* 设置图像高度为200像素 */
     margin-top: auto;
     margin-left:auto;
   }

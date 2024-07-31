@@ -926,7 +926,7 @@
 #main{
     width: 100%;
     /* min-width: 1920px; */
-    background-color: #fff3fa;
+    background-color: #f3f7ff;
     display: flex;
     justify-content: center;
     align-items: center;

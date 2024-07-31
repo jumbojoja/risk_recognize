@@ -12,20 +12,20 @@
                 <button id="consulting_bottom_button" @click="cancel_consulting_div">确定</button>
             </div> -->
             <div id="banner_div">
-                <div id="banner_left">
+                <!-- <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
                     <span id="banner_title">多模态检测平台</span>
-                </div>
+                </div> -->
                 <!-- <div id="banner_right" v-show="login_flag==false">
                     <span class="login_button" @click="show_login_box(true)">登录</span>
                     <span class="register_button" @click="show_login_box(false)">注册</span>
                     <span class="register_button" @click="consulting">体验申请</span>
                 </div> -->
-                <div id="banner_user" v-show="login_flag==true">
+                <!-- <div id="banner_user" v-show="login_flag==true">
                     <img id="banner_user_img" src="../assets/home_page/user.png">
                     <span id="banner_user_span" @mouseover="handleMouseOver"
                      @mouseleave="startHideTimer">{{ usernameInput }}</span>
-                </div>
+                </div> -->
                 <div id="user_div" v-if="showDropdown==true" @mouseleave="startHideTimer" @mouseenter="cancelHideTimer">
                     <div id="user_top_div">
                         <div id="user_top_top_div">
@@ -177,34 +177,37 @@
             </div>
             <div id="intro_div">
                 <p id="intro_title">多模态风险内容识别</p>
-                <span id="intro_content"> 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
-                    频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
-                    频内容，让重要人物说从未说过的话。仅通过公开网络渠道人人可获取的音频素材，就能训练出<br>
-                    一个能够合成带有目标重要人物音色音频的深度伪造模型。
+                <span id="intro_content">
+                    文本风险内容识别是敏感分析角度进行文本内容风险识别。本平台提出一种结<br>
+                    合无罪推定与思维链引导的提示词设计方法—Chain-of-judge，引导大模型在<br>
+                    提示词和内容两方面进行敏感内容分析，识别违规类型以及是否为对大模型的<br>
+                    越狱攻击、越狱回复等，充分发挥大语言模型（LLM）在理解文本内容方面的<br>
+                    能力优势。实验表明，本平台在文本模态风险内容识别领域具备创新性、先进<br>
+                    性。<br>
                 </span>
-                <button id="experience_button">立即体验</button>
+                <!-- <button id="experience_button">立即体验</button> -->
             </div>
             <div id="navigation_div">
                 <div id="navigation_title_div">
-                    <span id="navigation_title">图像检测平台功能</span>
+                    <span id="navigation_title">文本检测平台功能</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
                 </div>
                 <div id="navigation_content_div">
                     <div class="navigation_item_div" @click="toPage(1)">
                         <div class="navigation_item_div_div">
-                            <!-- <img class="navigation_item_img1" src="../assets/home_page/icon1.png"> -->
-                            <span class="navigation_item_span1">深度伪造检测</span>
-                            <!-- <img class="navigation_item_img2" src="../assets/home_page/arrow.png"> -->
+                            <img class="navigation_item_img1" src="../assets/home_page/icon3.png">
+                            <span class="navigation_item_span1">文本敏感内容检测</span>
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <!-- <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音深度合成检测。</span> -->
+                        <span class="navigation_item_span2">上传文本，立即进行文本敏感内容检测。</span>
                     </div>
                     <div class="navigation_item_div" @click="toPage(2)">
                         <div class="navigation_item_div_div">
-                            <!-- <img class="navigation_item_img1" src="../assets/home_page/icon2.png"> -->
-                            <span class="navigation_item_span1">敏感内容检测</span>
-                            <!-- <img class="navigation_item_img2" src="../assets/home_page/arrow.png"> -->
+                            <img class="navigation_item_img1" src="../assets/home_page/icon3.png">
+                            <span class="navigation_item_span1">提示词越狱检测</span>
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <!-- <span class="navigation_item_span2">查看单个语音音频文件深度合成检测历史记录。</span> -->
+                        <span class="navigation_item_span2">上传文本，立即进行提示词越狱检测。</span>
                     </div>
                     <!-- <div class="navigation_item_div" @click="toPage(3)">
                         <div class="navigation_item_div_div">
@@ -890,19 +893,18 @@
 
 #main{
     width: 100%;
-    max-width: 2520px;
-    background-color: #fafafaea;
+    /* max-width: 2520px; */
+    background-color: #f3f7ff;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #homo_div{
-    width: 1920px;
-    height: 512px;
-    width: 80%;
-    height:80%;
-    background-color: #fff3f9;
+    /* width: 1920px;
+    height: 512px; */
+    width: 100%;
+    /* background-color: #fff3f9; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1675,9 +1677,9 @@
 }
 
 #intro_title{
-    margin-left: 360px;
+    margin-left: 5%;
     width: 857px;
-    height: 45px;
+    height: 20px;
     opacity: 1;
     display: flex;
     font-size: 32px;
@@ -1689,7 +1691,8 @@
 }
 
 #intro_content{
-    margin-left: 360px;
+    margin-left: 5%;
+    margin-top:1%;
     width: 857px;
     height: 112px;
     opacity: 1;
@@ -1702,6 +1705,7 @@
     text-align: left;
     vertical-align: top;
 }
+
 
 #experience_button{
     width: 160px;
@@ -1765,19 +1769,19 @@
     background: linear-gradient(90deg, rgba(171, 245, 255, 0) 0%, rgba(171, 245, 255, 1) 24.66%, rgba(41, 125, 252, 1) 50%, rgba(171, 245, 255, 1) 74.85%, rgba(171, 245, 255, 0) 100%);
     display: flex;
 }
-
+/* 两个选项卡 */
 #navigation_content_div{
-    width: 1198px;
+    width: 800px;
     height: 180px;
     opacity: 1;
     display: flex;
     justify-content: space-between;
 }
-
+/* 阴影 */
 .navigation_item_div:hover{
     box-shadow: 8px 8px 24px  rgba(55, 99, 170, 0.2);
 }
-
+/* 文字高亮 */
 .navigation_item_div:hover .navigation_item_span1{
     color: rgba(22, 93, 255, 1);
 }

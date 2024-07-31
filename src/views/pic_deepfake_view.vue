@@ -21,12 +21,12 @@
                             <p class="upload_message_hint">请上传图片，大小不超过5MB</p>
                         </div>
                         <div class="navigation_item_div_div">
-                            <img :src="return_img" alt="返回图片">
+                            <img :src=return_img alt="返回图片" class="image-style">
                         </div>
                         <el-upload
                             ref="my-upload"
                             class="upload-demo"
-                            action="http://115.233.223.42:20008/picture/sensitive/one"
+                            action="http://115.233.223.42:20008/picture/fake/one"
                             multiple
                             :limit="1"
                             :headers="config"
@@ -59,14 +59,14 @@
                                         {{ type }}
                                     </div>
                                 </el-collapse-item>
-                                <el-collapse-item title="关键词" name="3">
+                                <!-- <el-collapse-item title="关键词" name="3">
                                     <div>
                                         {{ key_words }}
                                     </div>
-                                </el-collapse-item>
-                                <el-collapse-item title="描述" name="4">
+                                </el-collapse-item> -->
+                                <el-collapse-item title="描述" name="3">
                                     <div>
-                                        {{ description }}
+                                        {{ summary }}
                                     </div>
                                 </el-collapse-item>
       
@@ -322,10 +322,13 @@
                 upload_flag: true,
                 imageName:"",
                 imageURL:require('../assets/deepfake/default.png'),
-                return_img:'',
+                return_img:require('../assets/deepfake/default.png'),
                 isoffensive : "判断结果 是/否 Yes/No",
                 type : "类型",
                 summary : "模型对待检测文本的描述",
+                base64String:"",
+                binaryLen:0,
+                bytes:[],
                 nick_name: {name: ""},
                 upload_flag: true,
                 upload_progress: "",
@@ -650,15 +653,17 @@
             },
 
             handlefile(file){
-                // console.log(response)
-                // console.log(response.data)
-                // this.isoffensive=response.data.isoffensive
-                // console.log(this.isoffensive)
-                // this.imageURL = URL.createObjectURL(file.raw);
-                // console.log("start")
-                // this.imageName= file.name
-                // console.log(this.imageName)
-                // console.log("over")
+                    // axios.post("http://115.233.223.42:20008/picture/fake/one",
+                    // {
+                        
+                    // })
+                    // .then(response => {
+                    //     this.isoffensive = response.data.isoffensive
+                    //     this.type = response.data.type
+                    //     this.key_words = response.data.key_words
+                    //     this.description = response.data.description
+                    //     this.return_img = 'data:image/jpeg;base64,' + response.image;
+                    // })
             },
 
             handleSuccess(response, file, fileList){
@@ -668,26 +673,18 @@
                 this.isoffensive=response.isoffensive
                 this.type=response.type
                 this.summary=response.summary
-                this.return_img=response.img_str
-                // imageData = response.data.image;
-                // if (response.hasOwnProperty('dir')) {
-                //     console.log('上传完成');
-                //     this.imageName = file.name;
-                //     this.file_path = response.dir;
-                //     this.feasible_detect = true;
-                //     this.loadingSign = false;
-                // } else {
-                //     this.file_path = "";
-                //     this.$refs['my-upload'].clearFiles();
-                //     this.imageName = "";  
-                //     this.imageSrc = "";
-                //     this.doneSign = false;
-                //     this.resultTime = "";
-                //     this.resultDetect = 3;
-                //     this.resultValue = "";
-                //     this.$alert(response.err,'提示',{confirmButtonText: '确定',  closeOnClickModal: false, showClose: false });
-                // }
-                // console.log(this.$refs['wavenameRef'].clientWidth);
+                this.return_img = 'data:image/jpg;base64,' + response.image;
+                console.log(this.return_img)
+                // console.log(response.image)
+                // this.base64String=response.image
+                    // let binaryString = atob(base64String)
+                    // let binaryLen = binaryString.length
+                    // let bytes = new Uint8Array(atob(response.image).length)
+                    // for (let i = 0; i < atob(response.image).length; i++) {
+                    //     bytes[i] = atob(response.image).charCodeAt(i)
+                    // }
+                    // let blob = new Blob([bytes], {type: "image/"})
+                    // this.return_img = URL.createObjectURL(blob)
             },
 
             handleError(info, file, fileList){
@@ -1773,9 +1770,9 @@
 }
 /* el-upload上传文件按钮 */
 #uploadButton{
-    /* margin-left: 0px;
+    /* margin-left: 10%;
     margin-top: 50%; */
-    margin-left: -870px;
+    margin-left: -820px;
     margin-top: 370px;
     width: 92px;
     height: 36px;

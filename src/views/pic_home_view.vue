@@ -12,21 +12,21 @@
                 <button id="consulting_bottom_button" @click="cancel_consulting_div">确定</button>
             </div> -->
             <div id="banner_div">
-                <div id="banner_left">
+                <!-- <div id="banner_left">
                     <img class="banner_img" src="../assets/home_page/logo.png">
                     <span id="banner_title">多模态检测平台</span>
-                </div>
+                </div> -->
                 <!-- <div id="banner_right" v-show="login_flag==false">
                     <span class="login_button" @click="show_login_box(true)">登录</span>
                     <span class="register_button" @click="show_login_box(false)">注册</span>
                     <span class="register_button" @click="consulting">体验申请</span>
                 </div> -->
-                <div id="banner_user" v-show="login_flag==true">
+                <!-- <div id="banner_user" v-show="login_flag==true">
                     <img id="banner_user_img" src="../assets/home_page/user.png">
                     <span id="banner_user_span" @mouseover="handleMouseOver"
                      @mouseleave="startHideTimer">{{ usernameInput }}</span>
-                </div>
-                <div id="user_div" v-if="showDropdown==true" @mouseleave="startHideTimer" @mouseenter="cancelHideTimer">
+                </div> -->
+                <!-- <div id="user_div" v-if="showDropdown==true" @mouseleave="startHideTimer" @mouseenter="cancelHideTimer">
                     <div id="user_top_div">
                         <div id="user_top_top_div">
                             <span class="user_div_span1">登录邮箱</span>
@@ -59,7 +59,7 @@
                             <img class="user_div_span_icon2" src="../assets/home_page/login_out.svg">
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div id="login_div" v-show="login_box_flag==true">
                 <div id="login_top_div">
@@ -176,13 +176,17 @@
                 </div>
             </div>
             <div id="intro_div">
-                <p id="intro_title">多模态风险内容识别</p>
-                <span id="intro_content"> 是指利用深度学习、虚拟现实等生成合成类算法制作图像、音频、视<br>
-                    频、文本、虚拟场景等网络信息的技术。DeepFake语音合成通过人工智能技术可以合成逼真的音<br>
-                    频内容，让重要人物说从未说过的话。仅通过公开网络渠道人人可获取的音频素材，就能训练出<br>
-                    一个能够合成带有目标重要人物音色音频的深度伪造模型。
+                <p id="intro_title">图像风险内容识别</p>
+                <span id="intro_content">
+                    图像风险内容识别是从内容真伪风险（如伪造人脸）、隐藏语义风险（如涉政、歧<br>
+                    视）两方面对图像模态内容进行风险识别的技术。在内容真伪风险分析方面，本平<br>
+                    台结合大模型多专家模型（MoE）技术，自适应选择不同检测维度的鉴伪专家模型，<br>
+                    实现准确、高效的伪造检测；在隐藏语义风险分析方面，本平台利用视觉语言大模<br>
+                    型（VLM）、大语言模型（LLM）强大的语义理解能力，分析图像深层隐蔽敏感语<br>
+                    义，识别敏感内容。实验表明，本平台在图像模态风险内容识别领域具备创新性、<br>
+                    先进性。<br>
                 </span>
-                <button id="experience_button">立即体验</button>
+                <!-- <button id="experience_button">立即体验</button> -->
             </div>
             <div id="navigation_div">
                 <div id="navigation_title_div">
@@ -192,19 +196,20 @@
                 <div id="navigation_content_div">
                     <div class="navigation_item_div" @click="toPage(1)">
                         <div class="navigation_item_div_div">
-                            <!-- <img class="navigation_item_img1" src="../assets/home_page/icon1.png"> -->
+                            <img class="navigation_item_img1" src="../assets/home_page/icon3.png">
                             <span class="navigation_item_span1">深度伪造检测</span>
-                            <!-- <img class="navigation_item_img2" src="../assets/home_page/arrow.png"> -->
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <!-- <span class="navigation_item_span2">上传一条语音音频文件，立即进行语音深度合成检测。</span> -->
+                        <span class="navigation_item_span2">上传图像，进行准确高效的人脸伪造识别</span>
                     </div>
                     <div class="navigation_item_div" @click="toPage(2)">
                         <div class="navigation_item_div_div">
-                            <!-- <img class="navigation_item_img1" src="../assets/home_page/icon2.png"> -->
+                            <img class="navigation_item_img1" src="../assets/home_page/icon3.png">
                             <span class="navigation_item_span1">敏感内容检测</span>
-                            <!-- <img class="navigation_item_img2" src="../assets/home_page/arrow.png"> -->
+                            <img class="navigation_item_img2" src="../assets/home_page/arrow.png">
                         </div>
-                        <!-- <span class="navigation_item_span2">查看单个语音音频文件深度合成检测历史记录。</span> -->
+                        <span class="navigation_item_span2">上传图像，识别图像是否存在敏感内容（涉政、暴力、血腥、歧视相关）
+                        </span>
                     </div>
                     <!-- <div class="navigation_item_div" @click="toPage(3)">
                         <div class="navigation_item_div_div">
@@ -890,19 +895,18 @@
 
 #main{
     width: 100%;
-    max-width: 2520px;
-    background-color: #fafafaea;
+    /* max-width: 2520px; */
+    background-color: #f3f7ff;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #homo_div{
-    width: 1920px;
-    height: 512px;
-    width: 80%;
-    height:80%;
-    background-color: #fff3f9;
+    /* width: 1920px;
+    height: 512px; */
+    width:100%;
+    /* background-color: #fff3f9; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1675,9 +1679,9 @@
 }
 
 #intro_title{
-    margin-left: 360px;
+    margin-left: 5%;
     width: 857px;
-    height: 45px;
+    height: 20px;
     opacity: 1;
     display: flex;
     font-size: 32px;
@@ -1689,7 +1693,8 @@
 }
 
 #intro_content{
-    margin-left: 360px;
+    margin-left: 5%;
+    margin-top:1%;
     width: 857px;
     height: 112px;
     opacity: 1;
@@ -1765,9 +1770,9 @@
     background: linear-gradient(90deg, rgba(171, 245, 255, 0) 0%, rgba(171, 245, 255, 1) 24.66%, rgba(41, 125, 252, 1) 50%, rgba(171, 245, 255, 1) 74.85%, rgba(171, 245, 255, 0) 100%);
     display: flex;
 }
-
+/* 两个选项卡 */
 #navigation_content_div{
-    width: 1198px;
+    width: 800px;
     height: 180px;
     opacity: 1;
     display: flex;

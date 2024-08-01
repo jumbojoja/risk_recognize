@@ -170,7 +170,6 @@
             handleFileUpload(event) {
              // 获取上传的音频文件
             this.audioFile = event.target.files[0]
-            this.audioName = event.target.files[0].name
  
              // 创建新的音频上下文
             this.audioContext = new AudioContext()
@@ -500,7 +499,6 @@
                     this.wavefileName = '正在上传...';
                      // 获取上传的音频文件
                      this.audioFile = file
-                    this.audioName = file.name
  
                     // 创建新的音频上下文
                     this.audioContext = new AudioContext()

@@ -2738,7 +2738,7 @@
 
 #content_middle_div{
     margin-left: 20px;
-    margin-top: 52px;
+    margin-top: 0px;
     width: 1144px;
     height: 640px;
     display: flex;

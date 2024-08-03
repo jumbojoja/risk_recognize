@@ -1,4 +1,4 @@
-<template >
+<template>
     <div id="main">
         <div id="homo_div">
             <!-- <div id="banner_div">
@@ -9,7 +9,7 @@
             </div> -->
             <div id="navigation_div">
                 <div id="navigation_title_div">
-                    <span id="navigation_title">图像检测平台功能</span>
+                    <span id="navigation_title">图像深度伪造检测</span>
                     <img id="navigation_img" src="../assets/home_page/separate_line.png">
                 </div>
             </div>
@@ -22,6 +22,7 @@
                         </div>
                         <div class="navigation_item_div_div">
                             <img :src=return_img alt="返回图片" class="image-style">
+                            <p class="upload_message_hint">检测返回热力图</p>
                         </div>
                         <el-upload
                             ref="my-upload"
@@ -54,237 +55,29 @@
                                         {{ isoffensive }}
                                     </div>
                                 </el-collapse-item>
-                                <el-collapse-item title="敏感类型" name="2">
+                                <!-- <el-collapse-item title="敏感类型" name="2">
                                     <div>
                                         {{ type }}
                                     </div>
                                 </el-collapse-item>
-                                <!-- <el-collapse-item title="关键词" name="3">
+                                <el-collapse-item title="关键词" name="3">
                                     <div>
                                         {{ key_words }}
                                     </div>
-                                </el-collapse-item> -->
+                                </el-collapse-item>
                                 <el-collapse-item title="描述" name="3">
                                     <div>
                                         {{ summary }}
                                     </div>
-                                </el-collapse-item>
-      
+                                </el-collapse-item> -->
                             </el-collapse>
-                        </div>
+                </div>
                 </div>
             </div>
         </div>
     </div>   
 </template>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-                <div id="navigation_content_div">
-                    <div class="navigation_item_div">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/deepfake/default.png">
-                            <p class="upload_message_hint">请上传图片，大小不超过5MB</p>
-                        </div>
-                    </div>
-                    <div class="navigation_item_div">
-                        <div class="navigation_item_div_div">
-                            <img class="navigation_item_img1" src="../assets/home_page/icon2.png">
-                        </div>
-                    </div>
-                </div>
-                <el-upload
-                    ref="my-upload"
-                    class="upload-demo"
-                    action="http://115.233.223.42:20008/picture/sensitive/one"
-                    multiple
-                    :limit="1"
-                    :headers="config"
-                    :data="nick_name"
-                    :disabled="!login_flag"
-                    :on-success="handleSuccess"
-                    :show-file-list="false"
-                    >
-                    <button id="uploadButton" @click="handlefile">立即上传</button>
-                </el-upload>
-                <div id="single_detect_top_right_div">
-                    <button id="detectbutton" @click="detection" >开始检测</button>
-                </div>
-
-            </div>     -->
-            <!-- <div id="content_div">
-                <div id="single_detect_div">
-                    <div id="single_detect_top_div">
-                        <div id="single_detect_top_left_div">
-                            <img id="single_detect_top_left_img" src="../assets/home_page/icon1.png">
-                            <span id="single_detect_top_left_span">单条检测</span>
-                        </div>
-                        <div id="single_detect_top_right_div">
-                            <button :class="loadingSign?'single_detect_top_right_button_':'single_detect_top_right_button'" @click="startTest" :disabled="loadingSign">开始检测</button>
-                        </div>
-                    </div>
-                    <div id="single_detect_bottom_div">
-                        <span id="single_detect_bottom_span_1">上传待检测文件</span>
-                        <div id="upload_div" v-show="upload_flag==true">
-                            <div id="upload_left_div">
-                                <div id="upload_left_middle_div">
-                                    <img id="upload_left_middle_img" src="../assets/home_page/upload_logo.png">
-                                    <span id="upload_left_middle_span">上传本地文件</span>
-                                </div>
-                            </div>
-                            <el-upload
-                                ref="my-upload"
-                                class="upload-demo"
-                                action="http://112.11.139.202:8090/receive_file"
-                                multiple
-                                :limit="1"
-                                :headers="config"
-                                :data="nick_name"
-                                :disabled="!login_flag"
-                                :before-upload="handleBefore"
-                                :on-progress="handleProgress"
-                                :on-exceed="handleExceed"
-                                :on-success="handleSuccess"
-                                :on-error="handleError"
-                                :show-file-list="false"
-                                >
-                                <button id="uploadButton" @click="judge_login">立即上传</button>
-                            </el-upload>
-                        </div>
-                        <div id="progress_div" v-show="upload_flag==false">
-                            <span id="progress_span_1">{{ imageName }}</span>
-                            <div id="progress_bottom_div">
-                                <div id="progress_bottom_left_div">
-                                    <div id="progress_bar_div">
-                                        <div class = "loadsmallDiv"  v-for=" (result_row, index) in loadList">
-                                            <div class="loadsmallImg" v-show="showList.includes(index)"></div>
-                                        </div>
-                                    </div>
-                                    <span id="progress_span_2">{{ upload_progress }}</span> 
-                                </div>
-                                <button id="reselection_button" @click="reselection_file">重新选择</button>
-                                <img :src="imageSrc" alt="Uploaded Image" id="uploaded_image" v-if="imageSrc">
-                            </div>
-                        </div>
-                        <span id="single_detect_bottom_span_2">支持小于5Mb的图像文件</span>
-                    </div>
-                    <div id="detailed_result_div" v-show="doneSign==true">
-                        <div id="detailed_result_top_div">
-                            <span id="result_span_1">{{ nick_name.name }}详细检测结果</span>
-                            <img id="result_span_img_1" src="../assets/home_page/close.png" @click="delInit">
-                        </div>
-                        <div id="comp_result_div">
-                            <span id="comp_result_span_1">本次检测综合结果</span>
-                            <div id="comp_result_bottom_div">
-                                <div class="comp_result_bottom_small_div">
-                                    <span class="comp_result_span_2">音频时长</span>
-                                    <div class="comp_result_bottom_small_bottom_div1">{{ resultTime }}</div>
-                                </div>
-                                <div class="comp_result_bottom_small_div">
-                                    <span class="comp_result_span_2">判定结果</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==0" >假</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==1">真</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==-2">静默</span>
-                                    <span class="comp_result_bottom_small_bottom_div2" v-show="doneSign==true && resultDetect==3">次数不足</span>
-                                </div>
-                                <div class="comp_result_bottom_small_div">
-                                    <span class="comp_result_span_2">置信度</span>
-                                    <div class="comp_result_bottom_small_bottom_div3">{{ resultValue }}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="listening_div">
-                            <span id="listening_span">播放试听</span>
-                            <div id="play_line_div">
-                                <img id="result_span_img_2" src="../assets/home_page/playcon.png" @click="play_audio">
-                                <audio id="audio1"  ref="audio1" controls v-show="false" @ended="overAudio" @timeupdate="updateProgress">
-                                    <source :src="src"  type="audio/wav" >
-                                </audio>
-                                <div class="slider-block">
-                                    <span class = "audio-progress">
-                                        <el-slider v-model="audioProgress" :show-tooltip="false" @change="progressChange()"></el-slider>
-                                    </span>
-                                </div> 
-                            </div>
-                        </div>
-                        <div class="model_score_div" v-if="user_grade_num<5">
-                            <span class="model_score_span_1">高质量音频检测模型(High-QualityModel)</span>
-                            <span class="model_score_span_2">由录音室级别音频数据精炼而成，侧重高质量合成算法的精准检出。</span>
-                            <div class="waveform_diagram_div">
-                                <canvas ref="recorderGraph1" class = "model_img"></canvas>
-                                <div class="confidence_div">
-                                    <div v-for="(item, index) in segmentResultList[1]" class="confidence_div_" 
-                                    :class="{'red_': item == '0', 'green_': item == '1', 'grey_': item == '2'}">
-                                    {{segmentScoreList[1][index]}}
-                                    </div>
-                                </div>
-                            </div>
-                            <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[1]}}</span>
-                            <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[1]}}</span>
-                        </div>
-                        <div class="model_score_div" v-if="user_grade_num<5">
-                            <span class="model_score_span_1">精简视角检测模型(Part-InModel)</span>
-                            <span class="model_score_span_2">由经典真伪音频数据训练而成，重点面向主流语音合成技术鉴别。</span>
-                            <div class="waveform_diagram_div">
-                                <canvas ref="recorderGraph0" class = "model_img"></canvas>
-                                <div class="confidence_div">
-                                    <div v-for="(item, index) in segmentResultList[0]" class="confidence_div_" 
-                                    :class="{'red_': item == '0', 'green_': item == '1', 'grey_': item == '2'}">
-                                    {{segmentScoreList[0][index]}}
-                                    </div>
-                                </div>
-                            </div>
-                            <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[0]}}</span>
-                            <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[0]}}</span>
-                        </div>
-                        <div class="model_score_div" v-if="user_grade_num<5">
-                            <span class="model_score_span_1">全视角检测模型(All-InModel)</span>
-                            <span class="model_score_span_2"> </span>
-                            <div class="waveform_diagram_div">
-                                <canvas ref="recorderGraph2" class = "model_img"></canvas>
-                                <div class="confidence_div">
-                                    <div v-for="(item, index) in segmentResultList[2]" class="confidence_div_" 
-                                    :class="{'red_': item == '0', 'green_': item == '1', 'grey_': item == '2'}">
-                                    {{segmentScoreList[2][index]}}
-                                    </div>
-                                </div>
-                            </div>
-                            <span v-show="modelResultList[0]=='0'" class="model_score_span_3" :style="{ color: 'red' }">该音频文件存在深度伪造痕迹，合计置信度{{modelScoreList[2]}}</span>
-                            <span v-show="modelResultList[0]=='1'" class="model_score_span_3" :style="{ color: 'green' }">未检测到深度伪造痕迹，合计置信度{{modelScoreList[2]}}</span>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-        <!-- </div>
-    </div>   
-</template> -->
-   
 <script>
     export default {
         name: 'HomeView',
@@ -323,9 +116,7 @@
                 imageName:"",
                 imageURL:require('../assets/deepfake/default.png'),
                 return_img:require('../assets/deepfake/default.png'),
-                isoffensive : "判断结果 是/否 Yes/No",
-                type : "类型",
-                summary : "模型对待检测文本的描述",
+                isoffensive : "判断结果",
                 base64String:"",
                 binaryLen:0,
                 bytes:[],
@@ -630,7 +421,7 @@
             handleBefore(file) {
                 this.upload_flag = false
                 this.nick_name.name = file.name;
-                const legalType = (file.type === 'image/');
+                const legalType = (file.type === 'image/*');
                 const legalSize = (file.size / 1024 / 1024 < 5);
                 if (!legalType) {
                     this.wavefileName = '请上传图片文件!';
@@ -667,24 +458,16 @@
             },
 
             handleSuccess(response, file, fileList){
-                console.log(response)
+                // console.log(response)
+                var img = new Image()
+                img.src = "data:image/png;base64,"
+                img.src=img.src+response.image
+                // document.body.appendChild(img);
+                this.return_img=img.src
                 this.imageURL = URL.createObjectURL(file.raw);
-                this.imageName= file.name
                 this.isoffensive=response.isoffensive
-                this.type=response.type
-                this.summary=response.summary
-                this.return_img = 'data:image/jpg;base64,' + response.image;
-                console.log(this.return_img)
-                // console.log(response.image)
-                // this.base64String=response.image
-                    // let binaryString = atob(base64String)
-                    // let binaryLen = binaryString.length
-                    // let bytes = new Uint8Array(atob(response.image).length)
-                    // for (let i = 0; i < atob(response.image).length; i++) {
-                    //     bytes[i] = atob(response.image).charCodeAt(i)
-                    // }
-                    // let blob = new Blob([bytes], {type: "image/"})
-                    // this.return_img = URL.createObjectURL(blob)
+                console.log(img.src)
+                console.log("over")
             },
 
             handleError(info, file, fileList){
@@ -742,20 +525,10 @@
                 this.audioPlay = false;
             },
 
-            detection() {
-                axios.post("http://115.233.223.42:20008/picture/sensitive/one",
-                    {
-                        
-                    })
-                    .then(response => {
-                        console.log("检测")
-                        console.log(response)
-                        // this.isoffensive = response.data.isoffensive
-                        // this.type = response.data.type
-                        // this.summary = response.data.summary
-                        // console.log(response)
-                        console.log("检测结束")
-                    })
+            detection(){
+                // var img = new Image();
+                // img.src = ""
+                // document.body.appendChild(img);
             },
 
             // 解析结果

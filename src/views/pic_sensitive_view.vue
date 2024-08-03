@@ -47,7 +47,7 @@
                             <div id="content_top_div">
                             <img id="content_top_left_img" src="../assets/home_page/icon4.png">
                             <span id="content_top_left_span">{{buildTime}} 检测报告</span>
-                        </div>
+                            </div>
                             <el-collapse v-model="activeNames" @change="handleChange">
                                 <el-collapse-item title="判断结果" name="1">
                                     <div>
@@ -66,7 +66,7 @@
                                 </el-collapse-item>
                             </el-collapse>
                         </div>
-                </div>
+                    </div>
             </div>
         </div>
     </div>   

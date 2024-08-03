@@ -78,12 +78,29 @@
                                         <span id="content_middle_top_bottom_span">{{ all_score }}</span>
                                     </div>
                                 </div>
-                                <div id="content_middle_mid_div">
+                                <el-collapse v-model="activeNames" @change="handleChange">
+                                <el-collapse-item title="敏感关键词" name="1">
+                                    <div>
+                                        {{ tag }}
+                                    </div>
+                                </el-collapse-item>
+                                <el-collapse-item title="敏感类型" name="2">
+                                    <div>
+                                        {{ audioName }}
+                                    </div>
+                                </el-collapse-item>
+                                <el-collapse-item title="检测结果描述" name="3">
+                                    <div>
+                                        {{ description }}
+                                    </div>
+                                </el-collapse-item>
+                                </el-collapse>
+                                <!-- <div id="content_middle_mid_div">
                                     <span id="content_middle_mid_span">敏感检测结果： {{ all_score }}, 敏感关键词：{{ tag }}, 敏感类型：{{ audioName }}</span>
                                 </div>
                                 <div id="content_middle_mid_div">
                                     <span id="content_middle_mid_span">检测结果描述： {{ description }}</span>
-                                </div>
+                                </div>  -->
                                 <div id="content_middle_bottom_div">
                                 </div>
                                 <div id="table_div">
@@ -2742,13 +2759,15 @@
     vertical-align: top;
 }
 
+/* 文本框 */
 #content_middle_div{
+    margin-left: 20px;
     margin-top: 52px;
     width: 1144px;
     height: 640px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
 }
 
 #content_middle_top_div{

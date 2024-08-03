@@ -22,7 +22,7 @@
                         </div>
                         <div class="navigation_item_div_div">
                             <img :src=return_img alt="返回图片" class="image-style">
-                            <p class="upload_message_hint">检测返回热力图</p>
+                            <p class="upload_message_hint">检测图像结果</p>
                         </div>
                         <el-upload
                             ref="my-upload"
@@ -49,12 +49,13 @@
                             <img id="content_top_left_img" src="../assets/home_page/icon4.png">
                             <span id="content_top_left_span">{{buildTime}} 检测报告</span>
                         </div>
-                            <el-collapse v-model="activeNames" @change="handleChange">
-                                <el-collapse-item title="判断结果" name="1">
-                                    <div>
-                                        {{ isoffensive }}
+                        <div id="content_middle_top_div">
+                                    <span id="content_middle_top_span">检测结果</span>
+                                    <div id="content_middle_top_bottom">
+                                        <span id="content_middle_top_bottom_span">{{ isoffensive }}</span>
                                     </div>
-                                </el-collapse-item>
+                        </div>
+                            <el-collapse v-model="activeNames" @change="handleChange">
                                 <!-- <el-collapse-item title="敏感类型" name="2">
                                     <div>
                                         {{ type }}
@@ -116,7 +117,7 @@
                 imageName:"",
                 imageURL:require('../assets/deepfake/default.png'),
                 return_img:require('../assets/deepfake/default.png'),
-                isoffensive : "判断结果",
+                isoffensive : "true/false",
                 base64String:"",
                 binaryLen:0,
                 bytes:[],
@@ -1684,7 +1685,54 @@
     text-align: left;
     vertical-align: top;
 }
+#content_middle_top_div{
+    margin-top: 50px;
+    width: 1144px;
+    height: 186px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
+#content_middle_top_span{
+    width: 140px;
+    height: 28px;
+    opacity: 1;
+    display: flex;
+    font-size: 35px;
+    font-weight: 700;
+    letter-spacing: 0px;
+    line-height: 28.96px;
+    color: rgba(0, 0, 0, 1);
+    text-align: left;
+    vertical-align: top;
+}
+#content_middle_top_bottom{
+    margin-top: -20px;
+    width: 142px;
+    height: 142px;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-image: url("../assets/report_page/score_back.png") ; */
+    background-repeat: no-repeat;
+}
+
+#content_middle_top_bottom_span{
+    /* width: 58px;
+    height: 56px; */
+    opacity: 1;
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: 0px;
+    line-height: 56px;
+    color: rgb(32, 17, 17);
+    text-align: left;
+    vertical-align: top;
+}
 .image-style {
     width: 200px; /* 设置图像宽度为200像素 */
     height: 200px; /* 设置图像高度为200像素 */
